@@ -23,10 +23,9 @@ You need to copy `critter.dat`, `master.dat` and the `data` folder from the orig
 - **Left Analog** - Mouse movement
 - **Right Analog** - Map scroll
 - **L1 + Hotkey** - Quick load
-- **l2 + Hotkey** - load
+- **l2 + Hotkey** - Load
 - **R1 + Hotkey** - Quick save
 - **R2 + Hotkey** - Save
 
 ## Thanks
-Thanks to Alex Batalov and other contributors for creating this community edition.
-
+Thanks to [Alex Batalov](https://github.com/alexbatalov/fallout1-ce) and other contributors for creating this community edition.

@@ -35,6 +35,10 @@ def make_zip(zip_name, root_path, paths):
     """
     TODO: document it
     """
+    if Path(zip_name).is_file():
+        print(f"Skipping {zip_name}.")
+        return
+
     print(f"Building {zip_name}.")
     with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for path in paths:
@@ -56,16 +60,16 @@ def make_zip(zip_name, root_path, paths):
 
                 zf.write(str(full_name), str(internal_name))
             elif full_name.is_dir():
-                for src, dest in build_files(full_name, internal_name):
+                for src, dest in build_files(full_name, internal_name, max_depth):
                     print(f"- Adding {str(src)!r} as {str(dest)!r}")
 
                     zf.write(str(src), str(dest))
             else:
                 print(f"- {str(full_name)!r} doesnt exist, skipping.")
 
-
+# Fallout
 make_zip(
-    'Fallout 1.zip',
+    'releases/Fallout 1.zip',
     'Fallout 1', (
         'Fallout 1.sh',
         'fallout1',
@@ -73,3 +77,45 @@ make_zip(
         ('build', 'fallout1'),
         ))
 
+# GemRB
+make_zip(
+    'releases/GemRB.zip',
+    'GemRB', (
+        'GemRB.sh',
+        'gemrb',
+        ('README.md', 'gemrb/README.md'),
+        ('build', 'gemrb'),
+        ))
+
+# Half-Life
+make_zip(
+    'releases/Half-Life.zip',
+    'Half-Life', (
+        'Half-Life.sh',
+        'Half-Life',
+        ('README.md', 'Half-Life/README.md'),
+        ('build', 'Half-Life', 1),
+        ('build/valve', 'Half-Life/binaries/valve'),
+        ('build/bshift', 'Half-Life/binaries/bshift'),
+        ('build/gearbox', 'Half-Life/binaries/gearbox'),
+        ))
+
+# OpenRCT2
+make_zip(
+    'releases/OpenRCT2.zip',
+    'OpenRCT2', (
+        'OpenRCT2.sh',
+        'openrct2',
+        ('README.md', 'openrct2/README.md'),
+        ('build', 'openrct2'),
+        ))
+
+# Rlvm
+make_zip(
+    'releases/Rlvm.zip',
+    'Rlvm', (
+        'Rlvm.sh',
+        'rlvm',
+        ('README.md', 'rlvm/README.md'),
+        ('build', 'rlvm'),
+        ))
