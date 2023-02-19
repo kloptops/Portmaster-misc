@@ -2,11 +2,14 @@
 
 """
 
-A crude script to put all the pieces together.
+This script builds zip files to be released to GitHub.
+
+The zip files are only updated if the files are changed or renamed.
 
 """
 
 import zipfile
+import hashlib
 from pathlib import Path
 
 
@@ -31,44 +34,74 @@ def build_files(root, dest_path, max_depth=None):
             yield source_name, dest_name
 
 
-def make_zip(zip_name, root_path, paths):
+def build_zip(zip_name, root_path, paths):
     """
     TODO: document it
     """
-    if Path(zip_name).is_file():
-        print(f"Skipping {zip_name}.")
-        return
 
-    print(f"Building {zip_name}.")
+    print(f'Checking {zip_name}')
+    all_files = []
+    for path in paths:
+        max_depth = None
+        if isinstance(path, (list, tuple)):
+            if len(path) == 2:
+                real_name, internal_name = path
+            elif len(path) == 3:
+                real_name, internal_name, max_depth = path
+            else:
+                print(f"- Bad path in paths, length of tuple must be 2 or 3: {path}, failing to build zip.")
+                return
+        else:
+            real_name = internal_name = path
+
+        full_name = Path(root_path) / real_name
+        if full_name.is_file():
+            all_files.append((str(internal_name), str(full_name)))
+        elif full_name.is_dir():
+            for src, dest in build_files(full_name, internal_name, max_depth):
+                all_files.append((str(dest), str(src)))
+        else:
+            print(f"- {str(full_name)!r} failing to build zip.")
+            return
+
+    all_files.sort(key=lambda x: x[0])
+
+    main_hash = hashlib.sha256()
+    all_digests = []
+    for file_pair in all_files:
+        file_hash = hashlib.sha256()
+        with open(file_pair[1], 'rb') as fh:
+            file_hash.update(fh.read())
+
+        file_digest = f'{file_pair[0]}:{file_hash.hexdigest()}\n'
+        all_digests.append(file_digest)
+        print(f'- {file_digest.strip()}')
+        main_hash.update(file_digest.encode('utf-8'))
+
+    new_digest = main_hash.hexdigest()
+    all_digests.append(f'{zip_name}:{new_digest}')
+
+    digest_file = Path(zip_name.rsplit('.', 1)[0] + '.sha256')
+
+    if digest_file.is_file():
+        with open(digest_file, 'r') as fh:
+            old_digest = fh.read().strip().split('\n')[-1].split(':')[-1]
+
+        if new_digest == old_digest:
+            print('- File is up to date.')
+            return
+
+    print('- Building Zip')
     with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-        for path in paths:
-            max_depth = None
-            if isinstance(path, (list, tuple)):
-                if len(path) == 2:
-                    real_name, internal_name = path
-                elif len(path) == 3:
-                    real_name, internal_name, max_depth = path
-                else:
-                    print(f"Bad path in paths, length of tuple must be 2 or 3: {path}")
-                    continue
-            else:
-                real_name = internal_name = path
+        for file_pair in all_files:
+            zf.write(file_pair[1], file_pair[0])
 
-            full_name = Path(root_path) / real_name
-            if full_name.is_file():
-                print(f"- Adding {str(full_name)!r} as {str(internal_name)!r}")
-
-                zf.write(str(full_name), str(internal_name))
-            elif full_name.is_dir():
-                for src, dest in build_files(full_name, internal_name, max_depth):
-                    print(f"- Adding {str(src)!r} as {str(dest)!r}")
-
-                    zf.write(str(src), str(dest))
-            else:
-                print(f"- {str(full_name)!r} doesnt exist, skipping.")
+    print('- Recording Digests')
+    with open(digest_file, 'w') as fh:
+        fh.write(''.join(all_digests))
 
 # Fallout
-make_zip(
+build_zip(
     'releases/Fallout 1.zip',
     'Fallout 1', (
         'Fallout 1.sh',
@@ -78,7 +111,7 @@ make_zip(
         ))
 
 # GemRB
-make_zip(
+build_zip(
     'releases/GemRB.zip',
     'GemRB', (
         'GemRB.sh',
@@ -88,7 +121,7 @@ make_zip(
         ))
 
 # Half-Life
-make_zip(
+build_zip(
     'releases/Half-Life.zip',
     'Half-Life', (
         'Half-Life.sh',
@@ -101,7 +134,7 @@ make_zip(
         ))
 
 # OpenRCT2
-make_zip(
+build_zip(
     'releases/OpenRCT2.zip',
     'OpenRCT2', (
         'OpenRCT2.sh',
@@ -111,7 +144,7 @@ make_zip(
         ))
 
 # Rlvm
-make_zip(
+build_zip(
     'releases/Rlvm.zip',
     'Rlvm', (
         'Rlvm.sh',
@@ -119,3 +152,6 @@ make_zip(
         ('README.md', 'rlvm/README.md'),
         ('build', 'rlvm'),
         ))
+
+
+

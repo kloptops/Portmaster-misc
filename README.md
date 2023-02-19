@@ -14,7 +14,7 @@ This repo is for miscellaneous ports that don't require a full port for each rel
     - the file that is run to start the game.
 
 
-# Released Ports
+# Current Ports
 
 - [Fallout 1](https://github.com/kloptops/Portmaster-misc/tree/main/Fallout%201) - Using [fallout1-ce](https://github.com/alexbatalov/fallout1-ce)
 - [GemRB](https://github.com/kloptops/Portmaster-misc/tree/main/GemRB) - Using [GemRB](https://github.com/gemrb/gemrb) the open-source reimplementation of the Infinity Engine that underpinned Baldur's Gate, Icewind Dale and Planescape: Torment.
