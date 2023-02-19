@@ -16,4 +16,4 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 
 # Current Games
 
-- [Fallout 1](https://github.com/kloptops/Portmaster-misc/tree/main/Fallout+1)
+- [Fallout 1](https://github.com/kloptops/Portmaster-misc/tree/main/Fallout%201)
