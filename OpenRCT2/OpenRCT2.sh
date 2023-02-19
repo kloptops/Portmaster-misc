@@ -44,6 +44,17 @@ if [ -f "$GAMEDIR/engine.zip" ]; then
   $ESUDO rm -f "$GAMEDIR/engine.zip"
 fi
 
+if [ -f "RCT2/data/g1.dat" ]; then
+  echo "Missing game files" > /dev/tty1
+  sleep 5
+  printf "\033c" >> /dev/tty1
+  exit 1
+fi
+
+if [ -f "RCT1/data/csg1.dat" ]; then
+  RCT1_GAME=" --rct1-data-path=RCT1/"
+fi
+
 export TEXTINPUTPRESET="Name"
 export TEXTINPUTINTERACTIVE="Y"
 export TEXTINPUTNOAUTOCAPITALS="Y"
@@ -52,7 +63,7 @@ export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
 export LD_LIBRARY_PATH="$GAMEDIR/libs:$LD_LIBRARY_PATH"
 
 $GPTOKEYB "openrct2" -c openrct2.gptk textinput &
-$TASKSET ./openrct2 --openrct2-data-path=engine/share/openrct2 --rct2-data-path=RCT2/ 2>&1 | $ESUDO tee -a ./log.txt
+$TASKSET ./openrct2 --openrct2-data-path=engine/share/openrct2 --rct2-data-path=RCT2/ $RCT1_GAME 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH
