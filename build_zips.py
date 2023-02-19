@@ -81,10 +81,11 @@ def build_zip(zip_name, root_path, paths):
     new_digest = main_hash.hexdigest()
     all_digests.append(f'{zip_name}:{new_digest}')
 
-    digest_file = Path(zip_name.rsplit('.', 1)[0] + '.sha256')
+    private_digest_file = Path('.' + zip_name.rsplit('.', 1)[0] + '.sha256')
+    public_digest_file = Path(zip_name + '.sha256sum')
 
-    if digest_file.is_file():
-        with open(digest_file, 'r') as fh:
+    if private_digest_file.is_file():
+        with open(private_digest_file, 'r') as fh:
             old_digest = fh.read().strip().split('\n')[-1].split(':')[-1]
 
         if new_digest == old_digest:
@@ -96,8 +97,18 @@ def build_zip(zip_name, root_path, paths):
         for file_pair in all_files:
             zf.write(file_pair[1], file_pair[0])
 
+    print('- Recording sha256sum')
+    final_hash = hashlib.sha256()
+    with open(zip_name, 'rb') as fh:
+        final_hash.update(fh.read())
+
+    final_digest = final_hash.hexdigest()
+
+    with open(public_digest_file, 'w') as fh:
+        fh.write(f'{final_digest} *{Path(zip_name).name}')
+
     print('- Recording Digests')
-    with open(digest_file, 'w') as fh:
+    with open(private_digest_file, 'w') as fh:
         fh.write(''.join(all_digests))
 
 # Fallout
