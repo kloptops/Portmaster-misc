@@ -12,6 +12,7 @@ import json
 import zipfile
 from pathlib import Path
 
+VERBOSE=False
 
 def build_files(root, dest_path, max_depth=None):
     stack = [root]
@@ -92,7 +93,8 @@ def build_zip(base_zip_name, root_path, paths, config):
 
         file_digest = f'{file_pair[0]}:{file_hash.hexdigest()}\n'
         all_digests.append(file_digest)
-        print(f'- {file_digest.strip()}')
+        if VERBOSE:
+            print(f'- {file_digest.strip()}')
 
         # Add to main hash
         main_hash.update(file_digest.encode('utf-8'))

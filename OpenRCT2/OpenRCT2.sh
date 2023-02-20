@@ -60,7 +60,7 @@ export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
 export LD_LIBRARY_PATH="$GAMEDIR/libs:$LD_LIBRARY_PATH"
 
 $GPTOKEYB "openrct2" -c openrct2.gptk textinput &
-$TASKSET ./openrct2 $DEBUGCMDS --openrct2-data-path=engine/share/openrct2 --rct2-data-path=RCT2/ $RCT1_GAME 2>&1 | $ESUDO tee -a ./log.txt
+$TASKSET ./openrct2 $DEBUGCMDS --user-data-path=save/ --openrct2-data-path=engine/share/openrct2 --rct2-data-path=RCT2/ $RCT1_GAME 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH
