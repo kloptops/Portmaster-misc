@@ -1,0 +1,12 @@
+{
+    "zip_file": "Half-Life.zip",
+    "files": [
+        "Half-Life.sh",
+        "Half-Life",
+        ["README.md", "Half-Life/README.md"],
+        ["build", "Half-Life", 1],
+        ["build/valve", "Half-Life/binaries/valve"],
+        ["build/bshift", "Half-Life/binaries/bshift"],
+        ["build/gearbox", "Half-Life/binaries/gearbox"]
+    ]
+}

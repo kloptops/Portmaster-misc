@@ -1,0 +1,9 @@
+{
+    "zip_file": "Fallout1.zip",
+    "files": [
+        "Fallout 1.sh",
+        "fallout1/",
+        ["README.md", "fallout1/README.md"],
+        ["build", "fallout1"]
+    ]
+}

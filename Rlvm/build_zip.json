@@ -1,0 +1,9 @@
+{
+    "zip_file": "Rlvm.zip",
+    "files": [
+        "Rlvm.sh",
+        "rlvm/",
+        ["README.md", "rlvm/README.md"],
+        ["build", "rlvm"]
+    ]
+}

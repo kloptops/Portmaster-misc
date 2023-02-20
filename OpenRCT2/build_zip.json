@@ -1,0 +1,9 @@
+{
+    "zip_file": "OpenRCT2.zip",
+    "files": [
+        "OpenRCT2.sh",
+        "openrct2/",
+        ["README.md", "openrct2/README.md"],
+        ["build", "openrct2"]
+    ]
+}

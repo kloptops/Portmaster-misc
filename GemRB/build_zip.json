@@ -1,0 +1,9 @@
+{
+    "zip_file": "GemRB.zip",
+    "files": [
+        "GemRB.sh",
+        "gemrb/",
+        ["README.md", "gemrb/README.md"],
+        ["build", "gemrb"]
+    ]
+}

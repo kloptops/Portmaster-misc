@@ -7,14 +7,11 @@ This script builds zip files to be released to GitHub.
 The zip files are only updated if the files are changed or renamed.
 
 """
-
-import zipfile
 import hashlib
+import json
+import zipfile
 from pathlib import Path
 
-# Change these if you dont like these paths.
-RELEASE_DIR = Path('releases')
-CHECK_DIR = Path('.releases')
 
 def build_files(root, dest_path, max_depth=None):
     stack = [root]
@@ -37,15 +34,15 @@ def build_files(root, dest_path, max_depth=None):
             yield source_name, dest_name
 
 
-def build_zip(base_zip_name, root_path, paths):
+def build_zip(base_zip_name, root_path, paths, config):
     """
     TODO: document it
     """
 
     ## Each zip has a zip file, a .sha256 file, and a .sha256sum file.
-    zip_name = RELEASE_DIR / base_zip_name
-    check_name = CHECK_DIR / (base_zip_name.rsplit('.', 1)[0] + '.sha256')
-    shasum_name = RELEASE_DIR / (base_zip_name + '.sha256sum')
+    zip_name = config['RELEASE_DIR'] / base_zip_name
+    check_name = config['CHECK_DIR'] / (base_zip_name.rsplit('.', 1)[0] + '.sha256')
+    shasum_name = config['RELEASE_DIR'] / (base_zip_name + '.sha256sum')
 
     print(f'Checking {str(zip_name)}')
 
@@ -76,10 +73,10 @@ def build_zip(base_zip_name, root_path, paths):
 
 
     # IF we get this far, we should create the RELEASE_DIR / CHECK_DIR
-    if not RELEASE_DIR.is_dir():
-        RELEASE_DIR.mkdir()
-    if not CHECK_DIR.is_dir():
-        CHECK_DIR.mkdir()
+    if not config['RELEASE_DIR'].is_dir():
+        config['RELEASE_DIR'].mkdir()
+    if not config['CHECK_DIR'].is_dir():
+        config['CHECK_DIR'].mkdir()
 
     # Sort the files so we always get the same result.
     all_files.sort(key=lambda x: x[0])
@@ -135,64 +132,24 @@ def build_zip(base_zip_name, root_path, paths):
         fh.write(''.join(all_digests))
 
 
-# TODO: make a json config file for building the zip, instead of placing it in this file
-#   idealy this script uses no external libraries that are not included with the default pythion library.
-"""
+config = {
+    'RELEASE_DIR': Path('releases'),
+    'CHECK_DIR': Path('.releases'),
+    }
 
-for config_file in Path.glob('*/build_zip.json'):
-    build_zip(config_file)
+# 
+for json_file in Path('.').glob('*/build_zip.json'):
+    try:
+        with open(json_file, 'r') as fh:
+            build_config = json.load(fh)
 
-"""
+        build_zip(
+            build_config['zip_file'],
+            json_file.parent,
+            build_config['files'],
+            config)
 
-# Fallout
-build_zip(
-    'Fallout1.zip',
-    'Fallout 1', (
-        'Fallout 1.sh',
-        'fallout1',
-        ('README.md', 'fallout1/README.md'),
-        ('build', 'fallout1'),
-        ))
+    except (json.decoder.JSONDecodeError, KeyError):
+        print(f"- Error parsing {json_file}")
+        continue
 
-# GemRB
-build_zip(
-    'GemRB.zip',
-    'GemRB', (
-        'GemRB.sh',
-        'gemrb',
-        ('README.md', 'gemrb/README.md'),
-        ('build', 'gemrb'),
-        ))
-
-# Half-Life
-build_zip(
-    'Half-Life.zip',
-    'Half-Life', (
-        'Half-Life.sh',
-        'Half-Life',
-        ('README.md', 'Half-Life/README.md'),
-        ('build', 'Half-Life', 1),
-        ('build/valve', 'Half-Life/binaries/valve'),
-        ('build/bshift', 'Half-Life/binaries/bshift'),
-        ('build/gearbox', 'Half-Life/binaries/gearbox'),
-        ))
-
-# OpenRCT2
-build_zip(
-    'OpenRCT2.zip',
-    'OpenRCT2', (
-        'OpenRCT2.sh',
-        'openrct2',
-        ('README.md', 'openrct2/README.md'),
-        ('build', 'openrct2'),
-        ))
-
-# Rlvm
-build_zip(
-    'Rlvm.zip',
-    'Rlvm', (
-        'Rlvm.sh',
-        'rlvm',
-        ('README.md', 'rlvm/README.md'),
-        ('build', 'rlvm'),
-        ))
