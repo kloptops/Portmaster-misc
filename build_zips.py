@@ -12,6 +12,9 @@ import zipfile
 import hashlib
 from pathlib import Path
 
+# Change these if you dont like these paths.
+RELEASE_DIR = Path('releases')
+CHECK_DIR = Path('.releases')
 
 def build_files(root, dest_path, max_depth=None):
     stack = [root]
@@ -34,12 +37,19 @@ def build_files(root, dest_path, max_depth=None):
             yield source_name, dest_name
 
 
-def build_zip(zip_name, root_path, paths):
+def build_zip(base_zip_name, root_path, paths):
     """
     TODO: document it
     """
 
-    print(f'Checking {zip_name}')
+    ## Each zip has a zip file, a .sha256 file, and a .sha256sum file.
+    zip_name = RELEASE_DIR / base_zip_name
+    check_name = CHECK_DIR / (base_zip_name.rsplit('.', 1)[0] + '.sha256')
+    shasum_name = RELEASE_DIR / (base_zip_name + '.sha256sum')
+
+    print(f'Checking {str(zip_name)}')
+
+    # Build up a list of all files needed for the zip, and their location on the file system
     all_files = []
     for path in paths:
         max_depth = None
@@ -64,11 +74,21 @@ def build_zip(zip_name, root_path, paths):
             print(f"- {str(full_name)!r} failing to build zip.")
             return
 
+
+    # IF we get this far, we should create the RELEASE_DIR / CHECK_DIR
+    if not RELEASE_DIR.is_dir():
+        RELEASE_DIR.mkdir()
+    if not CHECK_DIR.is_dir():
+        CHECK_DIR.mkdir()
+
+    # Sort the files so we always get the same result.
     all_files.sort(key=lambda x: x[0])
 
+    # Make a hash of each zip file + hash
     main_hash = hashlib.sha256()
     all_digests = []
     for file_pair in all_files:
+        # Hash file
         file_hash = hashlib.sha256()
         with open(file_pair[1], 'rb') as fh:
             file_hash.update(fh.read())
@@ -76,21 +96,24 @@ def build_zip(zip_name, root_path, paths):
         file_digest = f'{file_pair[0]}:{file_hash.hexdigest()}\n'
         all_digests.append(file_digest)
         print(f'- {file_digest.strip()}')
+
+        # Add to main hash
         main_hash.update(file_digest.encode('utf-8'))
 
+    # Keep our newly created hashes
     new_digest = main_hash.hexdigest()
-    all_digests.append(f'{zip_name}:{new_digest}')
+    all_digests.append(f'{str(zip_name)}:{new_digest}')
 
-    private_digest_file = Path('.' + zip_name.rsplit('.', 1)[0] + '.sha256')
-    public_digest_file = Path(zip_name + '.sha256sum')
+    if zip_name.exists():
+        if check_name.is_file():
+            with open(check_name, 'r') as fh:
+                ## Get the last line, read the sha256 from it.
+                old_digest = fh.read().strip().split('\n')[-1].split(':')[-1]
 
-    if private_digest_file.is_file():
-        with open(private_digest_file, 'r') as fh:
-            old_digest = fh.read().strip().split('\n')[-1].split(':')[-1]
-
-        if new_digest == old_digest:
-            print('- File is up to date.')
-            return
+            # See if the files have changed.
+            if new_digest == old_digest:
+                print('- File is up to date.')
+                return
 
     print('- Building Zip')
     with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
@@ -104,16 +127,26 @@ def build_zip(zip_name, root_path, paths):
 
     final_digest = final_hash.hexdigest()
 
-    with open(public_digest_file, 'w') as fh:
+    with open(shasum_name, 'w') as fh:
         fh.write(f'{final_digest} *{Path(zip_name).name}')
 
-    print('- Recording Digests')
-    with open(private_digest_file, 'w') as fh:
+    print('- Recording Checkfile')
+    with open(check_name, 'w') as fh:
         fh.write(''.join(all_digests))
+
+
+# TODO: make a json config file for building the zip, instead of placing it in this file
+#   idealy this script uses no external libraries that are not included with the default pythion library.
+"""
+
+for config_file in Path.glob('*/build_zip.json'):
+    build_zip(config_file)
+
+"""
 
 # Fallout
 build_zip(
-    'releases/Fallout 1.zip',
+    'Fallout1.zip',
     'Fallout 1', (
         'Fallout 1.sh',
         'fallout1',
@@ -123,7 +156,7 @@ build_zip(
 
 # GemRB
 build_zip(
-    'releases/GemRB.zip',
+    'GemRB.zip',
     'GemRB', (
         'GemRB.sh',
         'gemrb',
@@ -133,7 +166,7 @@ build_zip(
 
 # Half-Life
 build_zip(
-    'releases/Half-Life.zip',
+    'Half-Life.zip',
     'Half-Life', (
         'Half-Life.sh',
         'Half-Life',
@@ -146,7 +179,7 @@ build_zip(
 
 # OpenRCT2
 build_zip(
-    'releases/OpenRCT2.zip',
+    'OpenRCT2.zip',
     'OpenRCT2', (
         'OpenRCT2.sh',
         'openrct2',
@@ -156,13 +189,10 @@ build_zip(
 
 # Rlvm
 build_zip(
-    'releases/Rlvm.zip',
+    'Rlvm.zip',
     'Rlvm', (
         'Rlvm.sh',
         'rlvm',
         ('README.md', 'rlvm/README.md'),
         ('build', 'rlvm'),
         ))
-
-
-
