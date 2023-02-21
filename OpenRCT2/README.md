@@ -2,7 +2,27 @@
 
 # Controls
 
-**TO BE DONE**
+| Button            | Command                    |
+|-------------------|----------------------------|
+| **A**             | Mouse Left                 |
+| **B**             | Mouse Right                |
+| **Y**             | Rotate construction object |
+| **X**             | Close top window           |
+| **X + Select**    | Close all windows          |
+| **L1**            | Rotate clock wise          |
+| **R1**            | Slow down mouse            |
+| **R2**            | Rotate counter clock wise  |
+| **L2 + Select**   | Zoom out                   |
+| **R2 + Select**   | Zoom in                    |
+| **R1 + Select**   | Save                       |
+| **Start**         | Pause                      |
+| **Select**        | Cancel construction        |
+| **D-Pad Up**      | Build water                |
+| **D-Pad Down**    | Build footpaths            |
+| **D-Pad Left**    | Build scenery              |
+| **D-Pad right**   | Build rides                |
+| **Left Analog**   | Mouse Movement             |
+| **Right Analog**  | Map Move                   |
 
 
 To enter text: press **Start + Down**, then use **Up** and **Down** selects the letter, **Left** and **Right** moves forwards and backwards. **Start** or **A** to finish editing.
