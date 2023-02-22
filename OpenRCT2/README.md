@@ -9,7 +9,7 @@
 | **Y**             | Rotate construction object |
 | **X**             | Close top window           |
 | **X + Select**    | Close all windows          |
-| **L1**            | Rotate clock wise          |
+| **L2**            | Rotate clock wise          |
 | **R1**            | Slow down mouse            |
 | **R2**            | Rotate counter clock wise  |
 | **L2 + Select**   | Zoom out                   |

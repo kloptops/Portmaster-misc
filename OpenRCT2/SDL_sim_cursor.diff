@@ -114,7 +114,7 @@ index d784e6fe6..9422e14c4 100644
      }
  
 diff --git a/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp b/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp
-index 62f6cb620..30d27be7f 100644
+index 62f6cb620..fd4cf979b 100644
 --- a/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp
 +++ b/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp
 @@ -19,6 +19,11 @@
@@ -145,7 +145,7 @@ index 62f6cb620..30d27be7f 100644
              }
  
 +#ifdef ENABLE_SDL_SIM_CURSOR
-+            SDL_BlitCursor(_RGBASurface);
++            SDL_BlitCursorScaled(_RGBASurface, gConfigGeneral.WindowScale);
 +#endif
 +
              // then scale to window size. Without changing to RGBA first, SDL complains
@@ -229,10 +229,10 @@ index c3366fe11..6e2b2cb07 100644
          FcConfigSubstitute(config, pat, FcMatchPattern);
 diff --git a/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.c b/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.c
 new file mode 100644
-index 000000000..c98edfa76
+index 000000000..c7eec4f5b
 --- /dev/null
 +++ b/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.c
-@@ -0,0 +1,419 @@
+@@ -0,0 +1,424 @@
 +/*
 +  Simple DirectMedia Layer
 +  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
@@ -607,6 +607,12 @@ index 000000000..c98edfa76
 +
 +void SDL_SIM_BlitCursor(SDL_Surface *surface)
 +{
++    SDL_SIM_BlitCursorScaled(surface, 1.0);
++}
++
++static int debug_counter = 0;
++void SDL_SIM_BlitCursorScaled(SDL_Surface *surface, float scale)
++{
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +    SDL_Cursor *cursor;
 +    SDL_Rect mouse_dest;
@@ -643,21 +649,20 @@ index 000000000..c98edfa76
 +
 +    SDL_GetMouseState(&x, &y);
 +
-+    mouse_dest.x = x - cursor->hot_x;
-+    mouse_dest.y = y - cursor->hot_y;
++    mouse_dest.x = (int)((float)(x - cursor->hot_x) / scale);
++    mouse_dest.y = (int)((float)(y - cursor->hot_y) / scale);
 +    mouse_dest.w = cursor->surface->w;
 +    mouse_dest.h = cursor->surface->h;
-+
 +    // printf("DRAW -> %d, %d, %d, %d\n", mouse_dest.x, mouse_dest.y, mouse_dest.w, mouse_dest.h);
 +
 +    SDL_BlitSurface(cursor->surface, NULL, surface, &mouse_dest);
 +}
 diff --git a/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.h b/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.h
 new file mode 100644
-index 000000000..05203563e
+index 000000000..956396f87
 --- /dev/null
 +++ b/src/thirdparty/SDL_sim_cursor/SDL_sim_cursor.h
-@@ -0,0 +1,61 @@
+@@ -0,0 +1,63 @@
 +/*
 +  Simple DirectMedia Layer
 +  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
@@ -704,9 +709,11 @@ index 000000000..05203563e
 +
 +/* */
 +extern void SDL_SIM_BlitCursor(SDL_Surface *surface);
++extern void SDL_SIM_BlitCursorScaled(SDL_Surface *surface, float scaled);
 +
 +#ifdef SDL_SIM_ENABLE
 +#define SDL_BlitCursor SDL_SIM_BlitCursor
++#define SDL_BlitCursorScaled SDL_SIM_BlitCursorScaled
 +#define SDL_SetCursor SDL_SIM_SetCursor
 +#define SDL_CreateCursor SDL_SIM_CreateCursor
 +#define SDL_CreateSystemCursor SDL_SIM_CreateSystemCursor
