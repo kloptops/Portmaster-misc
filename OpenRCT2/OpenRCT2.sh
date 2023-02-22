@@ -31,25 +31,25 @@ printf "\033c" > $CUR_TTY
 printf "\033c" > $CUR_TTY
 ## RUN SCRIPT HERE
 
-# Extract the game if it exists
-if [ -f "$GAMEDIR/engine.zip" ]; then
-  if [ -d "$GAMEDIR/engine" ]; then
-    echo "Removing old engine." > $CUR_TTY
-    $ESUDO rm -fRv "$GAMEDIR/engine" > $CUR_TTY
-  fi
-
-  echo "Extracting engine files."
-  # Extract the engine from the build zip.
-  $ESUDO unzip "$GAMEDIR/engine.zip" > $CUR_TTY
-  $ESUDO mv -fv "$GAMEDIR/engine/bin/openrct2" "$GAMEDIR/openrct2" > $CUR_TTY
-  $ESUDO rm -f "$GAMEDIR/engine.zip" > $CUR_TTY
-fi
-
 if [ -f "RCT2/assets/g1.dat" ]; then
-  echo "Missing game files" > $CUR_TTY
+  echo "Missing game files, see README for more info." > $CUR_TTY
   sleep 5
   printf "\033c" > $CUR_TTY
   exit 1
+fi
+
+# Extract the game if it exists
+if [ -f "$GAMEDIR/engine.zip" ]; then
+  if [ -d "$GAMEDIR/engine" ]; then
+    echo "Removing old engine. One moment." > $CUR_TTY
+    $ESUDO rm -fRv "$GAMEDIR/engine"
+  fi
+
+  echo "Extracting engine files. Please wait." > $CUR_TTY
+  # Extract the engine from the build zip.
+  $ESUDO unzip "$GAMEDIR/engine.zip"
+  $ESUDO mv -fv "$GAMEDIR/engine/bin/openrct2" "$GAMEDIR/openrct2"
+  $ESUDO rm -f "$GAMEDIR/engine.zip"
 fi
 
 export TEXTINPUTPRESET="Name"
@@ -59,8 +59,14 @@ export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
 
 export LD_LIBRARY_PATH="$GAMEDIR/libs:$LD_LIBRARY_PATH"
 
+echo "Starting game." > $CUR_TTY
+
 $GPTOKEYB "openrct2" -c openrct2.gptk textinput &
-$TASKSET ./openrct2 $DEBUGCMDS --user-data-path=save/ --openrct2-data-path=engine/share/openrct2 --rct2-data-path=RCT2/ $RCT1_GAME 2>&1 | $ESUDO tee -a ./log.txt
+$TASKSET ./openrct2 $DEBUGCMDS \
+    --user-data-path=save/ \
+    --openrct2-data-path=engine/share/openrct2 \
+    --rct2-data-path=RCT2/ \
+    --rct1-data-path=RCT1/ 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH

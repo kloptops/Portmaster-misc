@@ -1,4 +1,4 @@
-# Portmaster-OpenRCT2
+# Open Roller Coaster Tycoon 2
 
 # Controls
 
@@ -29,7 +29,7 @@ To enter text: press **Start + Down**, then use **Up** and **Down** selects the 
 
 # Game folder structure
 
-Install your RCT2 game files into `{PORTS}/openrct2/RCT2`, and optionally your RCT1 game files into `{PORTS}/openrct2/RCT1`
+Install your Roller Coaster Tycoon 2 game files into `{PORTS}/openrct2/RCT2`, and optionally your Roller Coaster Tycoon 1 game files into `{PORTS}/openrct2/RCT1`.
 
 For help getting the game files for [RCT2 on macOS & Linux](https://github.com/OpenRCT2/OpenRCT2/wiki/Installation-on-Linux-and-macOS), and for help getting game files for [RCT1](https://github.com/OpenRCT2/OpenRCT2/wiki/Loading-RCT1-scenarios-and-data).
 
@@ -78,8 +78,8 @@ then just run:
 # TODO:
 
 - [x] Get a map to work!
-- [ ] Figure out controls
-- [ ] Make text a bit more readable if possible
+- [x] Figure out controls
+- [x] Make text a bit more readable if possible
 - [x] Test it on AmberELEC
 - [x] Test it on ArkOS
 
