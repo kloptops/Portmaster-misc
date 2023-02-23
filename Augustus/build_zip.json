@@ -1,0 +1,9 @@
+{
+    "zip_file": "Augustus.zip",
+    "files": [
+        "Augustus.sh",
+        "augustus/",
+        ["README.md", "augustus/README.md"],
+        ["build", "augustus"]
+    ]
+}

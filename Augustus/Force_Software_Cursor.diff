@@ -1,0 +1,13 @@
+diff --git a/src/platform/renderer.h b/src/platform/renderer.h
+index ea531ef6..60b6ff46 100644
+--- a/src/platform/renderer.h
++++ b/src/platform/renderer.h
+@@ -5,6 +5,8 @@
+ 
+ #include "SDL.h"
+ 
++#define PLATFORM_USE_SOFTWARE_CURSOR 1
++
+ int platform_renderer_init(SDL_Window *window);
+ 
+ int platform_renderer_create_render_texture(int width, int height);
