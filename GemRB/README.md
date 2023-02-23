@@ -9,38 +9,44 @@ Use PortMaster to install gemrb, copy the desired game or games into `{PORTFOLDE
 # Controls
 
 ## Baldur's Gate I & II
-- R1/A: Left Click
-- L1/B: Right Click
-- L2: Priest spells
-- R2: Wizard spells
-- X: Inventory
-- Y: Character Record
-- Select+L1: Quick Save
-- Start: pause
-- Select: options
-- Up: Map
-- Down: Journal
-- Left: Toggle AI
-- Right: Character Arbitration
-- Left Stick: Move cursor
-- Right Stick: Move screen
+
+| Button            | Command                    |
+|-------------------|----------------------------|
+| **R1/A**          | Left Click                 |
+| **L1/B**          | Right Click                |
+| **L2**            | Priest spells              |
+| **R2**            | Wizard spells              |
+| **X**             | Inventory                  |
+| **Y**             | Character Record           |
+| **Select+L1**     | Quick Save                 |
+| **Start**         | Pause                      |
+| **Select**        | Options                    |
+| **Up**            | mappings                   |
+| **Down**          | Journal                    |
+| **Left**          | Toggle AI                  |
+| **Right**         | Character Arbitration      |
+| **Left Stick**    | Move cursor                |
+| **Right Stick**   | Move screen                |
 
 ## Planescape Torment
-- R1/A: Left Click
-- L1/B: Right Click
-- L2: Priest spells
-- R2: Wizard spells
-- X: Inventory
-- Y: Toggle Run
-- Select+L1: Quick Save
-- Start: pause
-- Select: options
-- Up: Map
-- Down: Journal
-- Left: Toggle AI
-- Right: Character Arbitration
-- Left Stick: Move cursor
-- Right Stick: Move screen
+
+| Button            | Command                    |
+|-------------------|----------------------------|
+| **R1/A**          | Left Click                 |
+| **L1/B**          | Right Click                |
+| **L2**            | Priest spells              |
+| **R2**            | Wizard spells              |
+| **X**             | Inventory                  |
+| **Y**             | Toggle Run                 |
+| **Select+L1**     | Quick Save                 |
+| **Start**         | Pause                      |
+| **Select**        | Options                    |
+| **Up**            | mappings                   |
+| **Down**          | Journal                    |
+| **Left**          | Toggle AI                  |
+| **Right**         | Character Arbitration      |
+| **Left Stick**    | Move cursor                |
+| **Right Stick**   | Move screen                |
 
 
 To enter text: press **Start + Down**, then use **Up** and **Down** selects the letter, **Left** and **Right** moves forwards and backwards. **Start** or **A** to finish editing.

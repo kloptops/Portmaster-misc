@@ -10,9 +10,6 @@ index 3202b0e10..db5cbc465 100644
  option(DISABLE_GUI "Don't build GUI. (Headless only.)")
  
  if (FORCE32)
-diff --git a/SDL_sim_cursor.diff b/SDL_sim_cursor.diff
-new file mode 100644
-index 000000000..e69de29bb
 diff --git a/src/openrct2-ui/CMakeLists.txt b/src/openrct2-ui/CMakeLists.txt
 index 3e145f505..3f8f1c662 100644
 --- a/src/openrct2-ui/CMakeLists.txt
@@ -55,7 +52,7 @@ index 3e145f505..3f8f1c662 100644
  ipo_set_target_properties(${PROJECT_NAME})
  
 diff --git a/src/openrct2-ui/CursorRepository.cpp b/src/openrct2-ui/CursorRepository.cpp
-index 11d782c8a..916ed3278 100644
+index 11d782c8a..a07540f5a 100644
 --- a/src/openrct2-ui/CursorRepository.cpp
 +++ b/src/openrct2-ui/CursorRepository.cpp
 @@ -16,8 +16,14 @@
@@ -73,6 +70,15 @@ index 11d782c8a..916ed3278 100644
  CursorRepository::~CursorRepository()
  {
      _scaledCursors.clear();
+@@ -107,6 +113,8 @@ SDL_Cursor* CursorRepository::Create(const CursorData* cursorInfo, uint8_t scale
+ 
+ void CursorRepository::SetCursorScale(uint8_t cursorScale)
+ {
++    cursorScale = 1.0;
++
+     if (cursorScale > 0.0)
+     {
+         _currentCursorScale = cursorScale;
 diff --git a/src/openrct2-ui/UiContext.cpp b/src/openrct2-ui/UiContext.cpp
 index d784e6fe6..9422e14c4 100644
 --- a/src/openrct2-ui/UiContext.cpp

@@ -29,7 +29,7 @@ To enter text: press **Start + Down**, then use **Up** and **Down** selects the 
 
 # Game folder structure
 
-Install your Roller Coaster Tycoon 2 game files into `{PORTS}/openrct2/RCT2`, and optionally your Roller Coaster Tycoon 1 game files into `{PORTS}/openrct2/RCT1`.
+Install your Roller Coaster Tycoon 2 game files into `{PORTS}/openrct2/RCT2`, **these files are required**, and optionally your Roller Coaster Tycoon 1 game files into `{PORTS}/openrct2/RCT1`.
 
 For help getting the game files for [RCT2 on macOS & Linux](https://github.com/OpenRCT2/OpenRCT2/wiki/Installation-on-Linux-and-macOS), and for help getting game files for [RCT1](https://github.com/OpenRCT2/OpenRCT2/wiki/Loading-RCT1-scenarios-and-data).
 
@@ -85,4 +85,4 @@ then just run:
 
 # Thanks
 
-A special thanks to the excellent folks on the [AmberELEC discord](https://discord.com/invite/R9Er7hkRMe).
+A special thanks to the excellent folks on the [AmberELEC discord](https://discord.com/invite/R9Er7hkRMe), especially Cebion for all the testing.
