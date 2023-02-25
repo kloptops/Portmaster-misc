@@ -4,3 +4,6 @@
 
 # Ignore Compiled files
 build/
+
+# Ignore 
+.build_disable

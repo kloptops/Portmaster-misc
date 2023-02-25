@@ -1,0 +1,9 @@
+{
+    "zip_file": "Template.zip",
+    "files": [
+        "Template.sh",
+        "template/",
+        ["README.md", "template/README.md"],
+        ["build", "template"]
+    ]
+}
