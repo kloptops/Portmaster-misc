@@ -11,6 +11,8 @@ import hashlib
 import json
 import zipfile
 from pathlib import Path
+from difflib import Differ
+
 
 VERBOSE=False
 
@@ -91,13 +93,11 @@ def build_zip(base_zip_name, root_path, paths, config):
         with open(file_pair[1], 'rb') as fh:
             file_hash.update(fh.read())
 
-        file_digest = f'{file_pair[0]}:{file_hash.hexdigest()}\n'
+        file_digest = f'{file_pair[0]}:{file_hash.hexdigest()}'
         all_digests.append(file_digest)
-        if VERBOSE:
-            print(f'- {file_digest.strip()}')
 
         # Add to main hash
-        main_hash.update(file_digest.encode('utf-8'))
+        main_hash.update(f"{file_digest}\n".encode('utf-8'))
 
     # Keep our newly created hashes
     new_digest = main_hash.hexdigest()
@@ -107,12 +107,35 @@ def build_zip(base_zip_name, root_path, paths, config):
         if check_name.is_file():
             with open(check_name, 'r') as fh:
                 ## Get the last line, read the sha256 from it.
-                old_digest = fh.read().strip().split('\n')[-1].split(':')[-1]
+                old_digests = fh.read().strip().split('\n')
+                old_digest = old_digests[-1].rsplit(':', 1)[-1]
 
             # See if the files have changed.
             if new_digest == old_digest:
                 print('- File is up to date.')
                 return
+            else:
+                # Build up what files have changed
+                changes = {}
+                differ = Differ()
+                for line in differ.compare(old_digests[:-1], all_digests[:-1]):
+                    # line = "  <FILENAME>:<SHA256SUM>"
+                    mode = line[:2]
+                    name = line[2:].split(":", 1)[0]
+                    if mode == '- ':
+                        # File is removed.
+                        changes[name] = 'Removed'
+                    elif mode == '+ ':
+                        if name in changes:
+                            # If the file was already seen, its been removed, and readded, which means modified.
+                            changes[name] = 'Modified'
+                        else:
+                            # File is just added.
+                            changes[name] = 'Added'
+
+                print("- Files changed")
+                for name, mode in changes.items():
+                    print(f"  - {mode} {name}")
 
     print('- Building Zip')
     with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:

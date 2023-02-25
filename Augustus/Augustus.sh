@@ -35,6 +35,7 @@ if [ ! -f "$GAMEDIR/data/c3.eng" ] && [ ! -f "$GAMEDIR/data/c3_mm.eng" ]; then
   echo "Missing game files, see README for more info." > $CUR_TTY
   sleep 5
   printf "\033c" > $CUR_TTY
+  $ESUDO systemctl restart oga_events &
   exit 1
 fi
 

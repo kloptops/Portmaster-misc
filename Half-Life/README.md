@@ -1,4 +1,4 @@
-# Portmaster-HalfLife
+# Half-Life / Blue Shift / Opposing Forces
 
 
 This is the configuration files and the required steps to build the xash3d engine for handheld emulator devices (Anbernic RG353V, etc.) using the Portmaster scripts for launching.
@@ -109,5 +109,5 @@ Finally run `./build.py` to combine the compiled files in `build` with the scrip
 - [x] Add launch scripts for Blue Shift / Opposing Forces to the ports directory when they're detected.
 - [ ] Consolidate the autoexe.cfg / config.cfg / opengl.cfg files.
 - [ ] Better installation instructions
-- [ ] Build a more robust build setup
+- [x] Build a more robust build setup
 - [ ] Add support for counterstrike 1.6
