@@ -30,7 +30,7 @@ def name_match(name, all_names):
     return None
 
 
-def build_files(root, dest_path, max_depth=None):
+def build_files(root, dest_path, max_depth=None, *, want_dirs=False):
     stack = [root]
     while len(stack) > 0:
         path = stack.pop(0)
@@ -39,13 +39,14 @@ def build_files(root, dest_path, max_depth=None):
             if source_name.name.startswith('.'):
                 continue
 
-            if source_name.is_dir():
-                stack.append(source_name)
-                continue
-
             temp = source_name.relative_to(root)
             if max_depth is not None and len(temp.parts) > max_depth:
                 continue
+
+            if source_name.is_dir():
+                stack.append(source_name)
+                if not want_dirs:
+                    continue
 
             dest_name = dest_path / temp
             yield source_name, dest_name
@@ -303,6 +304,60 @@ def do_list(config, build_configs, args):
     for zip_name, zip_config in build_configs.items():
         print(f"- {zip_config['zip_file']:15s} - {zip_config['disabled'].is_file() and 'Disabled' or 'Enabled'}")
 
+def do_new(config, build_configs, args):
+    """
+    Makes a new zip build using the template folder. This will replace all
+    instances of "template" and "Template" to whatever the new name of the zip is.
+
+    {command} new "BobbleJump"
+    """
+
+    if len(args) == 0:
+        print("No <zip name> specified, see help for usage")
+        do_help(config, build_configs, ['new'])
+        return
+
+    name = args[0]
+
+    def name_swap(input_text):
+        return input_text.replace('Template', name).replace('template', name.lower())
+
+    match_name = name_match(name, build_configs.keys())
+    if match_name is not None:
+        print(f"Error: {name} is the same as {match_name}, zip build already exists.")
+        return
+
+    if name == name.lower():
+        print(f"Warning: having {name} in all lower case is not recommended.")
+
+    print(f"Making new zip build {name}")
+    for src_file, dst_file in build_files(
+            config['SCAN_DIR'] / 'template', config['SCAN_DIR'] / name, want_dirs=True):
+        dst_file = Path(name_swap(str(dst_file)))
+
+        print(f"- Creating {dst_file}")
+
+        if src_file.is_dir():
+            dst_file.mkdir(mode=0o755, parents=True)
+            continue
+
+        dst_parent = dst_file.parent
+        if not dst_parent.is_dir():
+            dst_parent.mkdir(mode=0o755, parents=True)
+
+        with open(src_file, 'r') as fh:
+            src_data = fh.read()
+
+        dst_data = name_swap(src_data)
+
+        if dst_file.suffix == '.sh':
+            mode = 0o755
+        else:
+            mode = 0o666
+
+        with open(dst_file, 'w', mode) as fh:
+            fh.write(dst_data)
+
 
 def do_help(config, build_configs, args):
     """
@@ -334,6 +389,7 @@ all_commands = {
     'enable':   do_enable,
     'disable':  do_disable,
     'list':     do_list,
+    'new':      do_new,
     }
 
 
@@ -354,7 +410,6 @@ def main(args):
                 build_config = json.load(fh)
 
             if name_clean(build_config['zip_file']) == 'template':
-                print(f"Skipping template file {json_file}")
                 continue
 
             config_name = build_config['zip_file'].rsplit('.', 1)[0]

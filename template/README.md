@@ -1,4 +1,4 @@
-# GAME NAME
+# Template
 
 # Controls
 
