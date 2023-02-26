@@ -54,7 +54,11 @@ done
 $ESUDO chmod 666 /dev/uinput
 export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
 
-$GPTOKEYB "fallout-ce" -c "./fallout1.gptk.$ANALOGSTICKS" &
+export TEXTINPUTPRESET="Name"
+export TEXTINPUTINTERACTIVE="Y"
+export TEXTINPUTNOAUTOCAPITALS="Y"
+
+$GPTOKEYB "fallout-ce" -c "./fallout1.gptk.$ANALOGSTICKS" textinput &
 if [[ $whichos == *"ArkOS"* ]]; then
     LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libSDL2-2.0.so.0.10.0 ./fallout-ce 2>&1 | tee -a ./log.txt
 else

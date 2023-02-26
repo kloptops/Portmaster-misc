@@ -1,0 +1,130 @@
+diff --git a/src/game/gsound.cc b/src/game/gsound.cc
+index 2d82114..1e6934d 100644
+--- a/src/game/gsound.cc
++++ b/src/game/gsound.cc
+@@ -973,7 +973,7 @@ int gsound_speech_play(const char* fname, int a2, int a3, int a4)
+     }
+ 
+     if (gsound_debug) {
+-        debug_printf("Loading speech sound file %s%s...", fname, ".ACM");
++        debug_printf("Loading speech sound file %s%s...", fname, ".acm");
+     }
+ 
+     // uninline
+@@ -1166,7 +1166,7 @@ Sound* gsound_load_sound(const char* name, Object* object)
+     }
+ 
+     if (gsound_debug) {
+-        debug_printf("Loading sound file %s%s...", name, ".ACM");
++        debug_printf("Loading sound file %s%s...", name, ".acm");
+     }
+ 
+     if (gsound_active_effect_counter >= SOUND_EFFECTS_MAX_COUNT) {
+@@ -1189,7 +1189,7 @@ Sound* gsound_load_sound(const char* name, Object* object)
+     ++gsound_active_effect_counter;
+ 
+     char path[COMPAT_MAX_PATH];
+-    snprintf(path, sizeof(path), "%s%s%s", sound_sfx_path, name, ".ACM");
++    snprintf(path, sizeof(path), "%s%s%s", sound_sfx_path, name, ".acm");
+ 
+     if (soundLoad(sound, path) == 0) {
+         if (gsound_debug) {
+@@ -1212,7 +1212,7 @@ Sound* gsound_load_sound(const char* name, Object* object)
+                 }
+             }
+ 
+-            snprintf(path, sizeof(path), "%sH%cXXXX%s%s", sound_sfx_path, v9, name + 6, ".ACM");
++            snprintf(path, sizeof(path), "%sH%cXXXX%s%s", sound_sfx_path, v9, name + 6, ".acm");
+ 
+             if (gsound_debug) {
+                 debug_printf("tyring %s ", path + strlen(sound_sfx_path));
+@@ -1227,7 +1227,7 @@ Sound* gsound_load_sound(const char* name, Object* object)
+             }
+ 
+             if (v9 == 'F') {
+-                snprintf(path, sizeof(path), "%sHMXXXX%s%s", sound_sfx_path, name + 6, ".ACM");
++                snprintf(path, sizeof(path), "%sHMXXXX%s%s", sound_sfx_path, name + 6, ".acm");
+ 
+                 if (gsound_debug) {
+                     debug_printf("tyring %s ", path + strlen(sound_sfx_path));
+@@ -1245,7 +1245,7 @@ Sound* gsound_load_sound(const char* name, Object* object)
+     }
+ 
+     if (strncmp(name, "MALIEU", 6) == 0 || strncmp(name, "MAMTN2", 6) == 0) {
+-        snprintf(path, sizeof(path), "%sMAMTNT%s%s", sound_sfx_path, name + 6, ".ACM");
++        snprintf(path, sizeof(path), "%sMAMTNT%s%s", sound_sfx_path, name + 6, ".acm");
+ 
+         if (gsound_debug) {
+             debug_printf("tyring %s ", path + strlen(sound_sfx_path));
+@@ -1781,7 +1781,7 @@ static int gsound_background_allocate(Sound** soundPtr, int a2, int a3)
+ // 0x44945C
+ static int gsound_background_find_with_copy(char* dest, const char* src)
+ {
+-    size_t len = strlen(src) + strlen(".ACM");
++    size_t len = strlen(src) + strlen(".acm");
+     if (strlen(sound_music_path1) + len > COMPAT_MAX_PATH || strlen(sound_music_path2) + len > COMPAT_MAX_PATH) {
+         if (gsound_debug) {
+             debug_printf("Full background path too long.\n");
+@@ -1795,7 +1795,7 @@ static int gsound_background_find_with_copy(char* dest, const char* src)
+     }
+ 
+     char outPath[COMPAT_MAX_PATH];
+-    snprintf(outPath, sizeof(outPath), "%s%s%s", sound_music_path1, src, ".ACM");
++    snprintf(outPath, sizeof(outPath), "%s%s%s", sound_music_path1, src, ".acm");
+     if (gsound_file_exists_f(outPath)) {
+         strncpy(dest, outPath, COMPAT_MAX_PATH);
+         dest[COMPAT_MAX_PATH] = '\0';
+@@ -1809,7 +1809,7 @@ static int gsound_background_find_with_copy(char* dest, const char* src)
+     gsound_background_remove_last_copy();
+ 
+     char inPath[COMPAT_MAX_PATH];
+-    snprintf(inPath, sizeof(inPath), "%s%s%s", sound_music_path2, src, ".ACM");
++    snprintf(inPath, sizeof(inPath), "%s%s%s", sound_music_path2, src, ".acm");
+ 
+     FILE* inStream = fopen(inPath, "rb");
+     if (inStream == NULL) {
+@@ -1883,7 +1883,7 @@ static int gsound_background_find_dont_copy(char* dest, const char* src)
+     char path[COMPAT_MAX_PATH];
+     int len;
+ 
+-    len = strlen(src) + strlen(".ACM");
++    len = strlen(src) + strlen(".acm");
+     if (strlen(sound_music_path1) + len > COMPAT_MAX_PATH || strlen(sound_music_path2) + len > COMPAT_MAX_PATH) {
+         if (gsound_debug) {
+             debug_printf("Full background path too long.\n");
+@@ -1896,7 +1896,7 @@ static int gsound_background_find_dont_copy(char* dest, const char* src)
+         debug_printf(" finding background sound ");
+     }
+ 
+-    snprintf(path, sizeof(path), "%s%s%s", sound_music_path1, src, ".ACM");
++    snprintf(path, sizeof(path), "%s%s%s", sound_music_path1, src, ".acm");
+     if (gsound_file_exists_f(path)) {
+         strncpy(dest, path, COMPAT_MAX_PATH);
+         dest[COMPAT_MAX_PATH] = '\0';
+@@ -1907,7 +1907,7 @@ static int gsound_background_find_dont_copy(char* dest, const char* src)
+         debug_printf("in 2nd path ");
+     }
+ 
+-    snprintf(path, sizeof(path), "%s%s%s", sound_music_path2, src, ".ACM");
++    snprintf(path, sizeof(path), "%s%s%s", sound_music_path2, src, ".acm");
+     if (gsound_file_exists_f(path)) {
+         strncpy(dest, path, COMPAT_MAX_PATH);
+         dest[COMPAT_MAX_PATH] = '\0';
+@@ -1940,7 +1940,7 @@ static int gsound_speech_find_dont_copy(char* dest, const char* src)
+         debug_printf(" finding speech sound ");
+     }
+ 
+-    snprintf(path, sizeof(path), "%s%s%s", sound_speech_path, src, ".ACM");
++    snprintf(path, sizeof(path), "%s%s%s", sound_speech_path, src, ".acm");
+ 
+     // NOTE: Uninline.
+     if (!gsound_file_exists_db(path)) {
+@@ -1962,7 +1962,7 @@ static void gsound_background_remove_last_copy()
+ {
+     if (background_fname_copied[0] != '\0') {
+         char path[COMPAT_MAX_PATH];
+-        snprintf(path, sizeof(path), "%s%s%s", "sound\\music\\", background_fname_copied, ".ACM");
++        snprintf(path, sizeof(path), "%s%s%s", "sound\\music\\", background_fname_copied, ".acm");
+         if (compat_remove(path)) {
+             if (gsound_debug) {
+                 debug_printf("Deleting old music file failed.\n");
