@@ -10,13 +10,18 @@ Use portmaster to install rlvm, copy the desired game or games into `{PORTFOLDER
 
 # Controls
 
-- L1/B: Right Click
-- L2: Fast Forward
-- R1/R2/A: Left Click
-- Start: enter
-- Select: escape
-- Left Analog Stick: Move cursor
-- Select + L1: display system info
+| Button            | Command                           |
+|-------------------|-----------------------------------|
+| **A**             | Left Click                        |
+| **B**             | Right Click                       |
+| **L1**            | Slow mouse cursor                 |
+| **L2**            | Fast Forward                      |
+| **R1**            | Left Click                        |
+| **Start**         | Enter                             |
+| **Select**        | Escape                            |
+| **D-Pad**         | Mouse movement                    |
+| **Left Analog**   | Mouse movement                    |
+| **Select + L1**   | Display system info               |
 
 ## Required libs
 
@@ -50,7 +55,7 @@ At the end, the `build/rlvm` file is what you want.
 # TODO:
 
 - [x] Auto detect which games are found in the games directory, bring up a list if there is more than 1 game detected.
-- [ ] Add option to add a launch script in the ports folder, for direct launching of the game, so game info can be scraped.
+- [x] Add option to add a launch script in the ports folder, for direct launching of the game, so game info can be scraped.
 - [ ] Write installation instructions.
 - [ ] Write better info
 - [ ] Fix HD games

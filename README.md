@@ -21,7 +21,7 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 
 | Port | Description / Info | Download | Status |
 |------|--------------------|----------|:------:|
-| [Augustus](https://github.com/kloptops/Portmaster-misc/tree/main/Augustus) | Using [Augustus](https://github.com/Keriew/augustus) | [Augustus Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Augustus.zip) | :orange_circle: |
+| [Augustus](https://github.com/kloptops/Portmaster-misc/tree/main/Augustus) | Using [Augustus](https://github.com/Keriew/augustus) | [Augustus Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Augustus.zip) | :green_circle: |
 | [Fallout 1](https://github.com/kloptops/Portmaster-misc/tree/main/Fallout%201) | Using [fallout1-ce](https://github.com/alexbatalov/fallout1-ce) | [Fallout 1 Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Fallout1.zip) | :green_circle: |
 | [GemRB](https://github.com/kloptops/Portmaster-misc/tree/main/GemRB) | Using [GemRB](https://github.com/gemrb/gemrb) the open-source reimplementation of the Infinity Engine that underpinned Baldur's Gate, Icewind Dale and Planescape: Torment. | [GemRB Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/GemRB.zip) | :green_circle: |
 | [Half-Life](https://github.com/kloptops/Portmaster-misc/tree/main/Half-Life) | Using [Xash3D-FWGS](https://github.com/FWGS/xash3d-fwgs), a game engine, aimed to provide compatibility with Half-Life Engine, and [hlsdk-portable](https://github.com/FWGS/hlsdk-portable) for the client binaries. | [Half-Life Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Half-Life.zip) | :green_circle: |
