@@ -1,0 +1,9 @@
+{
+    "zip_file": "ArxLiberatis.zip",
+    "files": [
+        "ArxLiberatis.sh",
+        "arxliberatis/",
+        ["README.md", "arxliberatis/README.md"],
+        ["build", "arxliberatis"]
+    ]
+}

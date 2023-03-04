@@ -33,7 +33,7 @@ printf "\033c" > $CUR_TTY
 
 echo "Starting game." > $CUR_TTY
 
-$GPTOKEYB "template" -c augustus.gptk &
+$GPTOKEYB "template" -c template.gptk &
 $TASKSET ./template data/ 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)

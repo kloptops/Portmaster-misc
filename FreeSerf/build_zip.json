@@ -1,0 +1,9 @@
+{
+    "zip_file": "FreeSerf.zip",
+    "files": [
+        "FreeSerf.sh",
+        "freeserf/",
+        ["README.md", "freeserf/README.md"],
+        ["build", "freeserf"]
+    ]
+}

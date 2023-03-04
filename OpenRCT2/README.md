@@ -45,11 +45,11 @@ For help getting the game files for [RCT2 on macOS & Linux](https://github.com/O
 
 Either my pre-patched repo:
 
-    git clone https://github.com/kloptops/OpenRCT2.git`
+    git clone https://github.com/kloptops/OpenRCT2.git
 
 or clone the latest version and apply the patch
 
-    git clone https://github.com/kloptops/OpenRCT2.git
+    git clone https://github.com/OpenRCT2/OpenRCT2.git
 
     git apply PATH_TO_HERE/SDL_sim_cursor.diff
 
@@ -61,7 +61,7 @@ then just run:
 
     cd build
 
-    cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel -DDISABLE_GOOGLE_BENCHMARK="ON" -DDISABLE_DISCORD_RPC="ON" -DPORTABLE="ON" -DENABLE_SDL_SIM_CURSOR="ON" -DCMAKE_INSTALL_PREFIX:FILE="engine"
+    cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel -DDISABLE_GOOGLE_BENCHMARK="ON" -DDISABLE_DISCORD_RPC="ON" -DPORTABLE="ON" -DCMAKE_INSTALL_PREFIX:FILE="engine"
 
     make -j4
 
