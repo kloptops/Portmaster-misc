@@ -1,0 +1,1233 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e6a7c19..713c0b5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -30,7 +30,7 @@ enable_check_style()
+ 
+ add_subdirectory(src)
+ 
+-option(ENABLE_TESTS "Enable compilation of tests" ON)
++option(ENABLE_TESTS "Enable compilation of tests" OFF)
+ if(ENABLE_TESTS)
+   enable_testing()
+   add_subdirectory(tests)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 11bf229..64ba703 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -1,17 +1,13 @@
+ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+ 
++INCLUDE(FindPkgConfig)
++
+ option(ENABLE_SDL2_MIXER "Enable audio support using SDL2_mixer" ON)
+ option(ENABLE_SDL2_IMAGE "Enable image loading using SDL2_image" ON)
+ set(SDL2_BUILDING_LIBRARY 1)
+-find_package(SDL2 REQUIRED)
+-if(SDL2_FOUND)
+-  if(ENABLE_SDL2_MIXER)
+-    find_package(SDL2_mixer)
+-  endif()
+-  if(ENABLE_SDL2_IMAGE)
+-    find_package(SDL2_image)
+-  endif()
+-endif()
++PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
++PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer)
++PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image)
+ 
+ if(WIN32)
+   add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS)
+@@ -82,19 +78,19 @@ if(SDL2_DIR)
+   list(APPEND PLATFORM_HEADERS video-sdl.h event_loop-sdl.h)
+ endif()
+ 
+-if(ENABLE_SDL2_MIXER AND SDL2_mixer_DIR)
++# if(ENABLE_SDL2_MIXER AND SDL2MIXER)
+   list(APPEND PLATFORM_SOURCES audio-sdlmixer.cc)
+   list(APPEND PLATFORM_HEADERS audio-sdlmixer.h)
+-else()
+-  list(APPEND PLATFORM_SOURCES audio-dummy.cc)
+-  list(APPEND PLATFORM_HEADERS audio-dummy.h )
+-endif()
++# else()
++#   list(APPEND PLATFORM_SOURCES audio-dummy.cc)
++#   list(APPEND PLATFORM_HEADERS audio-dummy.h )
++# endif()
+ 
+ add_library(platform STATIC ${PLATFORM_SOURCES} ${PLATFORM_HEADERS})
+-target_link_libraries(platform SDL2::SDL2)
+-if(ENABLE_SDL2_MIXER AND SDL2_mixer_DIR)
+-  target_link_libraries(platform SDL2_image::SDL2_image)
+-endif()
++target_link_libraries(platform ${SDL2_LIBRARIES})
++# if(ENABLE_SDL2_MIXER AND SDL2MIXER)
++  target_link_libraries(platform ${SDL2MIXER_LIBRARIES})
++# endif()
+ target_check_style(platform)
+ 
+ # Data library
+@@ -122,18 +118,24 @@ set(DATA_HEADERS data.h
+                  data-source.h
+                  sprite-file.h)
+ 
+-if(ENABLE_SDL2_IMAGE AND SDL2_image_DIR)
++# if(ENABLE_SDL2_IMAGE AND SDL2IMAGE)
+   list(APPEND DATA_SOURCES sprite-file-sdl.cc)
+-else()
+-  list(APPEND DATA_SOURCES sprite-file-dummy.cc)
+-endif()
++# else()
++#   list(APPEND DATA_SOURCES sprite-file-dummy.cc)
++# endif()
+ 
+ add_library(data STATIC ${DATA_SOURCES} ${DATA_HEADERS})
+-if(ENABLE_SDL2_IMAGE AND SDL2_image_DIR)
+-  target_link_libraries(data SDL2::SDL2 SDL2_image::SDL2_image)
+-endif()
++# if(ENABLE_SDL2_IMAGE AND SDL2IMAGE)
++  target_link_libraries(data ${SDL2IMAGE_LIBRARIES})
++# endif()
+ target_check_style(data)
+ 
++include_directories(
++  ${SDL2_INCLUDE_DIRS}
++  ${SDL2IMAGE_INCLUDE_DIRS}
++  ${SDL2MIXER_INCLUDE_DIRS}
++  )
++
+ # FreeSerf executable
+ 
+ set(OTHER_SOURCES pathfinder.cc
+@@ -175,18 +177,15 @@ add_executable(FreeSerf MACOSX_BUNDLE WIN32 ${FREESERF_SOURCES} ${FREESERF_HEADE
+ target_check_style(FreeSerf)
+ 
+ target_link_libraries(FreeSerf game platform data tools)
+-if(SDL2_DIR)
+-  target_link_libraries(FreeSerf SDL2::SDL2)
+-  if(WIN32)
+-    target_link_libraries(FreeSerf SDL2::SDL2main)
+-  endif()
+-  if(SDL2_mixer_DIR)
+-    target_link_libraries(FreeSerf SDL2_mixer::SDL2_mixer)
+-  endif()
+-  if(SDL2_image_DIR)
+-    target_link_libraries(FreeSerf SDL2_image::SDL2_image)
+-  endif()
+-endif()
++# if(SDL2)
++  target_link_libraries(FreeSerf ${SDL2_LIBRARIES})
++  # if(SDL2MIXER)
++    target_link_libraries(FreeSerf ${SDL2MIXER_LIBRARIES})
++  # endif()
++  # if(SDL2IMAGE)
++    target_link_libraries(FreeSerf ${SDL2IMAGE_LIBRARIES})
++  # endif()
++# endif()
+ install(TARGETS FreeSerf DESTINATION ".")
+ 
+ if(WIN32)
+diff --git a/src/SDL_sim_cursor.h b/src/SDL_sim_cursor.h
+new file mode 100644
+index 0000000..b286f60
+--- /dev/null
++++ b/src/SDL_sim_cursor.h
+@@ -0,0 +1,927 @@
++/*
++  Simple DirectMedia Layer
++  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
++
++  This software is provided 'as-is', without any express or implied
++  warranty.  In no event will the authors be held liable for any damages
++  arising from the use of this software.
++
++  Permission is granted to anyone to use this software for any purpose,
++  including commercial applications, and to alter it and redistribute it
++  freely, subject to the following restrictions:
++
++  1. The origin of this software must not be misrepresented; you must not
++     claim that you wrote the original software. If you use this software
++     in a product, an acknowledgment in the product documentation would be
++     appreciated but is not required.
++  2. Altered source versions must be plainly marked as such, and must not be
++     misrepresented as being the original software.
++  3. This notice may not be removed or altered from any source distribution.
++*/
++
++#ifndef SDL_SIM_CURSOR
++#define SDL_SIM_CURSOR
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++#include <SDL.h>
++
++extern void SDL_SIM_MouseInit();
++extern void SDL_SIM_MouseQuit();
++extern void SDL_SIM_Clear_Renderer();
++extern bool SDL_SIM_Set_Renderer(SDL_Renderer *renderer);
++
++extern void SDL_SIM_SetDefaultCursor(SDL_Cursor *cursor);
++extern SDL_Cursor *SDL_SIM_CreateCursor(const Uint8 *data, const Uint8 *mask,
++                 int w, int h, int hot_x, int hot_y);
++extern SDL_Cursor *SDL_SIM_CreateColorCursor(SDL_Surface *surface, int hot_x, int hot_y);
++extern SDL_Cursor *SDL_SIM_CreateSystemCursor(SDL_SystemCursor id);
++extern void SDL_SIM_SetCursor(SDL_Cursor *cursor);
++extern SDL_Cursor *SDL_SIM_GetCursor();
++extern SDL_Cursor *SDL_SIM_GetDefaultCursor();
++extern void SDL_SIM_FreeCursor(SDL_Cursor *cursor);
++extern int SDL_SIM_ShowCursor(int toggle);
++
++/* */
++extern void SDL_SIM_BlitCursor(SDL_Surface *surface);
++extern void SDL_SIM_BlitCursorScaled(SDL_Surface *surface, float scaled);
++
++extern void SDL_SIM_RenderCursor(SDL_Texture *texture);
++extern void SDL_SIM_RenderCursorScaled(SDL_Texture *texture, float scale);
++
++/* Ends C function definitions when using C++ */
++#ifdef __cplusplus
++}
++#endif
++
++#ifdef SDL_SIM_CURSOR_COMPILE
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++struct SDL_Cursor
++{
++    SDL_Cursor *next;
++    SDL_Surface *surface;
++    SDL_Texture *texture;
++    int hot_x;
++    int hot_y;
++};
++
++
++typedef struct {
++    SDL_Renderer *renderer;
++    SDL_Cursor *cursors;
++    SDL_Cursor *def_cursor;
++    SDL_Cursor *cur_cursor;
++    SDL_bool cursor_shown;
++} SDL_SIM_Mouse;
++
++typedef struct {
++    int width;
++    int height;
++    int hot_x;
++    int hot_y;
++    SDL_Cursor *cursor;
++    const unsigned char *data;
++    const unsigned char *mask;
++} BuiltinCursor;
++
++/* Include our builtin cursors */
++/* Autogenerated by build_cursors.py */
++
++/* SDL_SYSTEM_CURSOR_ARROW -> left_ptr */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_ARROW_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x0c,
++    0x00, 0x00, 0x0e, 0x00, 0x00, 0x0f, 0x00, 0x00,
++    0x0f, 0x80, 0x00, 0x0f, 0xc0, 0x00, 0x0f, 0xe0,
++    0x00, 0x0f, 0xf0, 0x00, 0x0f, 0xf8, 0x00, 0x0f,
++    0xfc, 0x00, 0x0f, 0x80, 0x00, 0x0f, 0x80, 0x00,
++    0x0c, 0xc0, 0x00, 0x08, 0xc0, 0x00, 0x00, 0x60,
++    0x00, 0x00, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_ARROW_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00,
++    0x00, 0x18, 0x00, 0x00, 0x1c, 0x00, 0x00, 0x1e,
++    0x00, 0x00, 0x1f, 0x00, 0x00, 0x1f, 0x80, 0x00,
++    0x1f, 0xc0, 0x00, 0x1f, 0xe0, 0x00, 0x1f, 0xf0,
++    0x00, 0x1f, 0xf8, 0x00, 0x1f, 0xfc, 0x00, 0x1f,
++    0xfe, 0x00, 0x1f, 0xfe, 0x00, 0x1f, 0xc0, 0x00,
++    0x1f, 0xe0, 0x00, 0x1d, 0xe0, 0x00, 0x18, 0xf0,
++    0x00, 0x10, 0xf0, 0x00, 0x00, 0x70, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_ARROW = {
++    24, 24, 4, 4, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_ARROW_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_ARROW_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_IBEAM -> xterm */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_IBEAM_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0x00, 0x00,
++    0x20, 0x00, 0x00, 0x20, 0x00, 0x00, 0x20, 0x00,
++    0x00, 0x20, 0x00, 0x00, 0x20, 0x00, 0x00, 0x20,
++    0x00, 0x00, 0x20, 0x00, 0x00, 0x20, 0x00, 0x00,
++    0x20, 0x00, 0x00, 0x20, 0x00, 0x00, 0x20, 0x00,
++    0x00, 0x20, 0x00, 0x00, 0x20, 0x00, 0x00, 0x20,
++    0x00, 0x00, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_IBEAM_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x01, 0xfc, 0x00, 0x01, 0xfc, 0x00, 0x01,
++    0xfc, 0x00, 0x00, 0x70, 0x00, 0x00, 0x70, 0x00,
++    0x00, 0x70, 0x00, 0x00, 0x70, 0x00, 0x00, 0x70,
++    0x00, 0x00, 0x70, 0x00, 0x00, 0x70, 0x00, 0x00,
++    0x70, 0x00, 0x00, 0x70, 0x00, 0x00, 0x70, 0x00,
++    0x00, 0x70, 0x00, 0x00, 0x70, 0x00, 0x01, 0xfc,
++    0x00, 0x01, 0xfc, 0x00, 0x01, 0xfc, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_IBEAM = {
++    24, 24, 11, 12, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_IBEAM_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_IBEAM_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_WAIT -> watch */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_WAIT_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x7e, 0x00, 0x01,
++    0xff, 0x80, 0x03, 0xeb, 0xc0, 0x07, 0xb5, 0xe0,
++    0x07, 0xfa, 0xe0, 0x0f, 0xfc, 0x70, 0x0f, 0xfd,
++    0x70, 0x0f, 0xfe, 0x30, 0x0f, 0xfe, 0x30, 0x0f,
++    0xbc, 0x70, 0x0f, 0x00, 0x70, 0x07, 0x00, 0xe0,
++    0x07, 0x81, 0xe0, 0x03, 0xc3, 0xc0, 0x01, 0xff,
++    0x80, 0x00, 0x7e, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_WAIT_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x7e, 0x00, 0x01, 0xff, 0x80, 0x03,
++    0xff, 0xc0, 0x07, 0xff, 0xe0, 0x0f, 0xff, 0xf0,
++    0x0f, 0xff, 0xf0, 0x1f, 0xff, 0xf8, 0x1f, 0xff,
++    0xf8, 0x1f, 0xff, 0xf8, 0x1f, 0xff, 0xf8, 0x1f,
++    0xff, 0xf8, 0x1f, 0xff, 0xf8, 0x0f, 0xff, 0xf0,
++    0x0f, 0xff, 0xf0, 0x07, 0xff, 0xe0, 0x03, 0xff,
++    0xc0, 0x01, 0xff, 0x80, 0x00, 0x7e, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_WAIT = {
++    24, 24, 11, 11, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_WAIT_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_WAIT_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_CROSSHAIR -> tcross */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x10, 0x00, 0x00, 0x10, 0x00, 0x00, 0x10, 0x00,
++    0x00, 0x10, 0x00, 0x00, 0x10, 0x00, 0x00, 0x10,
++    0x00, 0x07, 0xff, 0xc0, 0x00, 0x10, 0x00, 0x00,
++    0x10, 0x00, 0x00, 0x10, 0x00, 0x00, 0x10, 0x00,
++    0x00, 0x10, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00,
++    0x38, 0x00, 0x00, 0x38, 0x00, 0x00, 0x38, 0x00,
++    0x00, 0x38, 0x00, 0x00, 0x38, 0x00, 0x0f, 0xff,
++    0xe0, 0x0f, 0xff, 0xe0, 0x0f, 0xff, 0xe0, 0x00,
++    0x38, 0x00, 0x00, 0x38, 0x00, 0x00, 0x38, 0x00,
++    0x00, 0x38, 0x00, 0x00, 0x38, 0x00, 0x00, 0x38,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR = {
++    24, 24, 12, 12, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_WAITARROW -> left_ptr_watch */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
++    0x00, 0x00, 0x0c, 0x00, 0x00, 0x0e, 0x00, 0x00,
++    0x0f, 0x00, 0x00, 0x0f, 0xbe, 0x00, 0x0f, 0xef,
++    0x80, 0x0f, 0xfa, 0x80, 0x0f, 0xfd, 0xc0, 0x0f,
++    0xbe, 0xc0, 0x0f, 0x9d, 0xc0, 0x0f, 0x9c, 0xc0,
++    0x0d, 0xc1, 0xc0, 0x08, 0xe3, 0x80, 0x00, 0xff,
++    0x80, 0x00, 0x3e, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x10, 0x00, 0x00, 0x18, 0x00, 0x00, 0x1c,
++    0x00, 0x00, 0x1e, 0x00, 0x00, 0x1f, 0x00, 0x00,
++    0x1f, 0xbe, 0x00, 0x1f, 0xff, 0x80, 0x1f, 0xff,
++    0xc0, 0x1f, 0xff, 0xc0, 0x1f, 0xff, 0xe0, 0x1f,
++    0xff, 0xe0, 0x1f, 0xff, 0xe0, 0x1f, 0xff, 0xe0,
++    0x1f, 0xff, 0xe0, 0x1d, 0xff, 0xc0, 0x19, 0xff,
++    0xc0, 0x10, 0xff, 0x80, 0x00, 0x3e, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW = {
++    24, 24, 4, 3, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_SIZENWSE -> bd_double_arrow */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x0f, 0xe0, 0x00, 0x0f,
++    0xc0, 0x00, 0x0f, 0x80, 0x00, 0x0f, 0xc0, 0x00,
++    0x0f, 0xe0, 0x00, 0x0d, 0xf0, 0x00, 0x08, 0xf8,
++    0x80, 0x00, 0x7d, 0x80, 0x00, 0x3f, 0x80, 0x00,
++    0x1f, 0x80, 0x00, 0x0f, 0x80, 0x00, 0x1f, 0x80,
++    0x00, 0x3f, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x1f, 0xf8, 0x00, 0x1f, 0xf0, 0x00, 0x1f,
++    0xe0, 0x00, 0x1f, 0xc0, 0x00, 0x1f, 0xe0, 0x00,
++    0x1f, 0xf0, 0x40, 0x1f, 0xf8, 0xc0, 0x1d, 0xfd,
++    0xc0, 0x18, 0xff, 0xc0, 0x10, 0x7f, 0xc0, 0x00,
++    0x3f, 0xc0, 0x00, 0x1f, 0xc0, 0x00, 0x3f, 0xc0,
++    0x00, 0x7f, 0xc0, 0x00, 0xff, 0xc0, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE = {
++    24, 24, 11, 11, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_SIZENESW -> fd_double_arrow */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0x80, 0x00,
++    0x1f, 0x80, 0x00, 0x0f, 0x80, 0x00, 0x1f, 0x80,
++    0x00, 0x3f, 0x80, 0x00, 0x7d, 0x80, 0x08, 0xf8,
++    0x80, 0x0d, 0xf0, 0x00, 0x0f, 0xe0, 0x00, 0x0f,
++    0xc0, 0x00, 0x0f, 0x80, 0x00, 0x0f, 0xc0, 0x00,
++    0x0f, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0xff, 0xc0, 0x00, 0x7f, 0xc0, 0x00,
++    0x3f, 0xc0, 0x00, 0x1f, 0xc0, 0x00, 0x3f, 0xc0,
++    0x10, 0x7f, 0xc0, 0x18, 0xff, 0xc0, 0x1d, 0xfd,
++    0xc0, 0x1f, 0xf8, 0xc0, 0x1f, 0xf0, 0x40, 0x1f,
++    0xe0, 0x00, 0x1f, 0xc0, 0x00, 0x1f, 0xe0, 0x00,
++    0x1f, 0xf0, 0x00, 0x1f, 0xf8, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW = {
++    24, 24, 11, 11, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_SIZEWE -> sb_h_double_arrow */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x80,
++    0x03, 0x00, 0xc0, 0x07, 0x00, 0xe0, 0x0f, 0xff,
++    0xf0, 0x1f, 0xff, 0xf8, 0x0f, 0xff, 0xf0, 0x07,
++    0x00, 0xe0, 0x03, 0x00, 0xc0, 0x01, 0x00, 0x80,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x81, 0x00, 0x01, 0x81, 0x80, 0x03, 0x81, 0xc0,
++    0x07, 0x81, 0xe0, 0x0f, 0xff, 0xf0, 0x1f, 0xff,
++    0xf8, 0x3f, 0xff, 0xfc, 0x1f, 0xff, 0xf8, 0x0f,
++    0xff, 0xf0, 0x07, 0x81, 0xe0, 0x03, 0x81, 0xc0,
++    0x01, 0x81, 0x80, 0x00, 0x81, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE = {
++    24, 24, 12, 12, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_SIZENS -> sb_v_double_arrow */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENS_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x10, 0x00, 0x00, 0x38, 0x00, 0x00,
++    0x7c, 0x00, 0x00, 0xfe, 0x00, 0x01, 0xff, 0x00,
++    0x00, 0x38, 0x00, 0x00, 0x38, 0x00, 0x00, 0x38,
++    0x00, 0x00, 0x38, 0x00, 0x00, 0x38, 0x00, 0x00,
++    0x38, 0x00, 0x00, 0x38, 0x00, 0x00, 0x38, 0x00,
++    0x01, 0xff, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x7c,
++    0x00, 0x00, 0x38, 0x00, 0x00, 0x10, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZENS_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
++    0x00, 0x00, 0x38, 0x00, 0x00, 0x7c, 0x00, 0x00,
++    0xfe, 0x00, 0x01, 0xff, 0x00, 0x03, 0xff, 0x80,
++    0x07, 0xff, 0xc0, 0x00, 0x7c, 0x00, 0x00, 0x7c,
++    0x00, 0x00, 0x7c, 0x00, 0x00, 0x7c, 0x00, 0x00,
++    0x7c, 0x00, 0x00, 0x7c, 0x00, 0x07, 0xff, 0xc0,
++    0x03, 0xff, 0x80, 0x01, 0xff, 0x00, 0x00, 0xfe,
++    0x00, 0x00, 0x7c, 0x00, 0x00, 0x38, 0x00, 0x00,
++    0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_SIZENS = {
++    24, 24, 12, 13, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENS_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZENS_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_SIZEALL -> move */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18,
++    0x00, 0x00, 0x3c, 0x00, 0x00, 0x7e, 0x00, 0x00,
++    0xff, 0x00, 0x00, 0x18, 0x00, 0x02, 0x18, 0x40,
++    0x06, 0x18, 0x60, 0x0e, 0x18, 0x70, 0x1f, 0xff,
++    0xf8, 0x1f, 0xff, 0xf8, 0x0e, 0x18, 0x70, 0x06,
++    0x18, 0x60, 0x02, 0x18, 0x40, 0x00, 0x18, 0x00,
++    0x00, 0xff, 0x00, 0x00, 0x7e, 0x00, 0x00, 0x3c,
++    0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x3c,
++    0x00, 0x00, 0x7e, 0x00, 0x00, 0xff, 0x00, 0x01,
++    0xff, 0x80, 0x03, 0xff, 0xc0, 0x07, 0x3c, 0xe0,
++    0x0f, 0x3c, 0xf0, 0x1f, 0xff, 0xf8, 0x3f, 0xff,
++    0xfc, 0x3f, 0xff, 0xfc, 0x1f, 0xff, 0xf8, 0x0f,
++    0x3c, 0xf0, 0x07, 0x3c, 0xe0, 0x03, 0xff, 0xc0,
++    0x01, 0xff, 0x80, 0x00, 0xff, 0x00, 0x00, 0x7e,
++    0x00, 0x00, 0x3c, 0x00, 0x00, 0x18, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL = {
++    24, 24, 12, 11, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_NO -> crossed_circle */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_NO_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x7e, 0x00, 0x01,
++    0xff, 0x80, 0x03, 0xff, 0xc0, 0x07, 0xc1, 0xe0,
++    0x07, 0x83, 0xe0, 0x0f, 0x07, 0x70, 0x0e, 0x0e,
++    0x70, 0x0e, 0x1c, 0x70, 0x0e, 0x38, 0x70, 0x0e,
++    0x70, 0x70, 0x0e, 0xe0, 0x70, 0x07, 0xc0, 0xe0,
++    0x07, 0x81, 0xe0, 0x03, 0xff, 0xc0, 0x01, 0xff,
++    0x80, 0x00, 0x7e, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_NO_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x7e, 0x00, 0x01, 0xff, 0x80, 0x03,
++    0xff, 0xc0, 0x07, 0xff, 0xe0, 0x0f, 0xff, 0xf0,
++    0x0f, 0xc7, 0xf0, 0x1f, 0x8f, 0xf8, 0x1f, 0x1f,
++    0xf8, 0x1f, 0x3e, 0xf8, 0x1f, 0x7c, 0xf8, 0x1f,
++    0xf8, 0xf8, 0x1f, 0xf1, 0xf8, 0x0f, 0xe3, 0xf0,
++    0x0f, 0xff, 0xf0, 0x07, 0xff, 0xe0, 0x03, 0xff,
++    0xc0, 0x01, 0xff, 0x80, 0x00, 0x7e, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_NO = {
++    24, 24, 12, 12, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_NO_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_NO_MASK};
++
++
++/* SDL_SYSTEM_CURSOR_HAND -> hand2 */
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_HAND_DATA[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x01, 0x80, 0x00, 0x01,
++    0x80, 0x00, 0x01, 0x80, 0x00, 0x01, 0x80, 0x00,
++    0x01, 0xb0, 0x00, 0x01, 0xb4, 0x00, 0x01, 0xf5,
++    0x80, 0x0d, 0xf5, 0x80, 0x0d, 0xff, 0x80, 0x0d,
++    0xff, 0x80, 0x0f, 0xff, 0x80, 0x0f, 0xff, 0x80,
++    0x0f, 0xff, 0x80, 0x0f, 0xff, 0x80, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++const unsigned char BUILTIN_SDL_SYSTEM_CURSOR_HAND_MASK[] = {
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x01, 0x80, 0x00, 0x03, 0xc0, 0x00, 0x03,
++    0xc0, 0x00, 0x03, 0xc0, 0x00, 0x03, 0xf0, 0x00,
++    0x03, 0xfe, 0x00, 0x03, 0xff, 0x80, 0x0f, 0xff,
++    0xc0, 0x1f, 0xff, 0xc0, 0x1f, 0xff, 0xc0, 0x1f,
++    0xff, 0xc0, 0x1f, 0xff, 0xc0, 0x1f, 0xff, 0xc0,
++    0x1f, 0xff, 0xc0, 0x1f, 0xff, 0xc0, 0x0f, 0xff,
++    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++
++BuiltinCursor BUILTIN_SDL_SYSTEM_CURSOR_HAND = {
++    24, 24, 8, 5, NULL,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_HAND_DATA,
++    (const unsigned char *)&BUILTIN_SDL_SYSTEM_CURSOR_HAND_MASK};
++
++
++BuiltinCursor *BUILTIN_CURSORS[] = {
++    &BUILTIN_SDL_SYSTEM_CURSOR_ARROW,
++    &BUILTIN_SDL_SYSTEM_CURSOR_IBEAM,
++    &BUILTIN_SDL_SYSTEM_CURSOR_WAIT,
++    &BUILTIN_SDL_SYSTEM_CURSOR_CROSSHAIR,
++    &BUILTIN_SDL_SYSTEM_CURSOR_WAITARROW,
++    &BUILTIN_SDL_SYSTEM_CURSOR_SIZENWSE,
++    &BUILTIN_SDL_SYSTEM_CURSOR_SIZENESW,
++    &BUILTIN_SDL_SYSTEM_CURSOR_SIZEWE,
++    &BUILTIN_SDL_SYSTEM_CURSOR_SIZENS,
++    &BUILTIN_SDL_SYSTEM_CURSOR_SIZEALL,
++    &BUILTIN_SDL_SYSTEM_CURSOR_NO,
++    &BUILTIN_SDL_SYSTEM_CURSOR_HAND};
++
++/* The mouse state */
++static SDL_SIM_Mouse SDL_sim_mouse;
++SDL_SIM_Mouse *SDL_SIM_GetMouse(void);
++void SDL_SIM__FreeCursor(SDL_Cursor *cursor);
++
++
++void SDL_SIM_MouseInit(void)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    SDL_zerop(mouse);
++    // printf("SDL_SIM_MouseInit\n");
++
++    mouse->cursor_shown = SDL_TRUE;
++    mouse->def_cursor = SDL_SIM_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
++}
++
++
++void SDL_SIM__FreeCursor(SDL_Cursor *cursor)
++{
++    if (cursor->texture)
++    {
++        SDL_DestroyTexture(cursor->texture);
++    }
++    SDL_FreeSurface(cursor->surface);
++    SDL_free(cursor);
++}
++
++
++void SDL_SIM_MouseQuit(void)
++{
++    SDL_Cursor *cursor, *next;
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    cursor = mouse->cursors;
++    while (cursor) {
++        next = cursor->next;
++        SDL_SIM__FreeCursor(cursor);
++        cursor = next;
++    }
++    mouse->cursors = NULL;
++    mouse->cur_cursor = NULL;
++
++    if (mouse->def_cursor) {
++        SDL_SIM__FreeCursor(mouse->def_cursor);
++        mouse->def_cursor = NULL;
++    }
++
++    /* Clear out these old pointers. */
++    for (size_t i=0; i < (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0])); i++) {
++        if (BUILTIN_CURSORS[i]) {
++            BUILTIN_CURSORS[i]->cursor = NULL;
++        }
++    }
++    // printf("SDL_SIM_MouseQuit\n");
++}
++
++void SDL_SIM_Clear_Renderer()
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++
++    if (!mouse->renderer)
++        return;
++
++    cursor = mouse->cursors;
++    while (cursor)
++    {
++        if (cursor->texture)
++            SDL_DestroyTexture(cursor->texture);
++
++        cursor->texture = NULL;
++
++        cursor = cursor->next;
++    }
++
++    mouse->renderer = NULL;
++}
++
++bool SDL_SIM_Set_Renderer(SDL_Renderer *renderer)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++
++    SDL_SIM_Clear_Renderer();
++
++    cursor = mouse->cursors;
++    while (cursor)
++    {
++        cursor->texture = SDL_CreateTextureFromSurface(renderer, cursor->surface);
++        if (!cursor->texture)
++            return false;
++
++        cursor = cursor->next;
++    }
++
++    mouse->renderer = renderer;
++    return true;
++}
++
++
++SDL_SIM_Mouse *SDL_SIM_GetMouse(void)
++{
++    return &SDL_sim_mouse;
++}
++
++
++/* Public functions */
++void SDL_SIM_SetDefaultCursor(SDL_Cursor *cursor)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    mouse->def_cursor = cursor;
++    // printf("SDL_SIM_SetDefaultCursor - %p", (void*)cursor);
++
++    if (!mouse->cur_cursor)
++    {
++        SDL_SIM_SetCursor(cursor);
++    }
++}
++
++SDL_Cursor *SDL_SIM_CreateCursor(const Uint8 *data, const Uint8 *mask,
++                 int w, int h, int hot_x, int hot_y)
++{
++    SDL_Surface *surface;
++    SDL_Cursor *cursor;
++    int x, y;
++    Uint32 *pixel;
++    Uint8 datab = 0, maskb = 0;
++    const Uint32 black = 0xFF000000;
++    const Uint32 white = 0xFFFFFFFF;
++    const Uint32 transparent = 0x00000000;
++
++    /* Make sure the width is a multiple of 8 */
++    w = ((w + 7) & ~7);
++
++    /* Create the surface from a bitmap */
++    surface = SDL_CreateRGBSurface(
++        0, w, h, 32,
++        0x00FF0000,
++        0x0000FF00,
++        0x000000FF,
++        0xFF000000);
++
++    if (surface == NULL)
++    {
++        return NULL;
++    }
++    for (y = 0; y < h; ++y)
++    {
++        pixel = (Uint32 *)((Uint8 *)surface->pixels + y * surface->pitch);
++        for (x = 0; x < w; ++x)
++        {
++            if ((x % 8) == 0)
++            {
++                datab = *data++;
++                maskb = *mask++;
++            }
++            if (maskb & 0x80)
++            {
++                *pixel++ = (datab & 0x80) ? black : white;
++            }
++            else
++            {
++                *pixel++ = (datab & 0x80) ? black : transparent;
++            }
++            datab <<= 1;
++            maskb <<= 1;
++        }
++    }
++
++    cursor = SDL_SIM_CreateColorCursor(surface, hot_x, hot_y);
++
++    SDL_FreeSurface(surface);
++
++    return cursor;
++}
++
++SDL_Cursor *SDL_SIM_CreateColorCursor(SDL_Surface *surface, int hot_x, int hot_y)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Surface *temp = NULL;
++    SDL_Cursor *cursor;
++    SDL_Texture *texture = NULL;
++
++    if (surface == NULL)
++    {
++        SDL_InvalidParamError("surface");
++        return NULL;
++    }
++
++    /* Sanity check the hot spot */
++    if ((hot_x < 0) || (hot_y < 0) ||
++        (hot_x >= surface->w) || (hot_y >= surface->h))
++    {
++        SDL_SetError("Cursor hot spot doesn't lie within cursor");
++        // printf("SDL ERROR: Cursor hot spot doesn't lie within cursor\n");
++        return NULL;
++    }
++
++    if (surface->format->format != SDL_PIXELFORMAT_ARGB8888) {
++        temp = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0);
++        if (temp == NULL) {
++            return NULL;
++        }
++        surface = temp;
++    }
++    else
++    {
++        temp = SDL_DuplicateSurface(surface);
++    }
++
++    if (mouse->renderer)
++    {
++        texture = SDL_CreateTextureFromSurface(mouse->renderer, cursor->surface);
++        if (!texture)
++        {
++            if (surface != temp)
++                SDL_FreeSurface(temp);
++
++            return NULL;
++        }
++    }
++
++    cursor = SDL_static_cast(SDL_Cursor*, SDL_malloc(sizeof(SDL_Cursor)));
++    cursor->surface = temp;
++    cursor->hot_x = hot_x;
++    cursor->hot_y = hot_y;
++
++    if (cursor)
++    {
++        cursor->next = mouse->cursors;
++        mouse->cursors = cursor;
++    }
++
++    return cursor;
++}
++
++SDL_Cursor *SDL_SIM_CreateSystemCursor(SDL_SystemCursor id)
++{
++    BuiltinCursor *builtin_cursor;
++
++    // printf("SDL_SIM_CreateSystemCursor - %d", id);
++
++    if (id >= (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0])))
++    {
++        // TODO: maybe actually say which cursor was asked for.
++        SDL_SetError("Unsupported SDL_SystemCursor.");
++        // printf("SDL ERROR: Unsupported SDL_SystemCursor %d\n", id);
++
++        return NULL;
++    }
++
++    builtin_cursor = BUILTIN_CURSORS[id];
++    if (!builtin_cursor)
++    {
++        // TODO: maybe actually say which cursor was asked for.
++        SDL_SetError("Unsupported SDL_SystemCursor.");
++        // printf("SDL ERROR: Unsupported SDL_SystemCursor %d\n", id);
++
++        return NULL;
++    }
++
++    if (!builtin_cursor->cursor)
++    {
++        builtin_cursor->cursor = SDL_SIM_CreateCursor(
++            builtin_cursor->data,
++            builtin_cursor->mask,
++            builtin_cursor->width,
++            builtin_cursor->height,
++            builtin_cursor->hot_x,
++            builtin_cursor->hot_y);
++    }
++
++    return builtin_cursor->cursor;
++}
++
++void SDL_SIM_SetCursor(SDL_Cursor *cursor)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    /* Return immediately if setting the cursor to the currently set one (fixes #7151) */
++    if (cursor == mouse->cur_cursor)
++        return;
++
++    // printf("SDL_SIM_SetCursor - %p\n", (void*)cursor);
++
++    /* Set the new cursor */
++    if (cursor)
++    {
++        /* Make sure the cursor is still valid for this mouse */
++        if (cursor != mouse->def_cursor)
++        {
++            SDL_Cursor *found;
++            for (found = mouse->cursors; found; found = found->next)
++            {
++                if (found == cursor)
++                    break;
++            }
++            if (found == NULL)
++            {
++                SDL_SetError("Cursor not associated with the current mouse");
++                // printf("SDL ERROR: Cursor not associated with the current mouse\n");
++                return;
++            }
++        }
++        mouse->cur_cursor = cursor;
++    } else {
++        cursor = mouse->def_cursor;
++    }
++}
++
++SDL_Cursor *SDL_SIM_GetCursor(void)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    if (mouse == NULL)
++        return NULL;
++
++    return mouse->cur_cursor;
++}
++
++SDL_Cursor *SDL_SIM_GetDefaultCursor(void)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++
++    if (mouse == NULL)
++        return NULL;
++
++    return mouse->def_cursor;
++}
++
++void SDL_SIM_FreeCursor(SDL_Cursor *cursor)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *curr, *prev;
++
++    if (cursor == NULL)
++        return;
++
++    if (cursor == mouse->def_cursor)
++        return;
++
++    if (cursor == mouse->cur_cursor)
++        SDL_SIM_SetCursor(mouse->def_cursor);
++
++    for (prev = NULL, curr = mouse->cursors; curr;
++        prev = curr, curr = curr->next)
++    {
++
++        if (curr == cursor)
++        {
++            if (prev)
++                prev->next = curr->next;
++            else
++                mouse->cursors = curr->next;
++
++            SDL_SIM__FreeCursor(curr);
++            return;
++        }
++    }
++}
++
++int SDL_SIM_ShowCursor(int toggle)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_bool shown;
++
++    if (mouse == NULL)
++        return 0;
++
++    shown = mouse->cursor_shown;
++    if (toggle >= 0)
++    {
++        if (toggle)
++            mouse->cursor_shown = SDL_TRUE;
++        else
++            mouse->cursor_shown = SDL_FALSE;
++    }
++    return shown;
++}
++
++void SDL_SIM_BlitCursor(SDL_Surface *surface)
++{
++    SDL_SIM_BlitCursorScaled(surface, 1.0);
++}
++
++void SDL_SIM_BlitCursorScaled(SDL_Surface *surface, float scale)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++    SDL_Rect mouse_dest;
++    int x;
++    int y;
++
++    if (mouse == NULL)
++        return;
++
++    if (!mouse->cursor_shown)
++        return;
++
++    cursor = SDL_SIM_GetCursor();
++
++    if (cursor == NULL)
++    {
++        cursor = SDL_SIM_GetDefaultCursor();
++
++        if (cursor == NULL)
++            return;
++    }
++
++    SDL_GetMouseState(&x, &y);
++
++    mouse_dest.x = (int)((float)(x - cursor->hot_x) / scale);
++    mouse_dest.y = (int)((float)(y - cursor->hot_y) / scale);
++    mouse_dest.w = cursor->surface->w;
++    mouse_dest.h = cursor->surface->h;
++
++    SDL_BlitSurface(cursor->surface, NULL, surface, &mouse_dest);
++}
++
++void SDL_SIM_RenderCursor(SDL_Texture *texture)
++{
++    SDL_SIM_RenderCursorScaled(texture, 1.0);
++}
++
++void SDL_SIM_RenderCursorScaled(SDL_Texture *texture, float scale)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++    SDL_Rect mouse_dest;
++    int x;
++    int y;
++
++    if (mouse == NULL) {
++        return;
++    }
++
++    if (!mouse->renderer)
++        return;
++
++    if (!mouse->cursor_shown)
++        return;
++
++    cursor = SDL_SIM_GetCursor();
++
++    if (cursor == NULL)
++    {
++        cursor = SDL_SIM_GetDefaultCursor();
++
++        if (cursor == NULL)
++            return;
++    }
++
++    SDL_GetMouseState(&x, &y);
++
++    mouse_dest.x = (int)((float)(x - cursor->hot_x) / scale);
++    mouse_dest.y = (int)((float)(y - cursor->hot_y) / scale);
++    mouse_dest.w = cursor->surface->w;
++    mouse_dest.h = cursor->surface->h;
++
++    /* Blit sprite */
++    SDL_SetRenderTarget(mouse->renderer, texture);
++    SDL_SetRenderDrawBlendMode(mouse->renderer, SDL_BLENDMODE_BLEND);
++    SDL_RenderCopy(mouse->renderer, cursor->texture, NULL, &mouse_dest);
++}
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif
++
++
++#define SDL_BlitCursor SDL_SIM_BlitCursor
++#define SDL_BlitCursorScaled SDL_SIM_BlitCursorScaled
++#define SDL_SetCursor SDL_SIM_SetCursor
++#define SDL_CreateCursor SDL_SIM_CreateCursor
++#define SDL_CreateSystemCursor SDL_SIM_CreateSystemCursor
++#define SDL_ShowCursor SDL_SIM_ShowCursor
++
++#endif
+diff --git a/src/audio-sdlmixer.h b/src/audio-sdlmixer.h
+index ee33ef2..fb07f8c 100644
+--- a/src/audio-sdlmixer.h
++++ b/src/audio-sdlmixer.h
+@@ -27,6 +27,7 @@
+ 
+ #include <string>
+ 
++#include <SDL.h>
+ #include <SDL_mixer.h>
+ 
+ #include "src/event_loop.h"
+diff --git a/src/freeserf.cc b/src/freeserf.cc
+index aed4fa3..be75f7f 100644
+--- a/src/freeserf.cc
++++ b/src/freeserf.cc
+@@ -123,6 +123,9 @@ main(int argc, char *argv[]) {
+   if ((screen_width == 0) || (screen_height == 0)) {
+     gfx.get_resolution(&screen_width, &screen_height);
+   }
++
++  Log::Info["main"] << "Resolution: " << screen_width << "x" << screen_height;
++
+   interface.set_size(screen_width, screen_height);
+   interface.set_displayed(true);
+ 
+diff --git a/src/savegame.cc b/src/savegame.cc
+index c15a96f..738d926 100644
+--- a/src/savegame.cc
++++ b/src/savegame.cc
+@@ -472,47 +472,47 @@ SaveWriterTextValue::operator << (const std::string &val) {
+ // SaveGame
+ 
+ GameStore::GameStore() {
+-  folder_path = ".";
+-
+-#ifdef _WIN32
+-  PWSTR saved_games_path;
+-  HRESULT res = SHGetKnownFolderPath(FOLDERID_SavedGames,
+-                                     KF_FLAG_CREATE | KF_FLAG_INIT,
+-                                     nullptr, &saved_games_path);
+-  int len = static_cast<int>(wcslen(saved_games_path));
+-  folder_path.resize(len);
+-  ::WideCharToMultiByte(CP_ACP, 0, saved_games_path, len,
+-                        (LPSTR)folder_path.data(), len, nullptr, nullptr);
+-  ::CoTaskMemFree(saved_games_path);
+-  folder_path += '\\';
+-#elif defined(__APPLE__)
+-  folder_path = std::string(std::getenv("HOME"));
+-  folder_path += "/Library/Application Support";
+-  folder_path += '/';
+-#else
+-  char *folder = std::getenv("XDG_DATA_HOME");
+-  if (folder == nullptr) {
+-    folder = std::getenv("HOME");
+-  }
+-  folder_path = std::string(folder);
+-  folder_path += '/';
+-#endif
+-
+-  folder_path += "freeserf";
++  folder_path = "./";
++
++// #ifdef _WIN32
++//   PWSTR saved_games_path;
++//   HRESULT res = SHGetKnownFolderPath(FOLDERID_SavedGames,
++//                                      KF_FLAG_CREATE | KF_FLAG_INIT,
++//                                      nullptr, &saved_games_path);
++//   int len = static_cast<int>(wcslen(saved_games_path));
++//   folder_path.resize(len);
++//   ::WideCharToMultiByte(CP_ACP, 0, saved_games_path, len,
++//                         (LPSTR)folder_path.data(), len, nullptr, nullptr);
++//   ::CoTaskMemFree(saved_games_path);
++//   folder_path += '\\';
++// #elif defined(__APPLE__)
++//   folder_path = std::string(std::getenv("HOME"));
++//   folder_path += "/Library/Application Support";
++//   folder_path += '/';
++// #else
++//   char *folder = std::getenv("XDG_DATA_HOME");
++//   if (folder == nullptr) {
++//     folder = std::getenv("HOME");
++//   }
++//   folder_path = std::string(folder);
++//   folder_path += '/';
++// #endif
++
++  folder_path += "saves";
+   if (!is_folder_exists(folder_path)) {
+     if (!create_folder(folder_path)) {
+       throw ExceptionFreeserf("Failed to create folder");
+     }
+   }
+ 
+-#ifndef _WIN32
+-  folder_path += "/saves";
+-  if (!is_folder_exists(folder_path)) {
+-    if (!create_folder(folder_path)) {
+-      throw ExceptionFreeserf("Failed to create folder");
+-    }
+-  }
+-#endif
++// #ifndef _WIN32
++//   folder_path += "/saves";
++//   if (!is_folder_exists(folder_path)) {
++//     if (!create_folder(folder_path)) {
++//       throw ExceptionFreeserf("Failed to create folder");
++//     }
++//   }
++// #endif
+ }
+ 
+ GameStore::~GameStore() {
+diff --git a/src/video-sdl.cc b/src/video-sdl.cc
+index 69ec1f4..3676bcb 100644
+--- a/src/video-sdl.cc
++++ b/src/video-sdl.cc
+@@ -19,6 +19,7 @@
+  * along with freeserf.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define SDL_SIM_CURSOR_COMPILE 1
+ #include "src/video-sdl.h"
+ 
+ #include <sstream>
+@@ -56,6 +57,8 @@ VideoSDL::VideoSDL() {
+     throw ExceptionSDL("Unable to initialize SDL video");
+   }
+ 
++  SDL_SIM_MouseInit();
++
+   SDL_version version;
+   SDL_GetVersion(&version);
+   Log::Info["video"] << "Initialized with SDL "
+@@ -81,6 +84,8 @@ VideoSDL::VideoSDL() {
+     throw ExceptionSDL("Unable to create SDL renderer");
+   }
+ 
++  SDL_SIM_Set_Renderer(renderer);
++
+   /* Determine optimal pixel format for current window */
+   SDL_RendererInfo render_info = {0, 0, 0, {0}, 0, 0};
+   SDL_GetRendererInfo(renderer, &render_info);
+@@ -110,6 +115,7 @@ VideoSDL::~VideoSDL() {
+     screen = nullptr;
+   }
+   set_cursor(nullptr, 0, 0);
++  SDL_SIM_MouseQuit();
+   SDL_VideoQuit();
+ }
+ 
+@@ -344,6 +350,7 @@ void
+ VideoSDL::swap_buffers() {
+   SDL_SetRenderTarget(renderer, nullptr);
+   SDL_RenderCopy(renderer, screen->texture, nullptr, nullptr);
++  SDL_SIM_RenderCursor(nullptr);
+   SDL_RenderPresent(renderer);
+ }
+ 
+diff --git a/src/video-sdl.h b/src/video-sdl.h
+index 98cb71e..550db18 100644
+--- a/src/video-sdl.h
++++ b/src/video-sdl.h
+@@ -27,6 +27,7 @@
+ 
+ #include <SDL.h>
+ 
++#include "SDL_sim_cursor.h"
+ #include "src/video.h"
+ 
+ class Video::Frame {

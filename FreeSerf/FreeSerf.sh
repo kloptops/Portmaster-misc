@@ -33,6 +33,10 @@ printf "\033c" > $CUR_TTY
 
 echo "Starting game." > $CUR_TTY
 
+export TEXTINPUTPRESET="Name"
+export TEXTINPUTINTERACTIVE="Y"
+export TEXTINPUTNOAUTOCAPITALS="Y"
+
 $GPTOKEYB "FreeSerf" -c freeserf.gptk &
 $TASKSET ./FreeSerf 2>&1 | $ESUDO tee -a ./log.txt
 

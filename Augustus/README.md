@@ -30,8 +30,6 @@ Install the game files into `ports/augustus/data`, here are some excellent instr
 
 ## Building
 
-Either my pre-patched repo:
-
     git clone https://github.com/Keriew/augustus.git
 
     cd augustus

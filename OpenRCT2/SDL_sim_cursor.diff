@@ -13,10 +13,10 @@ index 11d782c8a..c9b1f7a92 100644
  }
 diff --git a/src/openrct2-ui/SDL_sim_cursor.h b/src/openrct2-ui/SDL_sim_cursor.h
 new file mode 100644
-index 000000000..9b266db51
+index 000000000..c0098d1de
 --- /dev/null
 +++ b/src/openrct2-ui/SDL_sim_cursor.h
-@@ -0,0 +1,824 @@
+@@ -0,0 +1,930 @@
 +/*
 +  Simple DirectMedia Layer
 +  Copyright (C) 1997-2023 Sam Lantinga <slouken@libsdl.org>
@@ -49,6 +49,8 @@ index 000000000..9b266db51
 +
 +extern void SDL_SIM_MouseInit();
 +extern void SDL_SIM_MouseQuit();
++extern void SDL_SIM_Clear_Renderer();
++extern bool SDL_SIM_Set_Renderer(SDL_Renderer *renderer);
 +
 +extern void SDL_SIM_SetDefaultCursor(SDL_Cursor *cursor);
 +extern SDL_Cursor *SDL_SIM_CreateCursor(const Uint8 *data, const Uint8 *mask,
@@ -65,6 +67,9 @@ index 000000000..9b266db51
 +extern void SDL_SIM_BlitCursor(SDL_Surface *surface);
 +extern void SDL_SIM_BlitCursorScaled(SDL_Surface *surface, float scaled);
 +
++extern void SDL_SIM_RenderCursor(SDL_Texture *texture);
++extern void SDL_SIM_RenderCursorScaled(SDL_Texture *texture, float scale);
++
 +/* Ends C function definitions when using C++ */
 +#ifdef __cplusplus
 +}
@@ -80,12 +85,14 @@ index 000000000..9b266db51
 +{
 +    SDL_Cursor *next;
 +    SDL_Surface *surface;
++    SDL_Texture *texture;
 +    int hot_x;
 +    int hot_y;
 +};
 +
 +
 +typedef struct {
++    SDL_Renderer *renderer;
 +    SDL_Cursor *cursors;
 +    SDL_Cursor *def_cursor;
 +    SDL_Cursor *cur_cursor;
@@ -475,6 +482,10 @@ index 000000000..9b266db51
 +
 +void SDL_SIM__FreeCursor(SDL_Cursor *cursor)
 +{
++    if (cursor->texture)
++    {
++        SDL_DestroyTexture(cursor->texture);
++    }
 +    SDL_FreeSurface(cursor->surface);
 +    SDL_free(cursor);
 +}
@@ -486,7 +497,8 @@ index 000000000..9b266db51
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +
 +    cursor = mouse->cursors;
-+    while (cursor) {
++    while (cursor)
++    {
 +        next = cursor->next;
 +        SDL_SIM__FreeCursor(cursor);
 +        cursor = next;
@@ -494,18 +506,64 @@ index 000000000..9b266db51
 +    mouse->cursors = NULL;
 +    mouse->cur_cursor = NULL;
 +
-+    if (mouse->def_cursor) {
++    if (mouse->def_cursor)
++    {
 +        SDL_SIM__FreeCursor(mouse->def_cursor);
 +        mouse->def_cursor = NULL;
 +    }
 +
 +    /* Clear out these old pointers. */
-+    for (size_t i=0; i < (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0])); i++) {
-+        if (BUILTIN_CURSORS[i]) {
++    for (size_t i=0; i < (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0])); i++)
++    {
++        if (BUILTIN_CURSORS[i])
++        {
 +            BUILTIN_CURSORS[i]->cursor = NULL;
 +        }
 +    }
 +    // printf("SDL_SIM_MouseQuit\n");
++}
++
++void SDL_SIM_Clear_Renderer()
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++
++    if (!mouse->renderer)
++        return;
++
++    cursor = mouse->cursors;
++    while (cursor)
++    {
++        if (cursor->texture)
++            SDL_DestroyTexture(cursor->texture);
++
++        cursor->texture = NULL;
++
++        cursor = cursor->next;
++    }
++
++    mouse->renderer = NULL;
++}
++
++bool SDL_SIM_Set_Renderer(SDL_Renderer *renderer)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++
++    SDL_SIM_Clear_Renderer();
++
++    cursor = mouse->cursors;
++    while (cursor)
++    {
++        cursor->texture = SDL_CreateTextureFromSurface(renderer, cursor->surface);
++        if (!cursor->texture)
++            return false;
++
++        cursor = cursor->next;
++    }
++
++    mouse->renderer = renderer;
++    return true;
 +}
 +
 +
@@ -523,7 +581,8 @@ index 000000000..9b266db51
 +    mouse->def_cursor = cursor;
 +    // printf("SDL_SIM_SetDefaultCursor - %p", (void*)cursor);
 +
-+    if (!mouse->cur_cursor) {
++    if (!mouse->cur_cursor)
++    {
 +        SDL_SIM_SetCursor(cursor);
 +    }
 +}
@@ -544,24 +603,33 @@ index 000000000..9b266db51
 +    w = ((w + 7) & ~7);
 +
 +    /* Create the surface from a bitmap */
-+    surface = SDL_CreateRGBSurface(0, w, h, 32,
-+                                   0x00FF0000,
-+                                   0x0000FF00,
-+                                   0x000000FF,
-+                                   0xFF000000);
-+    if (surface == NULL) {
++    surface = SDL_CreateRGBSurface(
++        0, w, h, 32,
++        0x00FF0000,
++        0x0000FF00,
++        0x000000FF,
++        0xFF000000);
++
++    if (surface == NULL)
++    {
 +        return NULL;
 +    }
-+    for (y = 0; y < h; ++y) {
++    for (y = 0; y < h; ++y)
++    {
 +        pixel = (Uint32 *)((Uint8 *)surface->pixels + y * surface->pitch);
-+        for (x = 0; x < w; ++x) {
-+            if ((x % 8) == 0) {
++        for (x = 0; x < w; ++x)
++        {
++            if ((x % 8) == 0)
++            {
 +                datab = *data++;
 +                maskb = *mask++;
 +            }
-+            if (maskb & 0x80) {
++            if (maskb & 0x80)
++            {
 +                *pixel++ = (datab & 0x80) ? black : white;
-+            } else {
++            }
++            else
++            {
 +                *pixel++ = (datab & 0x80) ? black : transparent;
 +            }
 +            datab <<= 1;
@@ -581,15 +649,18 @@ index 000000000..9b266db51
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +    SDL_Surface *temp = NULL;
 +    SDL_Cursor *cursor;
++    SDL_Texture *texture = NULL;
 +
-+    if (surface == NULL) {
++    if (surface == NULL)
++    {
 +        SDL_InvalidParamError("surface");
 +        return NULL;
 +    }
 +
 +    /* Sanity check the hot spot */
 +    if ((hot_x < 0) || (hot_y < 0) ||
-+        (hot_x >= surface->w) || (hot_y >= surface->h)) {
++        (hot_x >= surface->w) || (hot_y >= surface->h))
++    {
 +        SDL_SetError("Cursor hot spot doesn't lie within cursor");
 +        // printf("SDL ERROR: Cursor hot spot doesn't lie within cursor\n");
 +        return NULL;
@@ -600,10 +671,22 @@ index 000000000..9b266db51
 +        if (temp == NULL) {
 +            return NULL;
 +        }
-+        surface = temp;
 +    }
-+    else {
++    else
++    {
 +        temp = SDL_DuplicateSurface(surface);
++    }
++
++    if (mouse->renderer)
++    {
++        texture = SDL_CreateTextureFromSurface(mouse->renderer, temp);
++        if (!texture)
++        {
++            if (surface != temp)
++                SDL_FreeSurface(temp);
++
++            return NULL;
++        }
 +    }
 +
 +    cursor = SDL_static_cast(SDL_Cursor*, SDL_malloc(sizeof(SDL_Cursor)));
@@ -611,7 +694,8 @@ index 000000000..9b266db51
 +    cursor->hot_x = hot_x;
 +    cursor->hot_y = hot_y;
 +
-+    if (cursor) {
++    if (cursor)
++    {
 +        cursor->next = mouse->cursors;
 +        mouse->cursors = cursor;
 +    }
@@ -625,7 +709,8 @@ index 000000000..9b266db51
 +
 +    // printf("SDL_SIM_CreateSystemCursor - %d", id);
 +
-+    if (id >= (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0]))) {
++    if (id >= (sizeof(BUILTIN_CURSORS) / sizeof(BUILTIN_CURSORS[0])))
++    {
 +        // TODO: maybe actually say which cursor was asked for.
 +        SDL_SetError("Unsupported SDL_SystemCursor.");
 +        // printf("SDL ERROR: Unsupported SDL_SystemCursor %d\n", id);
@@ -634,7 +719,8 @@ index 000000000..9b266db51
 +    }
 +
 +    builtin_cursor = BUILTIN_CURSORS[id];
-+    if (!builtin_cursor) {
++    if (!builtin_cursor)
++    {
 +        // TODO: maybe actually say which cursor was asked for.
 +        SDL_SetError("Unsupported SDL_SystemCursor.");
 +        // printf("SDL ERROR: Unsupported SDL_SystemCursor %d\n", id);
@@ -642,45 +728,44 @@ index 000000000..9b266db51
 +        return NULL;
 +    }
 +
-+    if (!builtin_cursor->cursor) {
++    if (!builtin_cursor->cursor)
++    {
 +        builtin_cursor->cursor = SDL_SIM_CreateCursor(
 +            builtin_cursor->data,
 +            builtin_cursor->mask,
 +            builtin_cursor->width,
-+            builtin_cursor->height, 
-+            builtin_cursor->hot_x, 
++            builtin_cursor->height,
++            builtin_cursor->hot_x,
 +            builtin_cursor->hot_y);
 +    }
 +
 +    return builtin_cursor->cursor;
 +}
 +
-+/* SDL_SetCursor(NULL) can be used to force the cursor redraw,
-+   if this is desired for any reason.  This is used when setting
-+   the video mode and when the SDL window gains the mouse focus.
-+ */
 +void SDL_SIM_SetCursor(SDL_Cursor *cursor)
 +{
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +
 +    /* Return immediately if setting the cursor to the currently set one (fixes #7151) */
-+    if (cursor == mouse->cur_cursor) {
++    if (cursor == mouse->cur_cursor)
 +        return;
-+    }
 +
 +    // printf("SDL_SIM_SetCursor - %p\n", (void*)cursor);
 +
 +    /* Set the new cursor */
-+    if (cursor) {
++    if (cursor)
++    {
 +        /* Make sure the cursor is still valid for this mouse */
-+        if (cursor != mouse->def_cursor) {
++        if (cursor != mouse->def_cursor)
++        {
 +            SDL_Cursor *found;
-+            for (found = mouse->cursors; found; found = found->next) {
-+                if (found == cursor) {
++            for (found = mouse->cursors; found; found = found->next)
++            {
++                if (found == cursor)
 +                    break;
-+                }
 +            }
-+            if (found == NULL) {
++            if (found == NULL)
++            {
 +                SDL_SetError("Cursor not associated with the current mouse");
 +                // printf("SDL ERROR: Cursor not associated with the current mouse\n");
 +                return;
@@ -696,9 +781,8 @@ index 000000000..9b266db51
 +{
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +
-+    if (mouse == NULL) {
++    if (mouse == NULL)
 +        return NULL;
-+    }
 +
 +    return mouse->cur_cursor;
 +}
@@ -707,9 +791,8 @@ index 000000000..9b266db51
 +{
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +
-+    if (mouse == NULL) {
++    if (mouse == NULL)
 +        return NULL;
-+    }
 +
 +    return mouse->def_cursor;
 +}
@@ -719,28 +802,25 @@ index 000000000..9b266db51
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +    SDL_Cursor *curr, *prev;
 +
-+    // printf("SDL_SIM_FreeCursor - %p\n", (void*)cursor);
-+    if (cursor == NULL) {
++    if (cursor == NULL)
 +        return;
-+    }
 +
-+    if (cursor == mouse->def_cursor) {
++    if (cursor == mouse->def_cursor)
 +        return;
-+    }
 +
-+    if (cursor == mouse->cur_cursor) {
++    if (cursor == mouse->cur_cursor)
 +        SDL_SIM_SetCursor(mouse->def_cursor);
-+    }
 +
 +    for (prev = NULL, curr = mouse->cursors; curr;
-+        prev = curr, curr = curr->next) {
++        prev = curr, curr = curr->next)
++    {
 +
-+        if (curr == cursor) {
-+            if (prev) {
++        if (curr == cursor)
++        {
++            if (prev)
 +                prev->next = curr->next;
-+            } else {
++            else
 +                mouse->cursors = curr->next;
-+            }
 +
 +            SDL_SIM__FreeCursor(curr);
 +            return;
@@ -753,23 +833,16 @@ index 000000000..9b266db51
 +    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
 +    SDL_bool shown;
 +
-+    if (mouse == NULL) {
++    if (mouse == NULL)
 +        return 0;
-+    }
-+
-+    // printf("SDL_SIM_ShowCursor - %d\n", toggle);
 +
 +    shown = mouse->cursor_shown;
-+    if (toggle >= 0) {
-+        if (toggle) {
++    if (toggle >= 0)
++    {
++        if (toggle)
 +            mouse->cursor_shown = SDL_TRUE;
-+        } else {
++        else
 +            mouse->cursor_shown = SDL_FALSE;
-+        }
-+
-+        // if (mouse->cursor_shown != shown) {
-+        //     SDL_SIM_SetCursor(NULL);
-+        // }
 +    }
 +    return shown;
 +}
@@ -787,33 +860,21 @@ index 000000000..9b266db51
 +    int x;
 +    int y;
 +
-+    // printf("SDL_SIM_BlitCursor - ");
-+
-+    if (mouse == NULL) {
-+        // printf("no mouse\n");
++    if (mouse == NULL)
 +        return;
-+    }
 +
-+    // printf("mouse - ");
-+
-+    if (!mouse->cursor_shown) {
-+        // printf("cursor hidden\n");
++    if (!mouse->cursor_shown)
 +        return;
-+    }
 +
-+    // printf("cursor shown - ");
 +    cursor = SDL_SIM_GetCursor();
 +
-+    if (cursor == NULL) {
++    if (cursor == NULL)
++    {
 +        cursor = SDL_SIM_GetDefaultCursor();
 +
-+        if (cursor == NULL) {
-+            // printf("no cursor\n");
-+            return;            
-+        }
++        if (cursor == NULL)
++            return;
 +    }
-+
-+    // printf("cursor found - ");
 +
 +    SDL_GetMouseState(&x, &y);
 +
@@ -821,9 +882,54 @@ index 000000000..9b266db51
 +    mouse_dest.y = (int)((float)(y - cursor->hot_y) / scale);
 +    mouse_dest.w = cursor->surface->w;
 +    mouse_dest.h = cursor->surface->h;
-+    // printf("DRAW -> %d, %d, %d, %d\n", mouse_dest.x, mouse_dest.y, mouse_dest.w, mouse_dest.h);
 +
 +    SDL_BlitSurface(cursor->surface, NULL, surface, &mouse_dest);
++}
++
++void SDL_SIM_RenderCursor(SDL_Texture *texture)
++{
++    SDL_SIM_RenderCursorScaled(texture, 1.0);
++}
++
++void SDL_SIM_RenderCursorScaled(SDL_Texture *texture, float scale)
++{
++    SDL_SIM_Mouse *mouse = SDL_SIM_GetMouse();
++    SDL_Cursor *cursor;
++    SDL_Rect mouse_dest;
++    int x;
++    int y;
++
++    if (mouse == NULL) {
++        return;
++    }
++
++    if (!mouse->renderer)
++        return;
++
++    if (!mouse->cursor_shown)
++        return;
++
++    cursor = SDL_SIM_GetCursor();
++
++    if (cursor == NULL)
++    {
++        cursor = SDL_SIM_GetDefaultCursor();
++
++        if (cursor == NULL)
++            return;
++    }
++
++    SDL_GetMouseState(&x, &y);
++
++    mouse_dest.x = (int)((float)(x - cursor->hot_x) / scale);
++    mouse_dest.y = (int)((float)(y - cursor->hot_y) / scale);
++    mouse_dest.w = cursor->surface->w;
++    mouse_dest.h = cursor->surface->h;
++
++    /* Blit sprite */
++    SDL_SetRenderTarget(mouse->renderer, texture);
++    SDL_SetRenderDrawBlendMode(mouse->renderer, SDL_BLENDMODE_BLEND);
++    SDL_RenderCopy(mouse->renderer, cursor->texture, NULL, &mouse_dest);
 +}
 +
 +#ifdef __cplusplus
@@ -884,6 +990,43 @@ index c0233972b..1aa5644a7 100644
  struct SDL_Window;
  
  namespace OpenRCT2
+diff --git a/src/openrct2-ui/drawing/engines/HardwareDisplayDrawingEngine.cpp b/src/openrct2-ui/drawing/engines/HardwareDisplayDrawingEngine.cpp
+index 1441e5a09..dacfd4bf1 100644
+--- a/src/openrct2-ui/drawing/engines/HardwareDisplayDrawingEngine.cpp
++++ b/src/openrct2-ui/drawing/engines/HardwareDisplayDrawingEngine.cpp
+@@ -22,6 +22,8 @@
+ #include <openrct2/ui/UiContext.h>
+ #include <vector>
+ 
++#include <openrct2-ui/SDL_sim_cursor.h>
++
+ using namespace OpenRCT2;
+ using namespace OpenRCT2::Drawing;
+ using namespace OpenRCT2::Ui;
+@@ -62,12 +64,14 @@ public:
+     ~HardwareDisplayDrawingEngine() override
+     {
+         SDL_FreeFormat(_screenTextureFormat);
++        SDL_SIM_Clear_Renderer();
+         SDL_DestroyRenderer(_sdlRenderer);
+     }
+ 
+     void Initialise() override
+     {
+         _sdlRenderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | (_useVsync ? SDL_RENDERER_PRESENTVSYNC : 0));
++        SDL_SIM_Set_Renderer(_sdlRenderer);
+     }
+ 
+     void SetVSync(bool vsync) override
+@@ -243,6 +247,8 @@ private:
+             OverlayPreRenderCheck();
+         }
+ 
++        SDL_SIM_RenderCursor(nullptr);
++
+         SDL_RenderPresent(_sdlRenderer);
+ 
+         if (isSteamOverlayActive && gConfigGeneral.SteamOverlayPause)
 diff --git a/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp b/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp
 index 62f6cb620..a38386e79 100644
 --- a/src/openrct2-ui/drawing/engines/SoftwareDrawingEngine.cpp
