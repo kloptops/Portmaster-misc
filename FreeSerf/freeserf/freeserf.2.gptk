@@ -6,15 +6,17 @@ b = mouse_right
 x = tab
 x_hk = tab
 x_hk = add_shift
-y = \"
+y = 1
 
-r1 = mouse_slow
-r2 = ]
 l1 = b
+l1_hk = -
 l2 = [
+r1 = mouse_slow
+r1_hk = +
+r2 = ]
 
 up = 1
-down 3
+down = 3
 left = 4
 right = 2
 

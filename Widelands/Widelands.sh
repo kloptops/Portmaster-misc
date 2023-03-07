@@ -19,7 +19,7 @@ get_controls
 CUR_TTY=/dev/tty0
 
 PORTDIR="/$directory/ports"
-GAMEDIR="$PORTDIR/freeserf"
+GAMEDIR="$PORTDIR/widelands"
 cd $GAMEDIR
 
 $ESUDO chmod 666 $CUR_TTY
@@ -28,42 +28,18 @@ $ESUDO chmod 666 log.txt
 export TERM=linux
 printf "\033c" > $CUR_TTY
 
-FOUND_FILE="N"
-for file in spae.pa spad.pa spaf.pa spau.pa; do
-    if [[ -e "$file" ]]; then
-      FOUND_FILE="Y"
-      break
-    fi
-done
-
-if [[ "$FOUND_FILE" == "N" ]]; then
-  FOUND_FILE="Y"
-
-  for file in gfxheader gfxfast gfxchip gfxpics sounds music; do
-      if [[ ! -e "$file" ]]; then
-        FOUND_FILE="N"
-        break
-      fi
-  done
-
-  if [[ "$FOUND_FILE" == "N" ]]; then
-    echo "Missing game files, DOS or AMIGA versions required." > /dev/tty1
-    sleep 5
-    printf "\033c" >> /dev/tty1
-    exit 1
-  fi
-fi
-
+printf "\033c" > $CUR_TTY
 ## RUN SCRIPT HERE
 
 echo "Starting game." > $CUR_TTY
 
-export TEXTINPUTPRESET="Name"
-export TEXTINPUTINTERACTIVE="Y"
-export TEXTINPUTNOAUTOCAPITALS="Y"
+export LIBGL_ES=2
+export LIBGL_GL=21
+export LIBGL_FB=4
+export LD_LIBRARY_PATH="$GAMEDIR/libs:"
 
-$GPTOKEYB "FreeSerf" -c "freeserf.${ANALOGSTICKS}.gptk" &
-$TASKSET ./FreeSerf 2>&1 | $ESUDO tee -a ./log.txt
+$GPTOKEYB "widelands" -c widelands.gptk &
+./widelands --datadir=data/ --homedir=. 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH

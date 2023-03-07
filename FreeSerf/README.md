@@ -2,23 +2,47 @@
 
 # Controls
 
+Dual Analog Sticks:
+
 | Button            | Command                    |
 |-------------------|----------------------------|
 | **A**             | Mouse Left                 |
 | **B**             | Mouse Right                |
 | **X**             | Messages                   |
+| **Y**             | Button 1                   |
 | **L1**            | Toggle overlay             |
+| **Select + L1**   | Speed Down                 |
 | **L2**            | Zoom Out                   |
 | **R1**            | Slow down mouse            |
 | **R2**            | Zoom In                    |
+| **Select + R1**   | Speed Up                   |
 | **Start**         | Pause                      |
-| **D-Pad + Up**    | Button 1                   |
-| **D-Pad + Right** | Button 2                   |
-| **D-Pad + Down**  | Button 3                   |
-| **D-Pad + Left**  | Button 4                   |
+| **D-Pad Up**      | Button 1                   |
+| **D-Pad Right**   | Button 2                   |
+| **D-Pad Down**    | Button 3                   |
+| **D-Pad Left**    | Button 4                   |
 | **Select**        | Button 5                   |
 | **Left Analog**   | Mouse Movement             |
 | **Right Analog**  | Move Screen                |
+
+Single Analog Stick:
+
+| Button            | Command                    |
+|-------------------|----------------------------|
+| **A**             | Mouse Left                 |
+| **B**             | Mouse Right                |
+| **X**             | Messages                   |
+| **Y**             | Button 1                   |
+| **L1**            | Toggle overlay             |
+| **Select + L1**   | Speed Down                 |
+| **L2**            | Zoom Out                   |
+| **R1**            | Slow down mouse            |
+| **R2**            | Zoom In                    |
+| **Select + R1**   | Speed Up                   |
+| **Start**         | Pause                      |
+| **Select**        | Button 5                   |
+| **D-Pad**         | Move Screen                |
+| **Left Analog**   | Mouse Movement             |
 
 # Game folder structure
 
@@ -50,8 +74,8 @@ Then copy `FreeSerf` from the `build/src` directory.
 - [x] Get game to work.
 - [x] Figure out controls
 - [x] Make text a bit more readable if possible
-- [ ] Test it on AmberELEC
-- [ ] Test it on ArkOS
+- [x] Test it on AmberELEC
+- [x] Test it on ArkOS
 
 # Thanks
 

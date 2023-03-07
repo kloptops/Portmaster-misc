@@ -52,7 +52,7 @@ def build_files(root, dest_path, max_depth=None, *, want_dirs=False):
             yield source_name, dest_name
 
 
-def build_zip(base_zip_name, root_path, paths, config):
+def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
     """
     TODO: document it
     """
@@ -150,6 +150,9 @@ def build_zip(base_zip_name, root_path, paths, config):
                 for name, mode in changes.items():
                     print(f"    - {mode} {name}")
 
+    if dry_run:
+        return
+
     print('  - Building Zip')
     with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for file_pair in all_files:
@@ -167,7 +170,7 @@ def build_zip(base_zip_name, root_path, paths, config):
 
     print('  - Recording Checkfile')
     with open(check_name, 'w') as fh:
-        fh.write(''.join(all_digests))
+        fh.write('\n'.join(all_digests))
 
 
 def do_build(config, build_configs, args):
@@ -211,6 +214,46 @@ def do_build(config, build_configs, args):
                 build_configs[match_name]['directory'],
                 build_configs[match_name]['files'],
                 config)
+
+
+def do_check(config, build_configs, args):
+    """
+    Checks a the files changed based on build_zip.json, checks zips even if they are disabled, usage:
+
+    {command} check all
+    {command} check <zip name>
+    """
+
+    if len(args) == 0:
+        args.append('all')
+
+    if args[0] == 'all':
+        print("Checking all zips:")
+
+        for zip_name, zip_config in build_configs.items():
+            print(f"- {zip_name}")
+
+            build_zip(
+                zip_config['zip_file'],
+                zip_config['directory'],
+                zip_config['files'],
+                config, dry_run=True)
+    else:
+        print("Checking selected zips:")
+
+        for name in args:
+            match_name = name_match(name, build_configs.keys())
+            if match_name is None:
+                print(f"- Unknown zip {name!r}")
+                continue
+
+            print(f"- {build_configs[match_name]['zip_file']}")
+            
+            build_zip(
+                build_configs[match_name]['zip_file'],
+                build_configs[match_name]['directory'],
+                build_configs[match_name]['files'],
+                config, dry_run=True)
 
 
 def do_enable(config, build_configs, args):
@@ -300,9 +343,12 @@ def do_list(config, build_configs, args):
     {command} list
     """
 
+    max_name = max(map(lambda x: len(x['zip_file']), build_configs.values()))
+
     print("Available zips:")
     for zip_name, zip_config in build_configs.items():
-        print(f"- {zip_config['zip_file']:15s} - {zip_config['disabled'].is_file() and 'Disabled' or 'Enabled'}")
+        print(f"- {zip_config['zip_file']:{max_name}s} - {zip_config['disabled'].is_file() and 'Disabled' or 'Enabled'}")
+
 
 def do_new(config, build_configs, args):
     """
@@ -388,6 +434,7 @@ all_commands = {
     'help':     do_help,
     'enable':   do_enable,
     'disable':  do_disable,
+    'check':    do_check,
     'list':     do_list,
     'new':      do_new,
     }
@@ -404,7 +451,7 @@ def main(args):
     # Find all zips
     all_configs = {}
 
-    for json_file in config['SCAN_DIR'].glob('*/build_zip.json'):
+    for json_file in sorted(config['SCAN_DIR'].glob('*/build_zip.json'), key=lambda x: str(x).lower()):
         try:
             with open(json_file, 'r') as fh:
                 build_config = json.load(fh)

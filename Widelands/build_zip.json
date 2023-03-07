@@ -1,0 +1,9 @@
+{
+    "zip_file": "Widelands.zip",
+    "files": [
+        "Widelands.sh",
+        "widelands/",
+        ["README.md", "widelands/README.md"],
+        ["build", "widelands"]
+    ]
+}
