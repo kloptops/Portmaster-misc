@@ -39,7 +39,7 @@ export LIBGL_FB=4
 export LD_LIBRARY_PATH="$GAMEDIR/libs:"
 
 $GPTOKEYB "widelands" -c widelands.gptk &
-./widelands --datadir=data/ --homedir=. 2>&1 | $ESUDO tee -a ./log.txt
+$TASKSET ./widelands --datadir=data/ --homedir=. --sdl_cursor=false 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH

@@ -1,0 +1,9 @@
+{
+    "zip_file": "Rttr.zip",
+    "files": [
+        "Rttr.sh",
+        "rttr/",
+        ["README.md", "rttr/README.md"],
+        ["build", "rttr"]
+    ]
+}
