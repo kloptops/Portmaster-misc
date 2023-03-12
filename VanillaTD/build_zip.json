@@ -1,0 +1,9 @@
+{
+    "zip_file": "VanillaTD.zip",
+    "files": [
+        "VanillaTD.sh",
+        "vanillatd/",
+        ["README.md", "vanillatd/README.md"],
+        ["build", "vanillatd"]
+    ]
+}

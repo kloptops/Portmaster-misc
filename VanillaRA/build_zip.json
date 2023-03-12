@@ -1,0 +1,9 @@
+{
+    "zip_file": "VanillaRA.zip",
+    "files": [
+        "VanillaRA.sh",
+        "vanillara/",
+        ["README.md", "vanillara/README.md"],
+        ["build", "vanillara"]
+    ]
+}

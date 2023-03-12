@@ -4,7 +4,7 @@
 
 - [x] Building only selected projects
 - [x] Enabling and disabling zips
-- [ ] Templates for new ports 
+- [x] Templates for new ports 
 
 ## Portmaster
 

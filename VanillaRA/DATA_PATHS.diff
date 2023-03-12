@@ -1,0 +1,73 @@
+diff --git a/common/paths_posix.cpp b/common/paths_posix.cpp
+index f45d187..30e4a4e 100644
+--- a/common/paths_posix.cpp
++++ b/common/paths_posix.cpp
+@@ -50,8 +50,7 @@ namespace
+ 
+         if (_path.empty()) {
+             int uid = getuid();
+-            const char* home_env = std::getenv("HOME");
+-
++            const char* home_env = std::getenv("PORTMASTER_HOME");
+             if (home_env) {
+                 _path = home_env;
+             } else if (uid == 0) {
+@@ -90,23 +89,23 @@ namespace
+ 
+     std::string Get_Posix_Default(const char* env_var, const char* relative_path)
+     {
+-        const char* tmp = std::getenv(env_var);
+-
+-        if (tmp != nullptr && tmp[0] != '\0') {
+-            if (tmp[0] != '/') {
+-                char buffer[200];
+-                std::snprintf(buffer,
+-                              sizeof(buffer),
+-                              "'%s' should start with '/' as per XDG specification that the value must be absolute. "
+-                              "The current value is: "
+-                              "'%s'.",
+-                              tmp,
+-                              env_var);
+-                DBG_WARN(buffer);
+-            } else {
+-                return tmp;
+-            }
+-        }
++        // const char* tmp = std::getenv(env_var);
++
++        // if (tmp != nullptr && tmp[0] != '\0') {
++        //     if (tmp[0] != '/') {
++        //         char buffer[200];
++        //         std::snprintf(buffer,
++        //                       sizeof(buffer),
++        //                       "'%s' should start with '/' as per XDG specification that the value must be absolute. "
++        //                       "The current value is: "
++        //                       "'%s'.",
++        //                       tmp,
++        //                       env_var);
++        //         DBG_WARN(buffer);
++        //     } else {
++        //         return tmp;
++        //     }
++        // }
+ 
+         return User_Home() + "/" + relative_path;
+     }
+@@ -184,7 +183,7 @@ const char* PathsClass::Data_Path()
+             Program_Path();
+         }
+ 
+-        DataPath = ProgramPath.substr(0, ProgramPath.find_last_of("/")) + SEP + "share";
++        DataPath = ProgramPath + SEP + "data";
+ 
+         if (!Suffix.empty()) {
+             DataPath += SEP + Suffix;
+@@ -200,7 +199,7 @@ const char* PathsClass::User_Path()
+ #ifdef __APPLE__
+         UserPath = User_Home() + "/Library/Application Support/Vanilla-Conquer";
+ #else
+-        UserPath = Get_Posix_Default("XDG_CONFIG_HOME", ".config") + "/vanilla-conquer";
++        UserPath = Get_Posix_Default("XDG_CONFIG_HOME", "save");
+ #endif
+ 
+         if (!Suffix.empty()) {
