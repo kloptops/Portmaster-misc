@@ -21,7 +21,7 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 
 | Port | Description / Info | Download | Status |
 |------|--------------------|----------|:------:|
-| [ArxLiberatis](https://github.com/kloptops/Portmaster-misc/tree/main/ArxLiberatis) | Using [ArxLiberatis](https://github.com/arx/ArxLibertatis) which is based on the publicly released Arx Fatalis source code. | [ArxLiberatis Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/ArxLiberatis.zip) | :red_circle: |
+| [ArxLiberatis](https://github.com/kloptops/Portmaster-misc/tree/main/ArxLiberatis) | Using [ArxLiberatis](https://github.com/arx/ArxLibertatis) which is based on the publicly released Arx Fatalis source code. | [ArxLiberatis Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/ArxLiberatis.zip) | :orange_circle: |
 | [Augustus](https://github.com/kloptops/Portmaster-misc/tree/main/Augustus) | Using [Augustus](https://github.com/Keriew/augustus) | [Augustus Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Augustus.zip) | :green_circle: |
 | [Fallout 1](https://github.com/kloptops/Portmaster-misc/tree/main/Fallout%201) | Using [fallout1-ce](https://github.com/alexbatalov/fallout1-ce) | [Fallout 1 Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Fallout1.zip) | :green_circle: |
 | [FreeSerf](https://github.com/kloptops/Portmaster-misc/tree/main/FreeSerf) | Using [FreeSerf](https://github.com/freeserf/freeserf) which is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.  | [FreeSerf Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/FreeSerf.zip) | :green_circle: |

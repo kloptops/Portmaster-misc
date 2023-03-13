@@ -33,10 +33,6 @@ printf "\033c" > $CUR_TTY
 
 echo "Starting game." > $CUR_TTY
 
-export LIBGL_ES=2
-export LIBGL_GL=21
-export LIBGL_FB=4
-
 export LD_LIBRARY_PATH="$GAMEDIR/libs:$LD_LIBRARY_PATH"
 $GPTOKEYB "arx" -c arxliberatis.gptk &
 $TASKSET ./arx 2>&1 | $ESUDO tee -a ./log.txt

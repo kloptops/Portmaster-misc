@@ -6,11 +6,11 @@
 |-------------------|----------------------------|
 | **A**             | Mouse Left                 |
 | **B**             | Mouse Right                |
-| **R1**            | Slow down mouse            |
 | **Start**         | ?????                      |
 | **Select**        | ??????                     |
 | **D-Pad**         | Mouse Movement             |
-| **Left Analog**   | Mouse Movement             |
+| **Left Analog**   | Up/Down/Left/Right         |
+| **Right Analog**  | Mouse Movement             |
 
 
 # Game folder structure
@@ -18,15 +18,25 @@
  
 ## Building
 
-
     git clone BLAH BLAH
 
+    mkdir build
+
+    cd build
+
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TOOLS="OFF" -DBUILD_PROFILER_INSTRUMENT="OFF" -DBUILD_CRASHHANDLER="OFF"
+
+    make -j4
+
+    strip arx
+
+At the end you want the `arx` file
 
 # TODO:
 
-- [ ] Get game to work.
+- [x] Get game to work.
 - [ ] Figure out controls
-- [ ] Make text a bit more readable if possible
+- [ ] Fix the text
 - [ ] Test it on AmberELEC
 - [ ] Test it on ArkOS
 
