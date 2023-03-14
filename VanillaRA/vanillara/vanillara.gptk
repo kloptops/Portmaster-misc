@@ -2,25 +2,17 @@ back = esc
 start = enter
 
 a = mouse_left                          # Mouse Left
-a_hk = mouse_left                       # Force Attack
-a_hk = add_ctrl
 b = mouse_right                         # Mouse Right
-b_hk = g                                # Guard
 x = s                                   # Stop
-x_hk = x                                # Scatter
-y = y                                   # Repair
-y_hk = t                                # Sell
+y = g                                   # Guard
 
-r1 = mouse_slow
+l1 = shift
+r1 = ctrl
 
-up = up
-up = repeat
-down = down
-down = repeat
-left = left
-left = repeat
-right = right
-right = repeat
+up = 1
+down = 2
+left = 1
+right = 4
 
 right_analog_up = up
 right_analog_up = repeat

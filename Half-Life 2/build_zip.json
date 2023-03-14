@@ -1,0 +1,9 @@
+{
+    "zip_file": "Half-Life2.zip",
+    "files": [
+        "Half-Life 2.sh",
+        "halflife2",
+        ["README.md", "halflife2/README.md"],
+        ["build", "halflife2"]
+    ]
+}
