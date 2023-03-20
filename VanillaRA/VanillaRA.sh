@@ -31,20 +31,16 @@ printf "\033c" > $CUR_TTY
 printf "\033c" > $CUR_TTY
 
 ## CHECK FOR GAME FILES
-FOUND="N"
+FOUND=0
 
-for file in "allied" "soviet" "."; do
-  if [[ -f "${GAMEDIR}/data/vanillara/${file}/MAIN.MIX" ]] && [[ ! "${GAMEDIR}/data/vanillara/${file}/REDALERT.MIX" ]]; then
-    FOUND="Y"
-    break
-  fi
-done
-
-if [[ "${FOUND}" == "N" ]]; then
+if find "${GAMEDIR}/data/vanillara/" \( -iname "REDALERT.MIX" -o -iname "MAIN.MIX" \) -print -quit | grep -q . ; then
+    echo "Found game files." > $CUR_TTY
+else
     echo "Missing game files, see README for more info." > $CUR_TTY
     sleep 5
     printf "\033c" > $CUR_TTY
     $ESUDO systemctl restart oga_events &
+    exit 1;
 fi
 
 ## RUN SCRIPT HERE

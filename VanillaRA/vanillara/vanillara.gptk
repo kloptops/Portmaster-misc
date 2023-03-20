@@ -6,13 +6,22 @@ b = mouse_right                         # Mouse Right
 x = s                                   # Stop
 y = g                                   # Guard
 
-l1 = shift
-r1 = ctrl
+l1 = mouse_slow                         # Slow mouse
+l1_hk = n                               # Select next unit
+l2 = shift                              # Add to selection
+r1 = ctrl                               # Force attack
+r1_hl = e                               # Select everything on screen
+r2 = alt                                # Force move
 
 up = 1
 down = 2
 left = 1
 right = 4
+
+left_analog_up = mouse_movement_up
+left_analog_down = mouse_movement_down
+left_analog_left = mouse_movement_left
+left_analog_right = mouse_movement_right
 
 right_analog_up = up
 right_analog_up = repeat
@@ -23,11 +32,6 @@ right_analog_left = repeat
 right_analog_right = right
 right_analog_right = repeat
 
-left_analog_up = mouse_movement_up
-left_analog_down = mouse_movement_down
-left_analog_left = mouse_movement_left
-left_analog_right = mouse_movement_right
-
 deadzone_triggers = 3000
 mouse_scale = 6114
 mouse_delay = 16
@@ -36,3 +40,9 @@ deadzone_mode = axial
 deadzone = 1000
 deadzone_scale = 7
 deadzone_delay = 16
+
+
+
+r1 + up = tab
+r1 + left = e
+r1 + right = n
