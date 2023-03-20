@@ -7,16 +7,21 @@
 | **A**             | Mouse Left                 |
 | **B**             | Mouse Right                |
 | **X**             | Stop                       |
-| **Y**             | Repair                     |
-| **Select + A**    | Force Attack               |
-| **Select + B**    | Guard                      |
-| **Select + X**    | Scatter                    |
-| **Select + Y**    | Sell                       |
+| **Y**             | Guard                      |
+| **Select + R1**   | Select next unit           |
+| **Select + L1**   | Select all units on screen |
+| **L1**            | Slow down mouse            |
+| **L2**            | Add to selection           |
 | **R1**            | Slow down mouse            |
+| **R2**            | Force move                 |
 | **Start**         | Enter                      |
 | **Select**        | Menu                       |
-| **D-Pad**         | Move Screen                |
+| **D-Pad Up**      | Group 1                    |
+| **D-Pad Right**   | Group 2                    |
+| **D-Pad Down**    | Group 3                    |
+| **D-Pad Left**    | Group 4                    |
 | **Left Analog**   | Mouse Movement             |
+| **Right Analog**  | Move screen                |
 
 
 # Game folder structure

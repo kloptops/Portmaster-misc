@@ -31,7 +31,6 @@ printf "\033c" > $CUR_TTY
 printf "\033c" > $CUR_TTY
 
 ## CHECK FOR GAME FILES
-FOUND=0
 
 if find "${GAMEDIR}/data/vanillara/" \( -iname "REDALERT.MIX" -o -iname "MAIN.MIX" \) -print -quit | grep -q . ; then
     echo "Found game files." > $CUR_TTY
