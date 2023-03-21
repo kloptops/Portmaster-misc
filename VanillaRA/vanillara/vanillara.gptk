@@ -6,12 +6,15 @@ b = mouse_right                         # Mouse Right
 x = s                                   # Stop
 y = g                                   # Guard
 
-l1 = mouse_slow                         # Slow mouse
-l1_hk = n                               # Select next unit
+l1 = ctrl                               # Force attack
 l2 = shift                              # Add to selection
-r1 = ctrl                               # Force attack
-r1_hk = e                               # Select everything on screen
-r2 = alt                                # Force move
+r1 = mouse_slow                         # Slow mouse
+r2 = x                                  # Scatter
+
+l1_hk = n                               # Select next unit
+l2_hk = e                               # Select everything on screen
+r1_hk = tab                             # Show/Hide sidebar
+r2_hk = home                            # Center screen on selection
 
 up = 1
 down = 3
@@ -35,6 +38,7 @@ right_analog_right = repeat
 deadzone_triggers = 3000
 mouse_scale = 6114
 mouse_delay = 16
+mouse_slow_scale = 30
 
 deadzone_mode = axial
 deadzone = 1000
