@@ -90,9 +90,9 @@ You will then have `vanillara` & `vanillatd`
 
 - [x] Get game to work.
 - [x] Get expansions to work.
-- [x] Figure out controls - Thanks Snoopy! :)
-- [x] Test it on AmberELEC
-- [x] Test it on ArkOS
+- [ ] Figure out controls - Thanks Snoopy! :)
+- [ ] Test it on AmberELEC
+- [ ] Test it on ArkOS
 
 # Thanks
 
