@@ -60,7 +60,7 @@ if [[ "${CHECK_REDALERT}" == "N" ]] || [[ "${CHECK_MAIN}" == "N" ]]; then
   fi
 
   sleep 5
-  printf "\033c" >> /dev/tty1
+  printf "\033c" >> $CUR_TTY
   exit 1
 fi
 

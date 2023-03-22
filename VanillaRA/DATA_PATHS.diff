@@ -96,3 +96,28 @@ index 2b84e67..d0493c0 100644
      , KeyQueueMove1(KN_Q)
      , KeyQueueMove2(KN_Q)
      , KeyTeam1(KN_1)
+diff --git a/tiberiandawn/options.cpp b/tiberiandawn/options.cpp
+index c4206a0..367412e 100644
+--- a/tiberiandawn/options.cpp
++++ b/tiberiandawn/options.cpp
+@@ -111,14 +111,14 @@ OptionsClass::OptionsClass(void)
+     , KeySellOn(KN_NONE)
+     , KeySellOff(KN_NONE)
+     , KeyMap(KN_U)
+-    , KeySidebarUp(KN_UP)
+-    , KeySidebarDown(KN_DOWN)
++    , KeySidebarUp(KN_NONE)
++    , KeySidebarDown(KN_NONE)
+     , KeyOption1(KN_ESC)
+     , KeyOption2(KN_SPACE)
+-    , KeyScrollLeft(KN_NONE)
+-    , KeyScrollRight(KN_NONE)
+-    , KeyScrollUp(KN_NONE)
+-    , KeyScrollDown(KN_NONE)
++    , KeyScrollLeft(KN_LEFT)
++    , KeyScrollRight(KN_RIGHT)
++    , KeyScrollUp(KN_UP)
++    , KeyScrollDown(KN_DOWN)
+     , KeyQueueMove1(KN_Q)
+     , KeyQueueMove2(KN_Q)
+     , KeyTeam1(KN_1)
