@@ -32,12 +32,14 @@ The main focus of Vanilla Conquer is to keep the default out-of-box experience f
 
 # Game folder structure
 
-You will need to place a lot of files into `ports/vanillara/data/vanillatd`.
+The game comes with the demo files, to install the full version you will need to place the game files from the [following guide](https://github.com/TheAssemblyArmada/Vanilla-Conquer/wiki/Installing-VanillaTD) into `ports/vanillatd/data/vanillatd`.
 
-Follow the installation instructions from [here](https://github.com/TheAssemblyArmada/Vanilla-Conquer/wiki/Installing-VanillaTD).
+You will need to delete all the game files in `ports/vanillatd/data/vanillatd` before installing full game files.
+
+The resulting install should have the below structure:
 
 ```
-ports/vanillara/data/vanillatd
+ports/vanillatd/data/vanillatd
 ├─ covertops/
 │  ├─ GENERAL.MIX
 │  ├─ MOVIES.MIX
@@ -90,9 +92,9 @@ You will then have `vanillara` & `vanillatd`
 
 - [x] Get game to work.
 - [x] Get expansions to work.
-- [ ] Figure out controls - Thanks Snoopy! :)
-- [ ] Test it on AmberELEC
-- [ ] Test it on ArkOS
+- [x] Figure out controls - Thanks Snoopy! :)
+- [x] Test it on AmberELEC
+- [x] Test it on ArkOS
 
 # Thanks
 

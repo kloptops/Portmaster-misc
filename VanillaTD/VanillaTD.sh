@@ -33,43 +33,74 @@ printf "\033c" > $CUR_TTY
 ## CHECK FOR GAME FILES
 shopt -s nocaseglob
 
-for file in "CONQUER.MIX" "DESERT.MIX" "TEMPERAT.MIX" "WINTER.MIX" "SOUNDS.MIX" "CCLOCAL.MIX" "TRANSIT.MIX" "SPEECH.MIX" "UPDATE.MIX" "UPDATEC.MIX" "DESEICNH.MIX" "TEMPICNH.MIX" "WINTICNH.MIX"; do
-  if [[ ! -f "${GAMEDIR}/data/vanillatd/${file}" ]]; then
-    echo "Missing game files, see README for help installing game files." > $CUR_TTY
+if [[ -f "${GAMEDIR}/data/vanillatd/DEMO.MIX" ]]; then
+  FIRST_WARN="Y"
+
+  for file in "DEMOL.MIX" "DEMOM.MIX" "SOUNDS.MIX" "SPEECH.MIX"; do
+    if [[ ! -f "${GAMEDIR}/data/vanillatd/${file}" ]]; then
+      if [[ "$FIRST_WARN" == "Y" ]]; then
+        echo "Missing some demo files, reinstall from PortMaster." > $CUR_TTY
+        FIRST_WARN="N"
+      fi
+      echo "- ${file} not found" > $CUR_TTY
+    fi
+  done
+
+  if [[ "$FIRST_WARN" == "N" ]]; then
     sleep 5
     printf "\033c" >> $CUR_TTY
     exit 1
   fi
-done
 
-ALL_FOUND="N"
-for path in "gdi" "nod" "."; do
-  FiLES_FOUND="Y"
-
-  for file in "GENERAL.MIX" "MOVIES.MIX" "SCORES.MIX"; do
-    if [[ ! -f "${GAMEDIR}/data/vanillatd/${path}/${file}" ]]; then
-      echo "Missing: ${GAMEDIR}/data/vanillatd/${path}/${file}"
-      FiLES_FOUND="N"
-      break
+  echo "Starting demo." > $CUR_TTY
+else
+  FIRST_WARN="Y"
+  for file in "CONQUER.MIX" "DESERT.MIX" "TEMPERAT.MIX" "WINTER.MIX" "SOUNDS.MIX" "CCLOCAL.MIX" "TRANSIT.MIX" "SPEECH.MIX" "UPDATE.MIX" "UPDATEC.MIX" "DESEICNH.MIX" "TEMPICNH.MIX" "WINTICNH.MIX"; do
+    if [[ ! -f "${GAMEDIR}/data/vanillatd/${file}" ]]; then
+      if [[ "$FIRST_WARN" == "Y" ]]; then
+        echo "Missing game files, see README for help installing game files." > $CUR_TTY
+        FIRST_WARN="N"
+      fi
+      echo "- ${file} not found" > $CUR_TTY
     fi
   done
 
-  if [[ "${FiLES_FOUND}" == "Y" ]]; then
-    ALL_FOUND="Y"
-    break
+  if [[ "$FIRST_WARN" == "N" ]]; then
+    sleep 5
+    printf "\033c" >> $CUR_TTY
+    exit 1
   fi
-done
 
-if [[ "${ALL_FOUND}" == "N" ]]; then
-  echo "Missing game files, see README for help installing game files." > $CUR_TTY
-  sleep 5
-  printf "\033c" >> $CUR_TTY
-  exit 1
+  ALL_FOUND="N"
+  MISSING_FILES="Missing game files, see README for help installing game files."
+  for path in "gdi" "nod" "."; do
+    FiLES_FOUND="Y"
+
+    for file in "GENERAL.MIX" "MOVIES.MIX" "SCORES.MIX"; do
+      if [[ ! -f "${GAMEDIR}/data/vanillatd/${path}/${file}" ]]; then
+        if [[ "$path" != "." ]]; then
+          MISSING_FILES="${MISSING_FILES}\n- ${path}/${file}"
+        fi
+        FiLES_FOUND="N"
+      fi
+    done
+
+    if [[ "${FiLES_FOUND}" == "Y" ]]; then
+      ALL_FOUND="Y"
+    fi
+  done
+
+  if [[ "${ALL_FOUND}" == "N" ]]; then
+    printf "$MISSING_FILES\n" > $CUR_TTY
+    sleep 5
+    printf "\033c" >> $CUR_TTY
+    exit 1
+  fi
+
+  echo "Starting game." > $CUR_TTY
 fi
 
 ## RUN SCRIPT HERE
-
-echo "Starting game." > $CUR_TTY
 
 export PORTMASTER_HOME="$GAMEDIR"
 

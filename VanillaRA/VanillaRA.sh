@@ -65,8 +65,7 @@ if [[ "${CHECK_REDALERT}" == "N" ]] || [[ "${CHECK_MAIN}" == "N" ]]; then
 fi
 
 ## RUN SCRIPT HERE
-
-echo "Starting game." > $CUR_TTY
+echo "Starting demo." > $CUR_TTY
 
 export PORTMASTER_HOME="$GAMEDIR"
 
