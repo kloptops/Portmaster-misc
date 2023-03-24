@@ -34,8 +34,6 @@ The main focus of Vanilla Conquer is to keep the default out-of-box experience f
 
 The game comes with the demo files, to install the full version you will need to place the game files from the [following guide](https://github.com/TheAssemblyArmada/Vanilla-Conquer/wiki/Installing-VanillaRA) into `ports/vanillara/data/vanillara`.
 
-You will need to delete all the game files in `ports/vanillara/data/vanillara` before installing full game files.
-
 You can get the game files from [here](https://github.com/TheAssemblyArmada/Vanilla-Conquer#vanillatd-and-vanillara).
 
 If you want to use the expansions you will need the files from the patch 3.03, [available here](https://www.moddb.com/games/cc-red-alert/downloads/red-alert-303-beta-english-patch).

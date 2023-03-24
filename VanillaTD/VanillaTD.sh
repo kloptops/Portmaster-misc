@@ -33,27 +33,7 @@ printf "\033c" > $CUR_TTY
 ## CHECK FOR GAME FILES
 shopt -s nocaseglob
 
-if [[ -f "${GAMEDIR}/data/vanillatd/DEMO.MIX" ]]; then
-  FIRST_WARN="Y"
-
-  for file in "DEMOL.MIX" "DEMOM.MIX" "SOUNDS.MIX" "SPEECH.MIX"; do
-    if [[ ! -f "${GAMEDIR}/data/vanillatd/${file}" ]]; then
-      if [[ "$FIRST_WARN" == "Y" ]]; then
-        echo "Missing some demo files, reinstall from PortMaster." > $CUR_TTY
-        FIRST_WARN="N"
-      fi
-      echo "- ${file} not found" > $CUR_TTY
-    fi
-  done
-
-  if [[ "$FIRST_WARN" == "N" ]]; then
-    sleep 5
-    printf "\033c" >> $CUR_TTY
-    exit 1
-  fi
-
-  echo "Starting demo." > $CUR_TTY
-else
+if find "${GAMEDIR}/data/vanillatd" -iname "*.mix" -print -quit | grep -q .; then
   FIRST_WARN="Y"
   for file in "CONQUER.MIX" "DESERT.MIX" "TEMPERAT.MIX" "WINTER.MIX" "SOUNDS.MIX" "CCLOCAL.MIX" "TRANSIT.MIX" "SPEECH.MIX" "UPDATE.MIX" "UPDATEC.MIX" "DESEICNH.MIX" "TEMPICNH.MIX" "WINTICNH.MIX"; do
     if [[ ! -f "${GAMEDIR}/data/vanillatd/${file}" ]]; then
@@ -98,6 +78,10 @@ else
   fi
 
   echo "Starting game." > $CUR_TTY
+  export PORTMASTER_DATA="data"
+else
+  echo "Starting demo." > $CUR_TTY
+  export PORTMASTER_DATA="demo"
 fi
 
 ## RUN SCRIPT HERE

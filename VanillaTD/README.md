@@ -34,8 +34,6 @@ The main focus of Vanilla Conquer is to keep the default out-of-box experience f
 
 The game comes with the demo files, to install the full version you will need to place the game files from the [following guide](https://github.com/TheAssemblyArmada/Vanilla-Conquer/wiki/Installing-VanillaTD) into `ports/vanillatd/data/vanillatd`.
 
-You will need to delete all the game files in `ports/vanillatd/data/vanillatd` before installing full game files.
-
 The resulting install should have the below structure:
 
 ```

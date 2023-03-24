@@ -35,37 +35,44 @@ CHECK_REDALERT="N"
 CHECK_MAIN="N"
 shopt -s nocaseglob
 
-for path in "soviet" "allied" "."; do 
-  if [[ "$CHECK_REDALERT" == "N" ]] && [[ -f "${GAMEDIR}/data/vanillara/${path}/REDALERT.MIX" ]]; then
-    CHECK_REDALERT="Y"
+if find "${GAMEDIR}/data/vanillara" -iname "*.mix" -print -quit | grep -q .; then
+  for path in "soviet" "allied" "."; do 
+    if [[ "$CHECK_REDALERT" == "N" ]] && [[ -f "${GAMEDIR}/data/vanillara/${path}/REDALERT.MIX" ]]; then
+      CHECK_REDALERT="Y"
+    fi
+
+    if [[ "$CHECK_MAIN" == "N" ]] && [[ -f "${GAMEDIR}/data/vanillara/${path}/MAIN.MIX" ]]; then
+      CHECK_MAIN="Y"
+    fi
+
+    if [[ "${CHECK_REDALERT}" == "Y" ]] && [[ "${CHECK_MAIN}" == "Y" ]]; then
+      break
+    fi
+  done
+
+  if [[ "${CHECK_REDALERT}" == "N" ]] || [[ "${CHECK_MAIN}" == "N" ]]; then
+    echo "Missing game files, see README for help installing game files." > $CUR_TTY
+    if [[ "${CHECK_REDALERT}" == "N" ]]; then
+      echo "Unable to find REDALERT.MIX." > $CUR_TTY
+    fi
+
+    if [[ "${CHECK_MAIN}" == "N" ]]; then
+      echo "Unable to find MAIN.MIX." > $CUR_TTY
+    fi
+
+    sleep 5
+    printf "\033c" >> $CUR_TTY
+    exit 1
   fi
 
-  if [[ "$CHECK_MAIN" == "N" ]] && [[ -f "${GAMEDIR}/data/vanillara/${path}/MAIN.MIX" ]]; then
-    CHECK_MAIN="Y"
-  fi
-
-  if [[ "${CHECK_REDALERT}" == "Y" ]] && [[ "${CHECK_MAIN}" == "Y" ]]; then
-    break
-  fi
-done
-
-if [[ "${CHECK_REDALERT}" == "N" ]] || [[ "${CHECK_MAIN}" == "N" ]]; then
-  echo "Missing game files, see README for help installing game files." > $CUR_TTY
-  if [[ "${CHECK_REDALERT}" == "N" ]]; then
-    echo "Unable to find REDALERT.MIX." > $CUR_TTY
-  fi
-
-  if [[ "${CHECK_MAIN}" == "N" ]]; then
-    echo "Unable to find MAIN.MIX." > $CUR_TTY
-  fi
-
-  sleep 5
-  printf "\033c" >> $CUR_TTY
-  exit 1
+  echo "Starting game." > $CUR_TTY
+  export PORTMASTER_DATA="data"
+else
+  echo "Starting demo." > $CUR_TTY
+  export PORTMASTER_DATA="demo"
 fi
 
 ## RUN SCRIPT HERE
-echo "Starting demo." > $CUR_TTY
 
 export PORTMASTER_HOME="$GAMEDIR"
 
