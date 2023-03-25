@@ -33,6 +33,7 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 | [Rttr](https://github.com/kloptops/Portmaster-misc/tree/main/Rttr) | [Rttr](https://github.com/Return-To-The-Roots/s25client) is a Settlers II clone.  | [Rttr Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/Rttr.zip) | :red_circle: |
 | [VanillaRA](https://github.com/kloptops/Portmaster-misc/tree/main/VanillaRA) | Built using [VanillaConquer](https://github.com/TheAssemblyArmada/Vanilla-Conquer) is a fully portable version of the first generation C&C engine and is capable of running Red Alert on multiple platforms. | [VanillaRA Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/VanillaRA.zip) | :green_circle: |
 | [VanillaTD](https://github.com/kloptops/Portmaster-misc/tree/main/VanillaTD) | Built using [VanillaConquer](https://github.com/TheAssemblyArmada/Vanilla-Conquer) is a fully portable version of the first generation C&C engine and is capable of running both Tiberian Dawn on multiple platforms. | [VanillaTD Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/VanillaTD.zip) | :green_circle: |
+| [VCMI](https://github.com/kloptops/Portmaster-misc/tree/main/VCMI) | Built using [VCMI](https://vcmi.eu) the open source engine for Heroes of Might and Magic III | [VCMI Download](https://github.com/kloptops/Portmaster-misc/raw/main/releases/VCMI.zip) | :orange_circle: |
 
 Legend:
 - :green_circle: - Working, available on Portmaster

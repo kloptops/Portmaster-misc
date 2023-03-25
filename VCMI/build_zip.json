@@ -1,0 +1,9 @@
+{
+    "zip_file": "VCMI.zip",
+    "files": [
+        "VCMI.sh",
+        "vcmi/",
+        ["README.md", "vcmi/README.md"],
+        ["build", "vcmi"]
+    ]
+}

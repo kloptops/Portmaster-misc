@@ -1,5 +1,5 @@
 diff --git a/common/paths_posix.cpp b/common/paths_posix.cpp
-index f45d187..30e4a4e 100644
+index f45d187..9563e56 100644
 --- a/common/paths_posix.cpp
 +++ b/common/paths_posix.cpp
 @@ -50,8 +50,7 @@ namespace
@@ -53,16 +53,31 @@ index f45d187..30e4a4e 100644
  
          return User_Home() + "/" + relative_path;
      }
-@@ -184,7 +183,7 @@ const char* PathsClass::Data_Path()
+@@ -179,12 +178,22 @@ const char* PathsClass::Program_Path()
+ const char* PathsClass::Data_Path()
+ {
+     if (DataPath.empty()) {
++        static std::string _path;
++
++        const char *data_env = std::getenv("PORTMASTER_DATA");
++
++        if (data_env) {
++            _path = data_env;
++        } else {
++            _path = "data";
++        }
++
+         if (ProgramPath.empty()) {
+             // Init the program path first if it hasn't been done already.
              Program_Path();
          }
  
 -        DataPath = ProgramPath.substr(0, ProgramPath.find_last_of("/")) + SEP + "share";
-+        DataPath = ProgramPath + SEP + "data";
++        DataPath = ProgramPath + SEP + _path;
  
          if (!Suffix.empty()) {
              DataPath += SEP + Suffix;
-@@ -200,7 +199,7 @@ const char* PathsClass::User_Path()
+@@ -200,7 +209,7 @@ const char* PathsClass::User_Path()
  #ifdef __APPLE__
          UserPath = User_Home() + "/Library/Application Support/Vanilla-Conquer";
  #else
