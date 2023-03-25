@@ -25,10 +25,10 @@ index acc49d1c1..fe7afb23b 100644
  #else
  		return std::make_unique<CursorHardware>();
 diff --git a/lib/VCMIDirs.cpp b/lib/VCMIDirs.cpp
-index 1e8dc49ac..973098e24 100644
+index 1e8dc49ac..70ac73f7b 100644
 --- a/lib/VCMIDirs.cpp
 +++ b/lib/VCMIDirs.cpp
-@@ -577,6 +577,87 @@ void VCMIDirsAndroid::init()
+@@ -577,6 +577,89 @@ void VCMIDirsAndroid::init()
  	nativePath = envHelper.callStaticStringMethod(CAndroidVMHelper::NATIVE_METHODS_DEFAULT_CLASS, "nativePath");
  	IVCMIDirsUNIX::init();
  }
@@ -97,16 +97,18 @@ index 1e8dc49ac..973098e24 100644
 +
 +bfs::path VCMIDirsPM::libraryPath() const
 +{
-+	if(developmentMode())
-+		return ".";
++	const char * tempResult;
++	if ((tempResult = getenv("PORTMASTER_HOME")))
++		return bfs::path(tempResult) / "libs";
 +	else
 +		return M_LIB_DIR;
 +}
 +
 +bfs::path VCMIDirsPM::binaryPath() const
 +{
-+	if(developmentMode())
-+		return ".";
++	const char * tempResult;
++	if ((tempResult = getenv("PORTMASTER_HOME")))
++		return bfs::path(tempResult) / "bin";
 +	else
 +		return M_BIN_DIR;
 +}
@@ -116,7 +118,7 @@ index 1e8dc49ac..973098e24 100644
  #elif defined(VCMI_XDG)
  class VCMIDirsXDG : public IVCMIDirsUNIX
  {
-@@ -698,6 +779,8 @@ namespace VCMIDirs
+@@ -698,6 +781,8 @@ namespace VCMIDirs
  			static VCMIDirsWIN32 singleton;
  		#elif defined(VCMI_ANDROID)
  			static VCMIDirsAndroid singleton;
@@ -125,3 +127,16 @@ index 1e8dc49ac..973098e24 100644
  		#elif defined(VCMI_XDG)
  			static VCMIDirsXDG singleton;
  		#elif defined(VCMI_MAC)
+diff --git a/scripting/lua/LuaScriptingContext.cpp b/scripting/lua/LuaScriptingContext.cpp
+index 38bed3222..73ed36bc6 100644
+--- a/scripting/lua/LuaScriptingContext.cpp
++++ b/scripting/lua/LuaScriptingContext.cpp
+@@ -46,7 +46,7 @@ LuaContext::LuaContext(const Script * source, const Environment * env_):
+ 		{LUA_TABLIBNAME, luaopen_table},
+ 		{LUA_STRLIBNAME, luaopen_string},
+ 		{LUA_MATHLIBNAME, luaopen_math},
+-		{LUA_BITLIBNAME, luaopen_bit}
++		{LUA_BITLIBNAME, luaopen_bit32}
+ 	};
+ 
+ 	for(const luaL_Reg & lib : STD_LIBS)
