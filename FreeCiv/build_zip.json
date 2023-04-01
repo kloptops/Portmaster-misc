@@ -1,0 +1,9 @@
+{
+    "zip_file": "FreeCiv.zip",
+    "files": [
+        "FreeCiv.sh",
+        "freeciv/",
+        ["README.md", "freeciv/README.md"],
+        ["build", "freeciv"]
+    ]
+}
