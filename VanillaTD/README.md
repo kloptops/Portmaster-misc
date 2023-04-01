@@ -29,6 +29,23 @@ The main focus of Vanilla Conquer is to keep the default out-of-box experience f
 | **Left Analog**   | Mouse Movement              |
 | **Right Analog**  | Move screen                 |
 
+# Game Settings
+
+For 640x480 full screen (slightly stretched) change `ports/vanillatd/save/vanillatd/conquer.ini`:
+
+```
+[Video]
+Windowed=no
+DOSMode=no
+BoxingAspectRatio=4:3
+Width=640
+Height=480
+Scaler=linear
+```
+
+To enable the original DOS graphics change `DOSMode=no` to `DOSMode=yes`.
+
+__Thanks to [Snoopy](https://github.com/Roughtrade) for figuring out these options__
 
 # Game folder structure
 
@@ -96,4 +113,4 @@ You will then have `vanillara` & `vanillatd`
 
 # Thanks
 
-A special thanks to the excellent folks on the [AmberELEC discord](https://discord.com/invite/R9Er7hkRMe), especially Snoopy and Cebion for all the testing.
+A special thanks to the excellent folks on the [AmberELEC discord](https://discord.com/invite/R9Er7hkRMe), especially [Snoopy](https://github.com/Roughtrade) and [Cebion](https://github.com/Cebion) for all the testing.
