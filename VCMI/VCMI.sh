@@ -53,7 +53,7 @@ if [[ ! -d "${GAMEDIR}/data/" ]]; then
   fi
 
   LD_LIBRARY_PATH="${PWD}/libs" bin/vcmibuilder --dest "${PWD}/data/" ${BUILDER_OPTIONS[@]}
-  echo rm -fRv ${FILES_TO_REMOVE[@]}
+  $ESUDO rm -fRv ${FILES_TO_REMOVE[@]}
   cd $GAMEDIR
 fi
 
