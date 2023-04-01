@@ -38,16 +38,18 @@ if [[ ! -d "${GAMEDIR}/data/" ]]; then
     # Install from gog installer
     FILES_TO_REMOVE+=(setup_heroes_of_might_and_magic_3_*.exe setup_heroes_of_might_and_magic_3_*.bin)
     BUILDER_OPTIONS+=("--gog" setup_heroes_of_might_and_magic_3_*.exe)
-  elif [ -d "${GAMEDIR}/cd1" ]; then
-    BUILDER_OPTIONS+=("--cd1" "${GAMEDIR}/cd1")
-    FILES_TO_REMOVE+=("${GAMEDIR}/cd1")
-    if [ -d "${GAMEDIR}/cd2" ]; then
-      FILES_TO_REMOVE+=("${GAMEDIR}/cd2")
-      BUILDER_OPTIONS+=("--cd2" "${GAMEDIR}/cd2")
-    fi
+  elif [ -d "${GAMEDIR}/cd1" ] && [ -d "${GAMEDIR}/cd2" ]; then
+    BUILDER_OPTIONS+=("--cd1" "${GAMEDIR}/cd1" "--cd2" "${GAMEDIR}/cd2")
+    FILES_TO_REMOVE+=("${GAMEDIR}/cd1" "${GAMEDIR}/cd2")
   elif [ -d "${GAMEDIR}/install" ]; then
-    FILES_TO_REMOVE+=("${GAMEDIR}/install")
     BUILDER_OPTIONS+=("--data" "${GAMEDIR}/install")
+    FILES_TO_REMOVE+=("${GAMEDIR}/install")
+  else
+    echo "Missing game files, see README for more info." > $CUR_TTY
+    sleep 5
+    printf "\033c" > $CUR_TTY
+    $ESUDO systemctl restart oga_events &
+    exit 1
   fi
 
   LD_LIBRARY_PATH="${PWD}/libs" bin/vcmibuilder --dest "${PWD}/data/" ${BUILDER_OPTIONS[@]}
@@ -65,6 +67,7 @@ $TASKSET bin/vcmiclient 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 $ESUDO killall -9 vcmiserver
+$ESUDO killall -9 tee
 
 unset LD_LIBRARY_PATH
 unset SDL_GAMECONTROLLERCONFIG
