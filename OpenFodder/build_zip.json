@@ -1,0 +1,9 @@
+{
+    "zip_file": "OpenFodder.zip",
+    "files": [
+        "OpenFodder.sh",
+        "openfodder/",
+        ["README.md", "openfodder/README.md"],
+        ["build", "openfodder"]
+    ]
+}
