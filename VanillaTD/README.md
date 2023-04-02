@@ -31,6 +31,8 @@ The main focus of Vanilla Conquer is to keep the default out-of-box experience f
 
 # Game Settings
 
+## RG351V/MP RG353V/M/P Settings:
+
 For 640x480 full screen (slightly stretched) change `ports/vanillatd/save/vanillatd/conquer.ini`:
 
 ```
@@ -41,6 +43,16 @@ BoxingAspectRatio=4:3
 Width=640
 Height=480
 Scaler=linear
+```
+
+## RG552 Settings:
+
+```
+[Video]
+BoxingAspectRatio=5:3
+Windowed=no
+Width=1920
+Height=1152
 ```
 
 To enable the original DOS graphics change `DOSMode=no` to `DOSMode=yes`.
