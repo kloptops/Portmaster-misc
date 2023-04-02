@@ -35,11 +35,11 @@ echo "Starting game." > $CUR_TTY
 
 export FREECIV_DATA_PATH="$GAMEDIR/data"
 export FREECIV_SAVE_PATH="$GAMEDIR/saves"
-export FREECIV_SCENARIO_PATH="$FREECIV_DATA_PATH/scenarios"
+export FREECIV_SCENARIO_PATH="$FREECIV_SAVE_PATH/scenarios"
 export LD_LIBRARY_PATH="$GAMEDIR/libs:$LD_LIBRARY_PATH"
 
 $GPTOKEYB "freeciv-sdl2" -c freeciv.gptk &
-$TASKSET bin/freeciv-sdl2 2>&1 | $ESUDO tee -a ./log.txt
+$TASKSET bin/freeciv-sdl2 --debug v 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
 unset LD_LIBRARY_PATH
