@@ -84,11 +84,42 @@ else
   export PORTMASTER_DATA="demo"
 fi
 
+
+if [[ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]]; then
+  if [ ! -f "${GAMEDIR}/save/vanillatd/conquer.ini" ]; then
+    mkdir -p "${GAMEDIR}/save/vanillatd"
+    cat << __CONF__ > "${GAMEDIR}/save/vanillatd/conquer.ini"
+[Video]
+BoxingAspectRatio=5:3
+Windowed=no
+Width=1920
+Height=1152
+__CONF__
+  fi
+else
+  if [ ! -f "${GAMEDIR}/save/vanillatd/conquer.ini" ]; then
+    mkdir -p "${GAMEDIR}/save/vanillatd"
+    cat << __CONF__ > "${GAMEDIR}/save/vanillatd/conquer.ini"
+[Video]
+Windowed=no
+DOSMode=no
+BoxingAspectRatio=4:3
+Width=640
+Height=480
+Scaler=linear
+__CONF__
+  fi
+fi
+
 ## RUN SCRIPT HERE
 
 export PORTMASTER_HOME="$GAMEDIR"
 
-$GPTOKEYB "vanillatd" -c vanillatd.gptk &
+export TEXTINPUTPRESET="Name"
+export TEXTINPUTINTERACTIVE="Y"
+export TEXTINPUTNOAUTOCAPITALS="Y"
+
+$GPTOKEYB "vanillatd" -c vanillatd.gptk textinput &
 $TASKSET ./vanillatd 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)

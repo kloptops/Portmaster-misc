@@ -72,11 +72,43 @@ else
   export PORTMASTER_DATA="demo"
 fi
 
+
+if [[ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]]; then
+  if [ ! -f "${GAMEDIR}/save/vanillara/redalert.ini" ]; then
+    mkdir -p "${GAMEDIR}/save/vanillara"
+    cat << __CONF__ > "${GAMEDIR}/save/vanillara/redalert.ini"
+[Video]
+BoxingAspectRatio=5:3
+Windowed=no
+Width=1920
+Height=1152
+__CONF__
+  fi
+else
+  if [ ! -f "${GAMEDIR}/save/vanillara/redalert.ini" ]; then
+    mkdir -p "${GAMEDIR}/save/vanillara"
+    cat << __CONF__ > "${GAMEDIR}/save/vanillara/redalert.ini"
+[Video]
+Windowed=no
+DOSMode=no
+BoxingAspectRatio=4:3
+Width=640
+Height=480
+Scaler=linear
+__CONF__
+  fi
+fi
+
+
 ## RUN SCRIPT HERE
 
 export PORTMASTER_HOME="$GAMEDIR"
 
-$GPTOKEYB "vanillara" -c vanillara.gptk &
+export TEXTINPUTPRESET="Name"
+export TEXTINPUTINTERACTIVE="Y"
+export TEXTINPUTNOAUTOCAPITALS="Y"
+
+$GPTOKEYB "vanillara" -c vanillara.gptk textinput &
 $TASKSET ./vanillara 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
