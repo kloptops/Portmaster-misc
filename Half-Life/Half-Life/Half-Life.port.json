@@ -1,16 +1,9 @@
 {
-    /* this is a source link for the file, generally should be `pm/<zipname>` meaning it is from the main portmaster repo. */
     "source": "pm/Half-Life.zip",
-    /* this is the top level items the port installs */
     "items": ["Half-Life/", "Half-Life.sh"],
-    /* these are top level items the port can generate, it is possible for the port to add to this. */
     "items_opt": ["Half-Life Blue Shift.sh", "Half-Life Opposing Forces.sh"],
-    /* leave null */
     "md5": null,
-    /* extra attributes */
     "attr": {
-        /* who ported this */
         "porter": "kloptops"
-        /* TODO: add extra attributes? maybe use ports.md attributes */
     }
 }

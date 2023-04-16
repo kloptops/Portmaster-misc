@@ -57,10 +57,10 @@ def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
     TODO: document it
     """
 
-    ## Each zip has a zip file, a .sha256 file, and a .sha256sum file.
+    ## Each zip has a zip file, a .md5 file, and a .md5sum file.
     zip_name = config['RELEASE_DIR'] / base_zip_name
-    check_name = config['CHECK_DIR'] / (base_zip_name.rsplit('.', 1)[0] + '.sha256')
-    shasum_name = config['RELEASE_DIR'] / (base_zip_name + '.sha256sum')
+    check_name = config['CHECK_DIR'] / (base_zip_name.rsplit('.', 1)[0] + '.md5')
+    shasum_name = config['RELEASE_DIR'] / (base_zip_name + '.md5sum')
 
     # Build up a list of all files needed for the zip, and their location on the file system
     all_files = []
@@ -98,11 +98,11 @@ def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
     all_files.sort(key=lambda x: x[0])
 
     # Make a hash of each zip file + hash
-    main_hash = hashlib.sha256()
+    main_hash = hashlib.md5()
     all_digests = []
     for file_pair in all_files:
         # Hash file
-        file_hash = hashlib.sha256()
+        file_hash = hashlib.md5()
         with open(file_pair[1], 'rb') as fh:
             file_hash.update(fh.read())
 
@@ -119,7 +119,7 @@ def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
     if zip_name.exists():
         if check_name.is_file():
             with open(check_name, 'r') as fh:
-                ## Get the last line, read the sha256 from it.
+                ## Get the last line, read the md5 from it.
                 old_digests = fh.read().strip().split('\n')
                 old_digest = old_digests[-1].rsplit(':', 1)[-1]
 
@@ -132,7 +132,7 @@ def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
                 changes = {}
                 differ = Differ()
                 for line in differ.compare(old_digests[:-1], all_digests[:-1]):
-                    # line = "  <FILENAME>:<SHA256SUM>"
+                    # line = "  <FILENAME>:<md5SUM>"
                     mode = line[:2]
                     name = line[2:].split(":", 1)[0]
                     if mode == '- ':
@@ -158,8 +158,8 @@ def build_zip(base_zip_name, root_path, paths, config, dry_run=False):
         for file_pair in all_files:
             zf.write(file_pair[1], file_pair[0])
 
-    print('  - Recording sha256sum')
-    final_hash = hashlib.sha256()
+    print('  - Recording md5sum')
+    final_hash = hashlib.md5()
     with open(zip_name, 'rb') as fh:
         final_hash.update(fh.read())
 
