@@ -1,0 +1,294 @@
+{
+    "version": 1,
+    "source": "050_kloptops.source.json",
+    "ports": [
+        {
+            "version": 1,
+            "source": "klop/freeserf.zip",
+            "items": [
+                "FreeSerf.sh",
+                "freeserf/"
+            ],
+            "items_opt": null,
+            "md5": "bf359fe5ee3f5fe1b7e9afb316f41563",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/half-life2.zip",
+            "items": [
+                "Half-Life 2.sh",
+                "halflife2/"
+            ],
+            "items_opt": null,
+            "md5": "3a29c2a3bb82f5674c39699474a89e3c",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/fallout1.zip",
+            "items": [
+                "Fallout 1.sh",
+                "fallout1/"
+            ],
+            "items_opt": null,
+            "md5": "a13b5f726f87fd62a7b9100ac76d5355",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/freeciv.zip",
+            "items": [
+                "FreeCiv.sh",
+                "freeciv/"
+            ],
+            "items_opt": null,
+            "md5": "dce814ddc821ce48b5d77357788841bf",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/gemrb.zip",
+            "items": [
+                "GemRB.sh",
+                "gemrb/"
+            ],
+            "items_opt": null,
+            "md5": "a3a9e11fd02cbaa8a039725c02d012af",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/arxliberatis.zip",
+            "items": [
+                "ArxLiberatis.sh",
+                "arxliberatis/"
+            ],
+            "items_opt": null,
+            "md5": "756b9737e094a89657c0d6d00bf33b8e",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": "pm/Half-Life.zip",
+            "source": "klop/half-life.zip",
+            "items": [
+                "Half-Life.sh",
+                "Half-Life/"
+            ],
+            "items_opt": [
+                "Half-Life Blue Shift.sh",
+                "Half-Life Opposing Forces.sh"
+            ],
+            "md5": "d2c9d0ab27e1c75352c380257e5df329",
+            "attr": {
+                "porter": "kloptops",
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/openfodder.zip",
+            "items": [
+                "OpenFodder.sh",
+                "openfodder/"
+            ],
+            "items_opt": null,
+            "md5": "67a9eee59b9bea2c2afdf63be632e08b",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/openrct2.zip",
+            "items": [
+                "OpenRCT2.sh",
+                "openrct2/"
+            ],
+            "items_opt": null,
+            "md5": "0c422ef5b80b4b8a595ba6e7442f5d1b",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/vanillara.zip",
+            "items": [
+                "VanillaRA.sh",
+                "vanillara/"
+            ],
+            "items_opt": null,
+            "md5": "2cf1478db1c8626de329df2ced2064a5",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/rttr.zip",
+            "items": [
+                "Rttr.sh",
+                "rttr/"
+            ],
+            "items_opt": null,
+            "md5": "84d20cea80935181a495b37c9241fcfb",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/vcmi.zip",
+            "items": [
+                "VCMI.sh",
+                "vcmi/"
+            ],
+            "items_opt": null,
+            "md5": "5b09964c1113c735a4c64e79ec40fb12",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/vanillatd.zip",
+            "items": [
+                "VanillaTD.sh",
+                "vanillatd/"
+            ],
+            "items_opt": null,
+            "md5": "6ea1b19e9599aa4f5627b008045db38b",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/rlvm.zip",
+            "items": [
+                "Rlvm.sh",
+                "rlvm/"
+            ],
+            "items_opt": null,
+            "md5": "3f6fae601367d3ce1fd8e7a7ae822ceb",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        },
+        {
+            "version": 1,
+            "source": "klop/augustus.zip",
+            "items": [
+                "Augustus.sh",
+                "augustus/"
+            ],
+            "items_opt": null,
+            "md5": "a00d95eefcc85d1cd238963916f191e2",
+            "attr": {
+                "porter": null,
+                "desc": null,
+                "inst": null,
+                "genres": null,
+                "images": null,
+                "rtr": null,
+                "runtime": null
+            }
+        }
+    ]
+}

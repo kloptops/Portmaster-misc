@@ -1,0 +1,15 @@
+{
+    "prefix": "klop",
+    "api": "GitHubRepoV1",
+    "name": "Kloptops",
+    "config": {
+        "user_name": "kloptops",
+        "repo_name": "Portmaster-misc",
+        "branch_name": "main",
+        "sub_folder": "releases/"
+    },
+    "url": null,
+    "last_checked": null,
+    "version": 1,
+    "data": {}
+}
