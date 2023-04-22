@@ -1,6 +1,5 @@
 {
     "version": 1,
-    "source": "050_kloptops.source.json",
     "ports": [
         {
             "version": 1,
