@@ -3,7 +3,7 @@
     "ports": [
         {
             "version": 1,
-            "source": "klop/freeserf.zip",
+            "source": "freeserf.zip",
             "items": [
                 "FreeSerf.sh",
                 "freeserf/"
@@ -15,14 +15,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/half-life2.zip",
+            "source": "half-life2.zip",
             "items": [
                 "Half-Life 2.sh",
                 "halflife2/"
@@ -34,14 +34,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/fallout1.zip",
+            "source": "fallout1.zip",
             "items": [
                 "Fallout 1.sh",
                 "fallout1/"
@@ -53,14 +53,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/freeciv.zip",
+            "source": "freeciv.zip",
             "items": [
                 "FreeCiv.sh",
                 "freeciv/"
@@ -72,14 +72,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/gemrb.zip",
+            "source": "gemrb.zip",
             "items": [
                 "GemRB.sh",
                 "gemrb/"
@@ -91,14 +91,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/arxliberatis.zip",
+            "source": "arxliberatis.zip",
             "items": [
                 "ArxLiberatis.sh",
                 "arxliberatis/"
@@ -110,14 +110,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": "pm/Half-Life.zip",
-            "source": "klop/half-life.zip",
+            "source": "half-life.zip",
             "items": [
                 "Half-Life.sh",
                 "Half-Life/"
@@ -132,14 +132,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/openfodder.zip",
+            "source": "openfodder.zip",
             "items": [
                 "OpenFodder.sh",
                 "openfodder/"
@@ -151,14 +151,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/openrct2.zip",
+            "source": "openrct2.zip",
             "items": [
                 "OpenRCT2.sh",
                 "openrct2/"
@@ -170,14 +170,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/vanillara.zip",
+            "source": "vanillara.zip",
             "items": [
                 "VanillaRA.sh",
                 "vanillara/"
@@ -189,14 +189,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/rttr.zip",
+            "source": "rttr.zip",
             "items": [
                 "Rttr.sh",
                 "rttr/"
@@ -208,14 +208,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/vcmi.zip",
+            "source": "vcmi.zip",
             "items": [
                 "VCMI.sh",
                 "vcmi/"
@@ -227,14 +227,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/vanillatd.zip",
+            "source": "vanillatd.zip",
             "items": [
                 "VanillaTD.sh",
                 "vanillatd/"
@@ -246,14 +246,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/rlvm.zip",
+            "source": "rlvm.zip",
             "items": [
                 "Rlvm.sh",
                 "rlvm/"
@@ -265,14 +265,14 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
         },
         {
             "version": 1,
-            "source": "klop/augustus.zip",
+            "source": "augustus.zip",
             "items": [
                 "Augustus.sh",
                 "augustus/"
@@ -284,7 +284,7 @@
                 "desc": null,
                 "inst": null,
                 "genres": null,
-                "images": null,
+                "image": null,
                 "rtr": null,
                 "runtime": null
             }
