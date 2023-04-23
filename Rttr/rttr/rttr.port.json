@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "source": "rttr.zip",
+    "items": [
+        "Rttr.sh",
+        "rttr/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "Return to the Roots",
+        "desc": "Return to the Roots is an inofficial addon for \"The Settlers II\".",
+        "inst": "Game does not work.",
+        "genres": [],
+        "porter": "",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

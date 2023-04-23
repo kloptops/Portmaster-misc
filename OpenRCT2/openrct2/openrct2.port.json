@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "source": "openrct2.zip",
+    "items": [
+        "OpenRCT2.sh",
+        "openrct2/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "OpenRCT2",
+        "desc": "OpenRCT2 is Open source re-implementation of RollerCoaster Tycoon 2.",
+        "inst": "Add your Roller Coaster Tycoon 2 game files to the ports/openrct2/RCT2 directory, and optionally add your Roller Coaster Tycoon 1 files to ports/openrct2/RCT1.",
+        "genres": [
+            "simulation"
+        ],
+        "porter": "Kloptops",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

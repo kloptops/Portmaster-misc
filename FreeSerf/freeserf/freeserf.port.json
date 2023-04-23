@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "source": "freeserf.zip",
+    "items": [
+        "FreeSerf.sh",
+        "freeserf/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "FreeSerf",
+        "desc": "FreeSerf is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.",
+        "inst": "In order to play you need to copy the DOS data file is called SPAE.PA, SPAD.PA, SPAF.PA, or SPAU.PA, depending on the language of the game; or Amiga files gfxheader, gfxfast, gfxchip, gfxpics, sounds, and music. into ports/freeserf folder.",
+        "genres": [
+            "strategy",
+            "simulation"
+        ],
+        "porter": "Kloptops",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

@@ -236,4 +236,5 @@ vcmi/libs/libvcmiLua.so:b1c21554306f4b61e58cacfaa6312ffb
 vcmi/license.txt:924ba1b09dcaffd12dffe18bb253e13f
 vcmi/scripting/libvcmiLua.so:b1c21554306f4b61e58cacfaa6312ffb
 vcmi/vcmi.gptk:d75da41f17a82941ac9c534c86ed00fa
-releases/VCMI.zip:1162a3586cdadeb93791f80bc1771268
+vcmi/vcmi.port.json:73588b79a0e3d8bc0a5db8d7928093d1
+releases/VCMI.zip:2131a249d349453cdcc7a52bb89a32ae

@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "source": "vanillatd.zip",
+    "items": [
+        "VanillaTD.sh",
+        "vanillatd/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "VanillaTD",
+        "desc": "Vanilla Conquer is a fully portable version Command and Conquer Tiberium Dawn.",
+        "inst": "The game comes with the demo files, read the README for detailed information on installing the full game.",
+        "genres": [
+            "strategy"
+        ],
+        "porter": "kloptops and Snoopy",
+        "image": null,
+        "rtr": true,
+        "runtime": null,
+        "reqs": []
+    }
+}

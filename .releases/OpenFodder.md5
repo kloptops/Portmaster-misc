@@ -300,4 +300,5 @@ openfodder/Scripts/test_template.js:aae941404ef59b13e06982c5c0e97eef
 openfodder/about.bmp:ef7cb268e42ba71eafadafa38c3afda3
 openfodder/openfodder:1aac9c276b0e4d2179c88e4d79b33a9a
 openfodder/openfodder.gptk:b08cce10c120e83d34affd32e8f4c375
-releases/OpenFodder.zip:dfc85ce5c7643b2f033de6ae91f9801a
+openfodder/openfodder.port.json:ed326b2d4525a0074022087f6eb8b633
+releases/OpenFodder.zip:5157f5f231f72625954b80501432b267

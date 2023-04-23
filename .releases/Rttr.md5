@@ -336,4 +336,5 @@ rttr/libs/libminiupnpc.so.17:61d56e42415daa66c87a33e30672e4c3
 rttr/libs/libsamplerate.so.0:ba991894c549029837731d2e0b2e3a48
 rttr/libs/video/libvideoSDL2.so:991d11b8b3fbe64c12c10f0748cff4ae
 rttr/rttr.gptk:be497304ca26f3cc0f802c3dfbb2c579
-releases/Rttr.zip:08e8cb8d731bc968d9b12f0b8070c8f1
+rttr/rttr.port.json:54c4b6b8f2ecb76ac71be47ec382e97e
+releases/Rttr.zip:6ba1120956db17164a7afa18cab5bca6

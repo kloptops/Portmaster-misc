@@ -6,6 +6,7 @@ gemrb/games/place-games-here.txt:d41d8cd98f00b204e9800998ecf8427e
 gemrb/gemrb-LICENSE.txt:21fa88a5e50a1c608d22612c1fbe1971
 gemrb/gemrb-menu.gptk:3e618a257dd2d87bf69806ee88ccfd5a
 gemrb/gemrb.gptk:a9878c19d7e254a15bc24c1da9616945
+gemrb/gemrb.port.json:5662293e558c6cb8d5ed0d85144c67c8
 gemrb/lib/libpython3.9.so.1.0:c7c59564fe5c3e6123f1ffb920703b67
 gemrb/lib/python39.zip:fd6b50766676c5a18c44845a8ae4bc3b
-releases/GemRB.zip:f3c2c2e302a0e5f0e92754b4fd268a76
+releases/GemRB.zip:58510a3b1601dd8b069df216861ad8c3

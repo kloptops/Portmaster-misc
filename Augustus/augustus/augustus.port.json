@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "source": "augustus.zip",
+    "items": [
+        "Augustus.sh",
+        "augustus/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "Augustus",
+        "desc": "A reimplemntation of the Caeser 3 engine.",
+        "inst": "You will need the original files of the PC release copied to the ports/augustus/data folder.",
+        "genres": [
+            "simulation",
+            "strategy"
+        ],
+        "porter": "Kloptops and Cebion",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

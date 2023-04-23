@@ -3534,6 +3534,7 @@ freeciv/data/wonders/temple_of_artemis.png:1dadb4516c7d0139a1a21c62bdb673c0
 freeciv/data/wonders/united_nations.png:c1bc23c5ffbef79912b9a94fae12273b
 freeciv/data/wonders/womens_suffrage.png:b6a18e03d60dd930906a5b22a97285af
 freeciv/freeciv.gptk:e98092266d1e630f5fe08d92692ea6dd
+freeciv/freeciv.port.json:ff0201bb7862d91b72e386aff9770c53
 freeciv/libs/libicudata.so.67:8955491cb4ed2b12e57b4da556d39f20
 freeciv/libs/libicui18n.so.67:61b6b15b62c47676fe11f8aeb437927d
 freeciv/libs/libicuuc.so.67:fac4c08bd07c2cc354472c81b46e8504
@@ -3541,4 +3542,4 @@ freeciv/libs/liblua5.4.so.0:5fd44da4737e6b4b202fd8519e4e6443
 freeciv/libs/liblzma.so.5:ba95897ea38117463ce465d212fc72c0
 freeciv/libs/libreadline.so.8:d7defd8e4048f6775dad19b58612fc29
 freeciv/libs/libtinfo.so.6:7d786a2a2672678584c788efe3d153bf
-releases/FreeCiv.zip:b6229f4b1c7ee2c134f4becc9a301355
+releases/FreeCiv.zip:8a6668188d12b27c6bef1c09229c7263

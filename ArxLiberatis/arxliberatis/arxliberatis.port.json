@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "source": "arxliberatis.zip",
+    "items": [
+        "ArxLiberatis.sh",
+        "arxliberatis/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "Arx Liberatis",
+        "desc": "Arx Libertatis is an improved, cross-platform and open source engine for Arx Fatalis, a 2002 first-person role-playing game / dungeon crawler / immersive sim developed by Arkane Studios.",
+        "inst": "Game does not work.",
+        "genres": [
+            "fps",
+            "rpg"
+        ],
+        "porter": "Kloptops",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

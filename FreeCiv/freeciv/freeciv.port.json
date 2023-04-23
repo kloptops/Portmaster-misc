@@ -1,0 +1,24 @@
+{
+            "version": 1,
+            "source": "freeciv.zip",
+            "items": [
+                "FreeCiv.sh",
+                "freeciv/"
+            ],
+            "items_opt": null,
+            "md5": null,
+            "attr": {
+                "title": "FreeCiv",
+                "desc": "Freeciv is a Free and Open Source empire-building strategy game inspired by the history of human civilization.",
+                "inst": "All game files are included.",
+                "genres": [
+                    "simulation",
+                    "strategy"
+                ],
+                "porter": "",
+                "image": null,
+                "rtr": true,
+                "runtime": null,
+                "reqs": []
+            }
+        }

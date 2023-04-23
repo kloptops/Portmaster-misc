@@ -2,121 +2,151 @@
     "version": 1,
     "ports": [
         {
-            "version": 1,
+            "version": "freeserf.zip",
             "source": "freeserf.zip",
             "items": [
                 "FreeSerf.sh",
                 "freeserf/"
             ],
             "items_opt": null,
-            "md5": "bf359fe5ee3f5fe1b7e9afb316f41563",
+            "md5": "986b2b29f3013f11dcf8f5f01ac3c940",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "FreeSerf",
+                "desc": "FreeSerf is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.",
+                "inst": "In order to play you need to copy the DOS data file is called SPAE.PA, SPAD.PA, SPAF.PA, or SPAU.PA, depending on the language of the game; or Amiga files gfxheader, gfxfast, gfxchip, gfxpics, sounds, and music. into ports/freeserf folder.",
+                "genres": [
+                    "strategy",
+                    "simulation"
+                ],
+                "porter": "Kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "half-life2.zip",
             "source": "half-life2.zip",
             "items": [
                 "Half-Life 2.sh",
                 "halflife2/"
             ],
             "items_opt": null,
-            "md5": "3a29c2a3bb82f5674c39699474a89e3c",
+            "md5": "cc04516c8683e9070c4474d4a3c517d2",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Half-Life 2",
+                "desc": "Half-Life 2 running on the leaked source-engine.",
+                "inst": "Currently unplayable, you're on your own.",
+                "genres": [
+                    "fps",
+                    "action"
+                ],
+                "porter": "kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "fallout1.zip",
             "source": "fallout1.zip",
             "items": [
                 "Fallout 1.sh",
                 "fallout1/"
             ],
             "items_opt": null,
-            "md5": "a13b5f726f87fd62a7b9100ac76d5355",
+            "md5": "aa16a65d2d5607ebab381408493a0130",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Fallout 1",
+                "desc": "Fallout is a post nuclear RPG.",
+                "inst": "You need to copy critter.dat, master.dat and data from the original game to ports/fallout1 folder.",
+                "genres": [
+                    "rpg",
+                    "strategy"
+                ],
+                "porter": "Kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "freeciv.zip",
             "source": "freeciv.zip",
             "items": [
                 "FreeCiv.sh",
                 "freeciv/"
             ],
             "items_opt": null,
-            "md5": "dce814ddc821ce48b5d77357788841bf",
+            "md5": "ca935a808bdcaf822528cca4e5af7c5b",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "FreeCiv",
+                "desc": "Freeciv is a Free and Open Source empire-building strategy game inspired by the history of human civilization.",
+                "inst": "All game files are included.",
+                "genres": [
+                    "simulation",
+                    "strategy"
+                ],
+                "porter": "",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": true,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "gemrb.zip",
             "source": "gemrb.zip",
             "items": [
                 "GemRB.sh",
                 "gemrb/"
             ],
             "items_opt": null,
-            "md5": "a3a9e11fd02cbaa8a039725c02d012af",
+            "md5": "402a1a688696c3f0418c82ca13f41373",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "GemRB",
+                "desc": "GemRB (Game Engine Made with preRendered Background) is a portable open-source reimplementation of the Infinity Engine that underpinned Baldur's Gate, Icewind Dale and Planescape: Torment.",
+                "inst": "Add your game files to the ports/gemrb/games/GAMEID directory, multiple games can be installed and you will get a choice of which game you want to play at launch.",
+                "genres": [
+                    "rpg",
+                    "strategy"
+                ],
+                "porter": "kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "arxliberatis.zip",
             "source": "arxliberatis.zip",
             "items": [
                 "ArxLiberatis.sh",
                 "arxliberatis/"
             ],
             "items_opt": null,
-            "md5": "756b9737e094a89657c0d6d00bf33b8e",
+            "md5": "7cc4eafd28acbacb7c8332c7768db7fe",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Arx Liberatis",
+                "desc": "Arx Libertatis is an improved, cross-platform and open source engine for Arx Fatalis, a 2002 first-person role-playing game / dungeon crawler / immersive sim developed by Arkane Studios.",
+                "inst": "Game does not work.",
+                "genres": [
+                    "fps",
+                    "rpg"
+                ],
+                "porter": "Kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": "pm/Half-Life.zip",
+            "version": "half-life.zip",
             "source": "half-life.zip",
             "items": [
                 "Half-Life.sh",
@@ -126,167 +156,205 @@
                 "Half-Life Blue Shift.sh",
                 "Half-Life Opposing Forces.sh"
             ],
-            "md5": "d2c9d0ab27e1c75352c380257e5df329",
+            "md5": "65039bcdcca3f6d46bc32b0356851830",
             "attr": {
+                "title": "Half-Life",
+                "desc": "Half-Life is Valve's debut title which blends blends action and adventure with award-winning technology to create a frighteningly realistic world where players must think to survive.",
+                "inst": "You need to have your own copy of the game. You need to copy the steam valve directory from your steam installation into ports/Half-Life/valve directory. You can also run Half-Life Blue Shift/Opposing Forces by copying the contents of the bshift/gearbox steam files into their respective ports/Half-Life/ directory.",
+                "genres": [
+                    "fps",
+                    "action"
+                ],
                 "porter": "kloptops",
-                "desc": null,
-                "inst": null,
-                "genres": null,
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "openfodder.zip",
             "source": "openfodder.zip",
             "items": [
                 "OpenFodder.sh",
                 "openfodder/"
             ],
             "items_opt": null,
-            "md5": "67a9eee59b9bea2c2afdf63be632e08b",
+            "md5": "1d43157339ee6cb29d08ab9ec45638ca",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "OpenFodder",
+                "desc": "Open Fodder is an open source version of the Cannon Fodder engine.",
+                "inst": "It comes with demo files, you can add the full version files by reading the included README.md",
+                "genres": [
+                    "strategy"
+                ],
+                "porter": "Kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": true,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "openrct2.zip",
             "source": "openrct2.zip",
             "items": [
                 "OpenRCT2.sh",
                 "openrct2/"
             ],
             "items_opt": null,
-            "md5": "0c422ef5b80b4b8a595ba6e7442f5d1b",
+            "md5": "ac1a0d3b41d79759078b8fffbfaeb52d",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "OpenRCT2",
+                "desc": "OpenRCT2 is Open source re-implementation of RollerCoaster Tycoon 2.",
+                "inst": "Add your Roller Coaster Tycoon 2 game files to the ports/openrct2/RCT2 directory, and optionally add your Roller Coaster Tycoon 1 files to ports/openrct2/RCT1.",
+                "genres": [
+                    "simulation"
+                ],
+                "porter": "Kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "vanillara.zip",
             "source": "vanillara.zip",
             "items": [
                 "VanillaRA.sh",
                 "vanillara/"
             ],
             "items_opt": null,
-            "md5": "2cf1478db1c8626de329df2ced2064a5",
+            "md5": "c5c5dde569d66894faf125d7060b2ba3",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "VanillaRA",
+                "desc": "Vanilla Conquer is a fully portable version Command and Conquer Red Alert.",
+                "inst": "The game comes with the demo files, read the README for detailed information on installing the full game.",
+                "genres": [
+                    "strategy"
+                ],
+                "porter": "kloptops and Snoopy",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": true,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "rttr.zip",
             "source": "rttr.zip",
             "items": [
                 "Rttr.sh",
                 "rttr/"
             ],
             "items_opt": null,
-            "md5": "84d20cea80935181a495b37c9241fcfb",
+            "md5": "ab6f3c3e1e6214ebd3b64c4d77b47443",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Return to the Roots",
+                "desc": "Return to the Roots is an inofficial addon for \"The Settlers II\".",
+                "inst": "Game does not work.",
+                "genres": [],
+                "porter": "",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "vcmi.zip",
             "source": "vcmi.zip",
             "items": [
                 "VCMI.sh",
                 "vcmi/"
             ],
             "items_opt": null,
-            "md5": "5b09964c1113c735a4c64e79ec40fb12",
+            "md5": "a02acc560d9a5270f440c8c78d1f7440",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "VCMI",
+                "desc": "VCMI is a fully portable version of Heroes of Might and Magic III.",
+                "inst": "Copy the GoG installer files to ports/vcmi and it will install the game files as required, see the README for more information.",
+                "genres": [
+                    "strategy",
+                    "rpg"
+                ],
+                "porter": "kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "vanillatd.zip",
             "source": "vanillatd.zip",
             "items": [
                 "VanillaTD.sh",
                 "vanillatd/"
             ],
             "items_opt": null,
-            "md5": "6ea1b19e9599aa4f5627b008045db38b",
+            "md5": "21be18168a8e6774dc094b807a3cbdf2",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "VanillaTD",
+                "desc": "Vanilla Conquer is a fully portable version Command and Conquer Tiberium Dawn.",
+                "inst": "The game comes with the demo files, read the README for detailed information on installing the full game.",
+                "genres": [
+                    "strategy"
+                ],
+                "porter": "kloptops and Snoopy",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": true,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "rlvm.zip",
             "source": "rlvm.zip",
             "items": [
                 "Rlvm.sh",
                 "rlvm/"
             ],
             "items_opt": null,
-            "md5": "3f6fae601367d3ce1fd8e7a7ae822ceb",
+            "md5": "d241e968779ef28a81cd40ac8559d1db",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Rlvm",
+                "desc": "Rlvm is a Free Software reimplementation of the Key RealLive interpreter for Visual Novels. Notable games include CLANNAD, AIR, & KANON.",
+                "inst": "Add your game files to the ports/rlvm/games/GAME_NAME directory, multiple games can be installed and you will get a choice of which game you want to play at launch. HD Releases do not currently work properly.",
+                "genres": [
+                    "simulation",
+                    "visual novel"
+                ],
+                "porter": "kloptops",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         },
         {
-            "version": 1,
+            "version": "augustus.zip",
             "source": "augustus.zip",
             "items": [
                 "Augustus.sh",
                 "augustus/"
             ],
             "items_opt": null,
-            "md5": "a00d95eefcc85d1cd238963916f191e2",
+            "md5": "7c540cbad5873b21ac5f1a900aafd759",
             "attr": {
-                "porter": null,
-                "desc": null,
-                "inst": null,
-                "genres": null,
+                "title": "Augustus",
+                "desc": "A reimplemntation of the Caeser 3 engine.",
+                "inst": "You will need the original files of the PC release copied to the ports/augustus/data folder.",
+                "genres": [
+                    "simulation",
+                    "strategy"
+                ],
+                "porter": "Kloptops and Cebion",
                 "image": null,
-                "rtr": null,
-                "runtime": null
+                "rtr": false,
+                "runtime": null,
+                "reqs": []
             }
         }
     ]

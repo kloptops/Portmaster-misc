@@ -25,7 +25,7 @@ Half-Life/binaries/valve_first_run:d41d8cd98f00b204e9800998ecf8427e
 Half-Life/bshift/place_files_here.txt:7eae5b057033e9602581aa75ff4dcc2a
 Half-Life/filesystem_stdio.so:695a8f7f222bcde1e46f0bc8519bd40c
 Half-Life/gearbox/place_files_here.txt:b0b3b97212683582140bb5867312d2b3
-Half-Life/half-life.port.json:f95ce63117f5e2c6d720f4efdae2a8ea
+Half-Life/half-life.port.json:144fe2cbb29c826d5fff5bd239552bee
 Half-Life/hlsdk-LICENSE.md:87522cafa3a76bd6679c3ef092d747b0
 Half-Life/libmenu.so:716c4c4bc27975c0583a1c28cef6661a
 Half-Life/libref_gl.so:76313f638536630224e2961824f4c442
@@ -34,4 +34,4 @@ Half-Life/libref_soft.so:2fe85611d11b67ad6663c34315808a78
 Half-Life/libxash.so:c8a22f462d26dcdd507763ab7bdee7f9
 Half-Life/valve/place_files_here.txt:a2e806adb5493cc48ec5fd748dc8108f
 Half-Life/xash3d:908ed0e9bb3452926b4293a06cb142aa
-releases/Half-Life.zip:9a79b50d203a9490be04e987ba8d8bdd
+releases/Half-Life.zip:9cb573289da196528fa4ad6a0164cd3a

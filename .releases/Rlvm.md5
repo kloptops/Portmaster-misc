@@ -22,5 +22,6 @@ rlvm/rlvm:65d4dff7f39ab8f2b94361eac3fb8ab3
 rlvm/rlvm-LICENSE.txt:1ebbd3e34237af26da5dc08a4e440464
 rlvm/rlvm-menu.gptk:c2c7af040112b39127a9954d33ed03ae
 rlvm/rlvm.gptk:9977ebc66b1d06c8883444c1dfd3105a
+rlvm/rlvm.port.json:cb9dc4858fb5f148b1b858b732cb4ffd
 rlvm/sdl12-compat-LICENSE.txt:add3043df4bb3f835c6ad1f603c049a3
-releases/Rlvm.zip:a5544f81c270e6851d02e5857aa1ac05
+releases/Rlvm.zip:3ab20151e47bd66c2fb105bdac98e7de

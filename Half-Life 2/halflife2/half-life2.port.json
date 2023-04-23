@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "source": "half-life2.zip",
+    "items": [
+        "Half-Life 2.sh",
+        "halflife2/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "Half-Life 2",
+        "desc": "Half-Life 2 running on the leaked source-engine.",
+        "inst": "Currently unplayable, you're on your own.",
+        "genres": [
+            "fps",
+            "action"
+        ],
+        "porter": "kloptops",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}

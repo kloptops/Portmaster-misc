@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "source": "fallout1.zip",
+    "items": [
+        "Fallout 1.sh",
+        "fallout1/"
+    ],
+    "items_opt": null,
+    "md5": null,
+    "attr": {
+        "title": "Fallout 1",
+        "desc": "Fallout is a post nuclear RPG.",
+        "inst": "You need to copy critter.dat, master.dat and data from the original game to ports/fallout1 folder.",
+        "genres": [
+            "rpg",
+            "strategy"
+        ],
+        "porter": "Kloptops",
+        "image": null,
+        "rtr": false,
+        "runtime": null,
+        "reqs": []
+    }
+}
