@@ -1,4 +1,4 @@
-Rlvm.sh:c094b4dd32e0e415e5d1aa509c2c7462
+Rlvm.sh:e370164395e8caae8f9d36fee6d37921
 rlvm/README.md:964071090b35401d5c3f4c1487b83511
 rlvm/dejavu-LICENSE.txt:449b2c30bfe5fa897fe87b8b70b16cfa
 rlvm/fonts/DejaVuSans.ttf:be189a7e2711cdf2a7f6275c60cbc7e2
@@ -24,4 +24,4 @@ rlvm/rlvm-menu.gptk:c2c7af040112b39127a9954d33ed03ae
 rlvm/rlvm.gptk:9977ebc66b1d06c8883444c1dfd3105a
 rlvm/rlvm.port.json:cb9dc4858fb5f148b1b858b732cb4ffd
 rlvm/sdl12-compat-LICENSE.txt:add3043df4bb3f835c6ad1f603c049a3
-releases/Rlvm.zip:3ab20151e47bd66c2fb105bdac98e7de
+releases/Rlvm.zip:2affacba32d32e40296e049a5899031e

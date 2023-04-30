@@ -1,4 +1,4 @@
-FreeCiv.sh:15943a3c29b84836f445e994f7a4b110
+FreeCiv.sh:c140ec542f4c7d72c1fe9423c6e7d5bc
 freeciv/README.md:f2b87059f2937945bfd762146a23de03
 freeciv/bin/freeciv-manual:e9d1429b82f78dfc2205d7a5db65f9fd
 freeciv/bin/freeciv-ruleup:6604627bf66213f39940c09a8b689001
@@ -3542,4 +3542,4 @@ freeciv/libs/liblua5.4.so.0:5fd44da4737e6b4b202fd8519e4e6443
 freeciv/libs/liblzma.so.5:ba95897ea38117463ce465d212fc72c0
 freeciv/libs/libreadline.so.8:d7defd8e4048f6775dad19b58612fc29
 freeciv/libs/libtinfo.so.6:7d786a2a2672678584c788efe3d153bf
-releases/FreeCiv.zip:8a6668188d12b27c6bef1c09229c7263
+releases/FreeCiv.zip:ccde7175ef5c611eefae8510b6b80613

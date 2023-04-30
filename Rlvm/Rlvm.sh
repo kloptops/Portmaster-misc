@@ -28,6 +28,8 @@ height=15
 $ESUDO chmod 666 $CUR_TTY
 $ESUDO touch log.txt
 $ESUDO chmod 666 log.txt
+$ESUDO chmod 666 /dev/uinput
+
 export TERM=linux
 printf "\033c" > $CUR_TTY
 

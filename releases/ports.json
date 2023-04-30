@@ -2,14 +2,13 @@
     "version": 1,
     "ports": [
         {
-            "version": "freeserf.zip",
-            "source": "freeserf.zip",
+            "version": 2,
+            "name": "freeserf.zip",
             "items": [
                 "FreeSerf.sh",
                 "freeserf/"
             ],
             "items_opt": null,
-            "md5": "986b2b29f3013f11dcf8f5f01ac3c940",
             "attr": {
                 "title": "FreeSerf",
                 "desc": "FreeSerf is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.",
@@ -23,17 +22,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "e5e873fa0f5a2f3d158a7c25dae7d134"
         },
         {
-            "version": "half-life2.zip",
-            "source": "half-life2.zip",
+            "version": 2,
+            "name": "half-life2.zip",
             "items": [
                 "Half-Life 2.sh",
                 "halflife2/"
             ],
             "items_opt": null,
-            "md5": "c2c4031d2f04b7ac7af0a64f7f88c271",
             "attr": {
                 "title": "Half-Life 2",
                 "desc": "Half-Life 2 running on the leaked source-engine.",
@@ -47,17 +47,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "c2c4031d2f04b7ac7af0a64f7f88c271"
         },
         {
-            "version": "fallout1.zip",
-            "source": "fallout1.zip",
+            "version": 2,
+            "name": "fallout1.zip",
             "items": [
                 "Fallout 1.sh",
                 "fallout1/"
             ],
             "items_opt": null,
-            "md5": "aa16a65d2d5607ebab381408493a0130",
             "attr": {
                 "title": "Fallout 1",
                 "desc": "Fallout is a post nuclear RPG.",
@@ -71,17 +72,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "aa16a65d2d5607ebab381408493a0130"
         },
         {
-            "version": "freeciv.zip",
-            "source": "freeciv.zip",
+            "version": 2,
+            "name": "freeciv.zip",
             "items": [
                 "FreeCiv.sh",
                 "freeciv/"
             ],
             "items_opt": null,
-            "md5": "ca935a808bdcaf822528cca4e5af7c5b",
             "attr": {
                 "title": "FreeCiv",
                 "desc": "Freeciv is a Free and Open Source empire-building strategy game inspired by the history of human civilization.",
@@ -95,17 +97,18 @@
                 "rtr": true,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "1bf60f6b25d58acf131a2e3187f9e1e2"
         },
         {
-            "version": "gemrb.zip",
-            "source": "gemrb.zip",
+            "version": 2,
+            "name": "gemrb.zip",
             "items": [
                 "GemRB.sh",
                 "gemrb/"
             ],
             "items_opt": null,
-            "md5": "402a1a688696c3f0418c82ca13f41373",
             "attr": {
                 "title": "GemRB",
                 "desc": "GemRB (Game Engine Made with preRendered Background) is a portable open-source reimplementation of the Infinity Engine that underpinned Baldur's Gate, Icewind Dale and Planescape: Torment.",
@@ -119,17 +122,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "0f80671498f88d3deb87bd9c0aafbdd4"
         },
         {
-            "version": "arxliberatis.zip",
-            "source": "arxliberatis.zip",
+            "version": 2,
+            "name": "arxliberatis.zip",
             "items": [
                 "ArxLiberatis.sh",
                 "arxliberatis/"
             ],
             "items_opt": null,
-            "md5": "7cc4eafd28acbacb7c8332c7768db7fe",
             "attr": {
                 "title": "Arx Liberatis",
                 "desc": "Arx Libertatis is an improved, cross-platform and open source engine for Arx Fatalis, a 2002 first-person role-playing game / dungeon crawler / immersive sim developed by Arkane Studios.",
@@ -143,11 +147,13 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "eb126b90222de1292636a7bb09f668c5"
         },
         {
-            "version": "half-life.zip",
-            "source": "half-life.zip",
+            "version": 2,
+            "name": "half-life.zip",
             "items": [
                 "Half-Life.sh",
                 "Half-Life/"
@@ -156,7 +162,6 @@
                 "Half-Life Blue Shift.sh",
                 "Half-Life Opposing Forces.sh"
             ],
-            "md5": "65039bcdcca3f6d46bc32b0356851830",
             "attr": {
                 "title": "Half-Life",
                 "desc": "Half-Life is Valve's debut title which blends blends action and adventure with award-winning technology to create a frighteningly realistic world where players must think to survive.",
@@ -170,17 +175,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "65039bcdcca3f6d46bc32b0356851830"
         },
         {
-            "version": "openfodder.zip",
-            "source": "openfodder.zip",
+            "version": 2,
+            "name": "openfodder.zip",
             "items": [
                 "OpenFodder.sh",
                 "openfodder/"
             ],
             "items_opt": null,
-            "md5": "1d43157339ee6cb29d08ab9ec45638ca",
             "attr": {
                 "title": "OpenFodder",
                 "desc": "Open Fodder is an open source version of the Cannon Fodder engine.",
@@ -193,17 +199,18 @@
                 "rtr": true,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "2f8cfea503f9c74c3865031567d0145a"
         },
         {
-            "version": "openrct2.zip",
-            "source": "openrct2.zip",
+            "version": 2,
+            "name": "openrct2.zip",
             "items": [
                 "OpenRCT2.sh",
                 "openrct2/"
             ],
             "items_opt": null,
-            "md5": "ac1a0d3b41d79759078b8fffbfaeb52d",
             "attr": {
                 "title": "OpenRCT2",
                 "desc": "OpenRCT2 is Open source re-implementation of RollerCoaster Tycoon 2.",
@@ -216,17 +223,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "4467ba7a80236b7e2de6aafa359c59e4"
         },
         {
-            "version": "vanillara.zip",
-            "source": "vanillara.zip",
+            "version": 2,
+            "name": "vanillara.zip",
             "items": [
                 "VanillaRA.sh",
                 "vanillara/"
             ],
             "items_opt": null,
-            "md5": "c5c5dde569d66894faf125d7060b2ba3",
             "attr": {
                 "title": "VanillaRA",
                 "desc": "Vanilla Conquer is a fully portable version Command and Conquer Red Alert.",
@@ -239,17 +247,18 @@
                 "rtr": true,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "c5c5dde569d66894faf125d7060b2ba3"
         },
         {
-            "version": "rttr.zip",
-            "source": "rttr.zip",
+            "version": 2,
+            "name": "rttr.zip",
             "items": [
                 "Rttr.sh",
                 "rttr/"
             ],
             "items_opt": null,
-            "md5": "ab6f3c3e1e6214ebd3b64c4d77b47443",
             "attr": {
                 "title": "Return to the Roots",
                 "desc": "Return to the Roots is an inofficial addon for \"The Settlers II\".",
@@ -260,17 +269,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "ab6f3c3e1e6214ebd3b64c4d77b47443"
         },
         {
-            "version": "vcmi.zip",
-            "source": "vcmi.zip",
+            "version": 2,
+            "name": "vcmi.zip",
             "items": [
                 "VCMI.sh",
                 "vcmi/"
             ],
             "items_opt": null,
-            "md5": "a02acc560d9a5270f440c8c78d1f7440",
             "attr": {
                 "title": "VCMI",
                 "desc": "VCMI is a fully portable version of Heroes of Might and Magic III.",
@@ -284,17 +294,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "a02acc560d9a5270f440c8c78d1f7440"
         },
         {
-            "version": "vanillatd.zip",
-            "source": "vanillatd.zip",
+            "version": 2,
+            "name": "vanillatd.zip",
             "items": [
                 "VanillaTD.sh",
                 "vanillatd/"
             ],
             "items_opt": null,
-            "md5": "21be18168a8e6774dc094b807a3cbdf2",
             "attr": {
                 "title": "VanillaTD",
                 "desc": "Vanilla Conquer is a fully portable version Command and Conquer Tiberium Dawn.",
@@ -307,17 +318,18 @@
                 "rtr": true,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "21be18168a8e6774dc094b807a3cbdf2"
         },
         {
-            "version": "rlvm.zip",
-            "source": "rlvm.zip",
+            "version": 2,
+            "name": "rlvm.zip",
             "items": [
                 "Rlvm.sh",
                 "rlvm/"
             ],
             "items_opt": null,
-            "md5": "d241e968779ef28a81cd40ac8559d1db",
             "attr": {
                 "title": "Rlvm",
                 "desc": "Rlvm is a Free Software reimplementation of the Key RealLive interpreter for Visual Novels. Notable games include CLANNAD, AIR, & KANON.",
@@ -331,17 +343,18 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "8516be12ae850a2146db3a3537052b6a"
         },
         {
-            "version": "augustus.zip",
-            "source": "augustus.zip",
+            "version": 2,
+            "name": "augustus.zip",
             "items": [
                 "Augustus.sh",
                 "augustus/"
             ],
             "items_opt": null,
-            "md5": "7c540cbad5873b21ac5f1a900aafd759",
             "attr": {
                 "title": "Augustus",
                 "desc": "A reimplemntation of the Caeser 3 engine.",
@@ -355,7 +368,9 @@
                 "rtr": false,
                 "runtime": null,
                 "reqs": []
-            }
+            },
+            "status": null,
+            "md5": "e177723993a825363d0c4bbfc4d69537"
         }
     ]
 }

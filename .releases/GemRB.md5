@@ -1,4 +1,4 @@
-GemRB.sh:fd1f4f809f4652528b52a85ed6eed4c6
+GemRB.sh:fdf92ff8e19b9fdb17e3c7f11096af1c
 gemrb/README.md:a4cabbaa3325bc71ccd9f843dbe1242f
 gemrb/configs/GemRB.cfg.default:d1e94ef5e6b8d0ba359ce0cd2723dc81
 gemrb/engine.zip:6dad507b5e19b601b2047aa3b011077b
@@ -9,4 +9,4 @@ gemrb/gemrb.gptk:a9878c19d7e254a15bc24c1da9616945
 gemrb/gemrb.port.json:5662293e558c6cb8d5ed0d85144c67c8
 gemrb/lib/libpython3.9.so.1.0:c7c59564fe5c3e6123f1ffb920703b67
 gemrb/lib/python39.zip:fd6b50766676c5a18c44845a8ae4bc3b
-releases/GemRB.zip:58510a3b1601dd8b069df216861ad8c3
+releases/GemRB.zip:22518b4c91408171900f32ba72bdcc38
