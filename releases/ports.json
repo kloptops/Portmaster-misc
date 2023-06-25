@@ -23,8 +23,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "228fed6e0909928d309280f8599d1af9"
+            "md5": "7eb9524020f43d244dd1ebee92aac6ec"
         },
         {
             "version": 2,
@@ -48,8 +47,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "182850ae9d3c2ca4afdcd5737eabcb21"
+            "md5": "48814ca7269ea6c32f8cd5ab84134041"
         },
         {
             "version": 2,
@@ -73,8 +71,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "d5ccef7502c9a652f15af2eba2e3737a"
+            "md5": "46febd2086995e841bf8d9f13a092522"
         },
         {
             "version": 2,
@@ -98,8 +95,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "65e2627ea5cf8ea783207f2575bd5c1d"
+            "md5": "3ffcdc7478d1c39d1a879a493981c7e9"
         },
         {
             "version": 2,
@@ -123,8 +119,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "ba7d7e2a9ff877537327e058b1666466"
+            "md5": "2e30eb5423bb943a5e687f6a59bdc035"
         },
         {
             "version": 2,
@@ -140,8 +135,7 @@
                 "inst": "Game does not work.",
                 "genres": [
                     "fps",
-                    "rpg",
-                    "broken"
+                    "rpg"
                 ],
                 "porter": "Kloptops",
                 "image": null,
@@ -149,8 +143,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "cb2472d96592d04348ece46357e58f6d"
+            "md5": "efbd80db708892a52c74b5d741c3873f"
         },
         {
             "version": 2,
@@ -177,8 +170,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "3ee1560445dbb579ba6f1c6c505fcc83"
+            "md5": "9e0846b40b997490a4b4131f341ef558"
         },
         {
             "version": 2,
@@ -201,8 +193,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "ac1ba9a64bad0a2ebc32bd2a1a94dbfb"
+            "md5": "99af6bd1eb5a0472944eab529b89cb07"
         },
         {
             "version": 2,
@@ -225,8 +216,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "3804cf11147833cf1a30f0c1f04b4e64"
+            "md5": "76a6241b10dc4e8cdbfd063ef729eca6"
         },
         {
             "version": 2,
@@ -249,8 +239,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "60e5b57eb6b293df797ade6f93fa56a4"
+            "md5": "1b1055d7ffc232f77058f304d2acf6f2"
         },
         {
             "version": 2,
@@ -271,8 +260,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "e1f68104804d1d6677eee0c826234541"
+            "md5": "e79e15aaf4bd20fdaecaca045ed3565b"
         },
         {
             "version": 2,
@@ -296,8 +284,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "8f0015e2ff1a5b6fef32f4a34ea07bf1"
+            "md5": "ebefa4ba914db0b9c8cfe188c4d4ef57"
         },
         {
             "version": 2,
@@ -320,8 +307,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "c179a25f0293c338d895c23112b49818"
+            "md5": "676457997062f1eb7e699d6b9edc1e59"
         },
         {
             "version": 2,
@@ -345,8 +331,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "902cd77a2a5de306585991c834f598de"
+            "md5": "e552c6ef4a583dad38f3713fa1d0f4f8"
         },
         {
             "version": 2,
@@ -370,8 +355,7 @@
                 "runtime": null,
                 "reqs": []
             },
-            "status": null,
-            "md5": "d1e737a11ea52f8122ecb0a88b3f1463"
+            "md5": "19659f4345b9f84ad8af93d3335f20dd"
         }
     ]
 }
