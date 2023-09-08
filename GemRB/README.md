@@ -71,15 +71,22 @@ The game selection system will do its best to figure out the name of the game if
  
 ## Building
 
-    git clone https://github.com/kloptops/gemrb.git
+    git clone https://github.com/gemrb/gemrb.git
 
     cd gemrb
+
+    git apply CORE_fixes.diff
+    git apply GLES2_fixes.diff
 
     mkdir build
 
     cd build
 
-    cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel -DLAYOUT=home  -DUSE_ICONV=OFF -DDISABLE_VIDEOCORE=ON -DUSE_LIBVLC=OFF -DSDL_BACKEND=SDL2 -DSDL_DISABLE_CONTROLLER_API="ON" -DSDL_RESOLUTION_INDEPENDANCE="ON" -DCMAKE_INSTALL_PREFIX:FILE="engine"
+    cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel -DLAYOUT=home  -DUSE_ICONV=OFF -DDISABLE_VIDEOCORE=ON -DUSE_LIBVLC=OFF -DSDL_BACKEND=SDL2 -DUSE_SDL_CONTROLLER_API="OFF" -DSDL_RESOLUTION_INDEPENDANCE="ON" -DCMAKE_INSTALL_PREFIX:FILE="engine" -DOPENGL_BACKEND="GLES"
+
+    make -j4
+
+    make install
 
     cd engine
 

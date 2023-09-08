@@ -1,0 +1,28 @@
+diff --git a/gemrb/core/GUI/GameControl.cpp b/gemrb/core/GUI/GameControl.cpp
+index a5a472cd4..b947b62ac 100644
+--- a/gemrb/core/GUI/GameControl.cpp
++++ b/gemrb/core/GUI/GameControl.cpp
+@@ -440,6 +440,10 @@ void GameControl::WillDraw(const Region& /*drawFrame*/, const Region& /*clip*/)
+ 	}
+ 
+ 	const Map* area = CurrentArea();
++	if (!area) {
++	       error("GameControl", "No area set in GameControl::WillDraw!");
++	       return;
++	}
+ 	assert(area);
+ 
+ 	int flags = GA_NO_DEAD|GA_NO_UNSCHEDULED|GA_SELECT|GA_NO_ENEMY|GA_NO_NEUTRAL;
+diff --git a/gemrb/core/GUI/Window.cpp b/gemrb/core/GUI/Window.cpp
+index bd83e2961..903ce2ba2 100644
+--- a/gemrb/core/GUI/Window.cpp
++++ b/gemrb/core/GUI/Window.cpp
+@@ -559,7 +559,7 @@ bool Window::DispatchEvent(const Event& event)
+ 		default:
+ #ifdef USE_SDL_CONTROLLER_API
+ 			// If controller api is not used, this maybe reached if a controller is used.
+-			assert(false); // others should be handled above
++//			assert(false); // others should be handled above
+ #endif
+ 			break;
+ 	}
