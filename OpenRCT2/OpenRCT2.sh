@@ -1,4 +1,5 @@
 #!/bin/bash
+# PORTMASTER: openrct2.zip, OpenRCT2.sh
 
 if [ -d "/opt/system/Tools/PortMaster/" ]; then
   controlfolder="/opt/system/Tools/PortMaster"
@@ -25,8 +26,6 @@ cd $GAMEDIR
 $ESUDO chmod 666 $CUR_TTY
 $ESUDO touch log.txt
 $ESUDO chmod 666 log.txt
-$ESUDO chmod 666 /dev/uinput
-
 export TERM=linux
 printf "\033c" > $CUR_TTY
 
@@ -37,7 +36,6 @@ if [ ! -f "RCT2/Data/g1.dat" ]; then
   echo "Missing game files, see README for more info." > $CUR_TTY
   sleep 5
   printf "\033c" > $CUR_TTY
-  $ESUDO systemctl restart oga_events &
   exit 1
 fi
 

@@ -31,7 +31,7 @@ export TERM=linux
 printf "\033c" > $CUR_TTY
 
 FOUND_FILE="N"
-for file in spae.pa spad.pa spaf.pa spau.pa; do
+for file in SPAE.PA SPAD.PA SPAF.PA SPAU.PA; do
     if [[ -e "$file" ]]; then
       FOUND_FILE="Y"
       break

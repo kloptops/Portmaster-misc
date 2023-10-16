@@ -1,21 +1,20 @@
 {
-    "version": 1,
-    "source": "vcmi.zip",
+    "version": 2,
+    "name": "vcmi.zip",
     "items": [
         "VCMI.sh",
         "vcmi/"
     ],
-    "items_opt": null,
-    "md5": null,
+    "items_opt": [],
     "attr": {
-        "title": "VCMI",
+        "title": "VCMI - Heroes of Might and Magic III",
         "desc": "VCMI is a fully portable version of Heroes of Might and Magic III.",
         "inst": "Copy the GoG installer files to ports/vcmi and it will install the game files as required, see the README for more information.",
         "genres": [
-            "strategy",
-            "rpg"
+            "rpg",
+            "strategy"
         ],
-        "porter": "kloptops",
+        "porter": ["kloptops"],
         "image": null,
         "rtr": false,
         "runtime": null,

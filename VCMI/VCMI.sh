@@ -62,11 +62,10 @@ echo "Starting game." > $CUR_TTY
 export PORTMASTER_HOME="${GAMEDIR}"
 export LD_LIBRARY_PATH="${GAMEDIR}/libs:${LD_LIBRARY_PATH}"
 
-$GPTOKEYB "vcmiclient" -c vcmi.gptk &
+$GPTOKEYB "MainGUI" -c vcmi.gptk &
 $TASKSET bin/vcmiclient 2>&1 | $ESUDO tee -a ./log.txt
 
 $ESUDO kill -9 $(pidof gptokeyb)
-$ESUDO killall -9 vcmiserver
 $ESUDO killall -9 tee
 
 unset LD_LIBRARY_PATH
