@@ -20,19 +20,20 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 
 | Port                 | Description / Info                                                                                                                                                               | Download                      |     Status      |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|:---------------:|
+| [Aquaria][AquP]      | Using [Aquaria][AquG] which is the continuation of the open sourced game Aquaria.                                                                                                | [AquD Download][ArxD]         | :red_circle:    |
 | [ArxLiberatis][ArxP] | Using [ArxLiberatis][ArxG] which is based on the publicly released Arx Fatalis source code.                                                                                      | [ArxLiberatis Download][ArxD] | :orange_circle: |
 | [Augustus][AugP]     | Using [Augustus][AugG]                                                                                                                                                           | [Augustus Download][AugD]     | :green_circle:  |
 | [Fallout 1][Fo1P]    | Using [fallout1-ce][Fo1G]                                                                                                                                                        | [Fallout 1 Download][Fo1D]    | :green_circle:  |
 | [FreeCiv][FrcP]      | Using [FreeCiv][FrcG] is a Free and Open Source empire-building strategy game inspired by the history of human civilization.                                                     | [FreeCiv Download][FrcD]      | :orange_circle: |
-| [FreeSerf](FrsP)     | Using [FreeSerf][FrsG] which is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.                                                                  | [FreeSerf Download][FrsD]     | :green_circle:  |
+| [FreeSerf][FrsP]     | Using [FreeSerf][FrsG] which is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.                                                                  | [FreeSerf Download][FrsD]     | :green_circle:  |
 | [GemRB][GrbP]        | Using [GemRB][GrbG] the open-source reimplementation of the Infinity Engine that underpinned Baldur's Gate, Icewind Dale and Planescape: Torment.                                | [GemRB Download][GrbD]        | :green_circle:  |
-| [Half-Life](HalP)    | Using [Xash3D-FWGS][HalG], a game engine, aimed to provide compatibility with Half-Life Engine, and [hlsdk-portable][HalO] for the client binaries.                              | [Half-Life Download][HalD]    | :green_circle:  |
-| [Half-Life 2](Hl2P)  | Using [source-engine][Hl2G], play Half-Life 2                                                                                                                                    | [Half-Life 2 Download][Hl2D]  | :orange_circle: |
+| [Half-Life][HalP]    | Using [Xash3D-FWGS][HalG], a game engine, aimed to provide compatibility with Half-Life Engine, and [hlsdk-portable][HalO] for the client binaries.                              | [Half-Life Download][HalD]    | :green_circle:  |
+| [Half-Life 2][Hl2P]  | Using [source-engine][Hl2G], play Half-Life 2                                                                                                                                    | [Half-Life 2 Download][Hl2D]  | :orange_circle: |
 | [OpenFodder][OpfP]   | Using [OpenFodder][OpfG] is an open source version of the Cannon Fodder engine, for modern operating systems.                                                                    | [OpenFodder Download][OpfD]   | :green_circle:  |
 | [OpenRCT2][OrcP]     | Using [OpenRCT2][OrcG] an open-source re-implementation of RollerCoaster Tycoon 2, a construction and management simulation video game that simulates amusement park management. | [OpenRCT2 Download][OrcD]     | :green_circle:  |
 | [Rlvm][RlvP]         | Using [Rlvm][RlvG] a Free Software reimplementation of the VisualArt's KK's RealLive interpreter.                                                                                | [Rlvm Download][RlvD]         | :green_circle:  |
 | [Rttr][RttP]         | [Rttr][RttG] is a Settlers II clone.                                                                                                                                             | [Rttr Download][RttD]         | :red_circle:    |
-| [VanillaRA](VraP)    | Built using [VanillaConquer][VraG] is a fully portable version of the first generation C&C engine and is capable of running Red Alert on multiple platforms.                     | [VanillaRA Download][VraD]    | :green_circle:  |
+| [VanillaRA][VraP]    | Built using [VanillaConquer][VraG] is a fully portable version of the first generation C&C engine and is capable of running Red Alert on multiple platforms.                     | [VanillaRA Download][VraD]    | :green_circle:  |
 | [VanillaTD][VtdP]    | Built using [VanillaConquer][VtdG] is a fully portable version of the first generation C&C engine and is capable of running Tiberian Dawn on multiple platforms.                 | [VanillaTD Download][VtdD]    | :green_circle:  |
 | [VCMI][VcmP]         | Built using [VCMI][VcmG] the open source engine for Heroes of Might and Magic III                                                                                                | [VCMI Download][VcmD]         | :green_circle:  |
 
@@ -40,6 +41,10 @@ Legend:
 - :green_circle: - Working, available on Portmaster
 - :orange_circle: - Runs, but not complete, not available on Portmaster yet
 - :red_circle: - Work in progress
+
+[AquP]: https://github.com/kloptops/Portmaster-misc/tree/main/Aquaria
+[AquG]: https://github.com/AquariaOSE/Aquaria
+[AquD]: https://github.com/kloptops/Portmaster-misc/raw/main/releases/Aquaria.zip
 
 [ArxP]: https://github.com/kloptops/Portmaster-misc/tree/main/ArxLiberatis
 [ArxG]: https://github.com/arx/ArxLibertatis
