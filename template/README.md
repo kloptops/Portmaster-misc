@@ -32,4 +32,4 @@
 
 # Thanks
 
-A special thanks to the excellent folks on the [AmberELEC discord](https://discord.com/invite/R9Er7hkRMe), especially Cebion for all the testing.
+A special thanks to the excellent folks on the [PortMaster discord](https://discord.gg/m2QcSkMh).

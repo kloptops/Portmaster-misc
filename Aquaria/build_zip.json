@@ -1,0 +1,9 @@
+{
+    "zip_file": "Aquaria.zip",
+    "files": [
+        "Aquaria.sh",
+        "aquaria/",
+        ["README.md", "aquaria/README.md"],
+        ["build", "aquaria"]
+    ]
+}
