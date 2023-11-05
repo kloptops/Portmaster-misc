@@ -23,6 +23,7 @@ This repo is for miscellaneous ports that don't require a full port for each rel
 | [Aquaria][AquP]      | Using [Aquaria][AquG] which is the continuation of the open sourced game Aquaria.                                                                                                | [Aquaria Download][AquD]      | :red_circle:    |
 | [ArxLiberatis][ArxP] | Using [ArxLiberatis][ArxG] which is based on the publicly released Arx Fatalis source code.                                                                                      | [ArxLiberatis Download][ArxD] | :orange_circle: |
 | [Augustus][AugP]     | Using [Augustus][AugG]                                                                                                                                                           | [Augustus Download][AugD]     | :green_circle:  |
+| [dRally][DraP]       | Using [dRally][Drag]  a port of Death Rally (1996) running natively on Linux and BSD based operating systems.                                                                    | [dRally Download][DraD]       | :green_orange:  |
 | [Fallout 1][Fo1P]    | Using [fallout1-ce][Fo1G]                                                                                                                                                        | [Fallout 1 Download][Fo1D]    | :green_circle:  |
 | [FreeCiv][FrcP]      | Using [FreeCiv][FrcG] is a Free and Open Source empire-building strategy game inspired by the history of human civilization.                                                     | [FreeCiv Download][FrcD]      | :orange_circle: |
 | [FreeSerf][FrsP]     | Using [FreeSerf][FrsG] which is a faithful clone of the brilliant simulation game The Settlers 1 aka Serf City.                                                                  | [FreeSerf Download][FrsD]     | :green_circle:  |
@@ -53,6 +54,10 @@ Legend:
 [AugP]: https://github.com/kloptops/Portmaster-misc/tree/main/Augustus
 [AugG]: https://github.com/Keriew/augustus
 [AugD]: https://github.com/kloptops/Portmaster-misc/raw/main/releases/Augustus.zip
+
+[DraP]: https://github.com/kloptops/Portmaster-misc/tree/main/dRally
+[DraG]: https://github.com/urxp/dRally
+[DraD]: https://github.com/kloptops/Portmaster-misc/raw/main/releases/dRally.zip
 
 [Fo1P]: https://github.com/kloptops/Portmaster-misc/tree/main/Fallout%201
 [Fo1G]: https://github.com/alexbatalov/fallout1-ce

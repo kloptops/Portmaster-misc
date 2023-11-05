@@ -1,0 +1,9 @@
+{
+    "zip_file": "dRally.zip",
+    "files": [
+        "dRally.sh",
+        "drally/",
+        ["README.md", "drally/README.md"],
+        ["build", "drally"]
+    ]
+}
