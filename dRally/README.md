@@ -1,5 +1,7 @@
 # dRally
 
+A port of Death Rally (1996) running natively on Linux and BSD based operating systems.
+
 # Controls
 
 | Button            | Command                    |
@@ -62,7 +64,7 @@ The file is named "drally_linux"
 # TODO:
 
 - [x] Get game to work.
-- [ ] Figure out controls
+- [x] Figure out controls
 - [ ] Test it on AmberELEC
 - [ ] Test it on ArkOS
 
