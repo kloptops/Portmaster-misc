@@ -26,32 +26,10 @@ A port of Death Rally (1996) running natively on Linux and BSD based operating s
 
 ## Installation - needs original game assets
 
-* [Death Rally registered free windows version CHIP](https://www.chip.de/downloads/Death-Rally-Vollversion_38550689.html)
+Download [Death Rally registered free windows version CHIP](https://www.chip.de/downloads/Death-Rally-Vollversion_38550689.html)
 
-```sh
-7z e -o drally DeathRallyWin_10.exe
-cd drally && mkdir CINEM && mv ENDANI* CINEM && mv SANIM* CINEM
-echo "./CINEM" &> CDROM.INI
-```
+Place DeathRallyWin_10.exe into the ports/drally/ directory and it will be automatically extracted.
 
-Only versions including the DR.IDF file are able to use the `FLAGS += -DDR_CDCHECK`
-
-    dRally
-    |--CINEM
-    |  |--DR.IDF
-    |  |--ENDANI.HAF
-    |  |--ENDANI0.HAF
-    |  |--SANIM.HAF
-    |--CDROM.INI        [1]
-    |--ENGINE.BPA
-    |--IBFILES.BPA
-    |--MENU.BPA
-    |--MUSICS.BPA
-    |--TR[0-9].BPA
-
-    Make sure these file/dir names in dRally directory are in uppercase.
-
-    [1] CDROM.INI contains relative location of CINEM directory (./CINEM)
 
 ## Building
 
