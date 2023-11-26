@@ -19,7 +19,13 @@
 ## Building
 
 
-    git clone BLAH BLAH
+    git clone https://github.com/widelands/widelands.git
+
+    git apply GL_fixes.diff
+
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DOPTION_TSAN="OFF" -DOPTION_USE_GLBINDING="ON" -DCMAKE_INSTALL_PREFIX:FILE="engine"
+
+    make -j4
 
 
 # TODO:

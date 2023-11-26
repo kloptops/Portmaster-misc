@@ -1,0 +1,72 @@
+diff --git a/src/graphic/gl/initialize.cc b/src/graphic/gl/initialize.cc
+index 5691d19c..7316eeea 100644
+--- a/src/graphic/gl/initialize.cc
++++ b/src/graphic/gl/initialize.cc
+@@ -18,6 +18,8 @@
+ 
+ #include "graphic/gl/initialize.h"
+ 
++#include <glbinding/Binding.h>
++
+ #include <csignal>
+ #include <regex>
+ 
+@@ -259,8 +261,11 @@ SDL_GLContext initialize(
+ 		handle_unreadable_opengl_version();
+ 	}
+ 	log_info("Graphics: OpenGL: Version \"%s\"\n", opengl_version_string);
++
++	const char* opengl_version_string_v2 = "2.1";
++
+ 	check_version(
+-	   opengl_version_string, "OpenGL", _("OpenGL"), 2, 1, handle_unreadable_opengl_version);
++	   opengl_version_string_v2, "OpenGL", _("OpenGL"), 2, 1, handle_unreadable_opengl_version);
+ 
+ #define LOG_SDL_GL_ATTRIBUTE(x)                                                                    \
+ 	{                                                                                               \
+@@ -307,10 +312,13 @@ SDL_GLContext initialize(
+ 		handle_unreadable_opengl_shading_language();
+ 	}
+ 	log_info("Graphics: OpenGL: ShadingLanguage: \"%s\"\n", shading_language_version_string);
+-	check_version(shading_language_version_string, "Shading Language", _("Shading Language"), 1, 20,
++
++	const char* shading_language_version_string_v2 = "3.20";
++
++	check_version(shading_language_version_string_v2, "Shading Language", _("Shading Language"), 1, 20,
+ 	              handle_unreadable_opengl_shading_language);
+ 
+-	glDrawBuffer(GL_BACK);
++	// glDrawBuffer(GL_BACK);
+ 
+ 	glDisable(GL_DEPTH_TEST);
+ 	glDepthFunc(GL_LEQUAL);
+diff --git a/src/graphic/gl/utils.cc b/src/graphic/gl/utils.cc
+index 91eef5b4..c8511f41 100644
+--- a/src/graphic/gl/utils.cc
++++ b/src/graphic/gl/utils.cc
+@@ -22,6 +22,7 @@
+ #include <memory>
+ 
+ #include "base/wexception.h"
++#include "base/log.h"
+ #include "io/fileread.h"
+ #include "io/filesystem/layered_filesystem.h"
+ 
+@@ -125,7 +126,7 @@ void Shader::compile(const char* source) const {
+ 			CLANG_DIAG_ON("-Wzero-as-null-pointer-constant")
+ 			CLANG_DIAG_ON("-Wunknown-pragmas")
+ 			throw wexception(
+-			   "Error compiling %s shader:\n%s", shader_to_string(type_).c_str(), infoLog.get());
++			   "Error compiling %s shader:\n%s\n%s", shader_to_string(type_).c_str(), infoLog.get(), source);
+ 		}
+ 	}
+ }
+@@ -143,6 +144,8 @@ Program::~Program() {
+ }
+ 
+ void Program::build(const std::string& program_name) {
++	log_info("Graphics: Building Program: %s", program_name.c_str());
++
+ 	std::string fragment_shader_source = read_file("shaders/" + program_name + ".fp");
+ 	std::string vertex_shader_source = read_file("shaders/" + program_name + ".vp");
+ 
