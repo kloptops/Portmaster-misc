@@ -21,6 +21,7 @@ from pathlib import Path
 def name_clean(name):
     return re.sub(r'[^a-zA-Z0-9]+', '', name.replace('.zip', '')).lower()
 
+
 def name_match(name, all_names):
     name_cleaned = name_clean(name)
     for a_name in all_names:

@@ -1,36 +1,25 @@
 #!/bin/bash
 
+XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+
 if [ -d "/opt/system/Tools/PortMaster/" ]; then
   controlfolder="/opt/system/Tools/PortMaster"
 elif [ -d "/opt/tools/PortMaster/" ]; then
   controlfolder="/opt/tools/PortMaster"
+elif [ -d "$XDG_DATA_HOME/PortMaster/" ]; then
+  controlfolder="$XDG_DATA_HOME/PortMaster"
 else
   controlfolder="/roms/ports/PortMaster"
 fi
 
 source $controlfolder/control.txt
-if [ -z ${TASKSET+x} ]; then
-  source $controlfolder/tasksetter
-fi
-
+[ -f "${controlfolder}/mod_${CFW_NAME}.txt" ] && source "${controlfolder}/mod_${CFW_NAME}.txt"
 get_controls
 
-## TODO: Change to PortMaster/tty when Johnnyonflame merges the changes in,
-CUR_TTY=/dev/tty0
-
-PORTDIR="/$directory/ports"
-GAMEDIR="$PORTDIR/gemrb"
+GAMEDIR="/$directory/ports/gemrb"
 cd $GAMEDIR
 
-width=55
-height=15
-
-$ESUDO chmod 666 $CUR_TTY
-$ESUDO touch log.txt
-$ESUDO chmod 666 log.txt
-$ESUDO chmod 666 /dev/uinput
-export TERM=linux
-printf "\033c" > $CUR_TTY
+> "$GAMEDIR/log.txt" && exec > >(tee "$GAMEDIR/log.txt") 2>&1
 
 ## Converts path names to game codes
 PROPER_GAME_ID() {
@@ -123,140 +112,9 @@ if [ -d "$GAMEDIR/engine/demo" ]; then
   fi
 fi
 
-# Select a game.
-if [ -z ${GAME+x} ]; then
-
-  printf "\e[?25h" > $CUR_TTY
-  dialog --clear > $CUR_TTY
-
-  $GPTOKEYB "dialog" -c "${GAMEDIR}/gemrb-menu.gptk" &
-
-  # Find all the games, each game has 'chitin.key' so we can use that to find them.
-  readarray -d '' GAMEEXE < <(find games/ -maxdepth 2 -iname 'chitin.key' -print0)
-  IFS=$'\n' GAMEEXES=($(sort <<<"${GAMEEXE[*]}"))
-  unset IFS
-
-  if [ "${#GAMEEXES[@]}" -eq 0 ]; then
-    dialog \
-    --backtitle "Gem RB" \
-    --title "[ Error ]" \
-    --clear \
-    --msgbox "No Games Found!" $height $width > $CUR_TTY
-
-    printf "\033c" > $CUR_TTY
-    $ESUDO kill -9 $(pidof gptokeyb)
-    $ESUDO systemctl restart oga_events &
-    exit 1;
-  fi
-
-  VN_CHOICES=()
-  VN_DIRS=()
-
-  OFFSET=0
-  if [ -f "${GAMEDIR}/save/last_game" ]; then
-    LAST_GAME=$(cat "${GAMEDIR}/save/last_game")
-    LAST_NAME=$(PROPER_GAME_NAME "$LAST_GAME")
-    VN_CHOICES+=(0 "${LAST_NAME}")
-    VN_DIRS+=("$LAST_GAME")
-    echo "0 -> **${LAST_GAME}** -> ${LAST_NAME}" 2>&1 | tee -a ./log.txt
-    OFFSET=1
-  else
-    LAST_GAME=""
-  fi
-
-  for i in "${!GAMEEXES[@]}"; do
-    VN_PATH=$(dirname "${GAMEEXES[$i]}")
-    VN_DIR=${VN_PATH##*/}
-    VN_NAME=$(PROPER_GAME_NAME "$VN_DIR")
-
-    if [ "$VN_DIR" = "$LAST_GAME" ]; then
-      OFFSET=$(($OFFSET-1))
-    else
-      i=$(($i+$OFFSET))
-      echo "$i -> ${VN_DIR} -> ${VN_NAME}" 2>&1 | tee -a ./log.txt
-      VN_SHORTCUT="$PORTDIR/${VN_NAME}.sh"
-      VN_DIRS+=("${VN_DIR}")
-      if [ -f "$PORTDIR/${VN_DIR}.sh" ]; then
-        VN_CHOICES+=($i "${VN_NAME} - Installed")
-      else
-        VN_CHOICES+=($i "${VN_NAME}")
-      fi
-    fi
-  done
-
-  IN_CHOICES=( "${VN_CHOICES[@]}" )
-
-  VN_CHOICES+=("" "")
-  VN_CHOICES+=("i" "Install Game Shortcut")
-
-  if [ "${#VN_DIRS[@]}" -eq 1 ]; then
-    GAME="${VN_DIRS[0]}"
-  else
-    GAME_SELECT=(dialog \
-      --backtitle "GemRB" \
-      --title "[ Select Game ]" \
-      --clear \
-      --menu "Choose Your Game" $height $width 15)
-
-
-    VN_CHOICE=$("${GAME_SELECT[@]}" "${VN_CHOICES[@]}" 2>&1 > $CUR_TTY)
-    if [ $? != 0 ]; then
-      $ESUDO kill -9 $(pidof gptokeyb)
-      $ESUDO systemctl restart oga_events &
-      echo "QUIT: ${VN_CHOICE}" 2>&1 | $ESUDO tee -a ./log.txt
-      printf "\033c" > $CUR_TTY
-      exit 1;
-    fi
-
-    if [ $VN_CHOICE = "i" ]; then
-      IN_SELECT=(dialog \
-        --backtitle "Gem RB" \
-        --title "[ Install Game Shortcut ]" \
-        --clear \
-        --menu "Choose Your Game" $height $width 15)
-
-      IN_CHOICE=$("${IN_SELECT[@]}" "${IN_CHOICES[@]}" 2>&1 > $CUR_TTY)
-      if [ $? != 0 ]; then
-        $ESUDO kill -9 $(pidof gptokeyb)
-        $ESUDO systemctl restart oga_events &
-        echo "QUIT: ${IN_CHOICE}" 2>&1 | tee -a ./log.txt
-        printf "\033c" > $CUR_TTY
-        exit 1;
-      fi
-
-      IN_GAME="${VN_DIRS[$IN_CHOICE]}"
-      IN_GAME_NAME=$(PROPER_GAME_NAME "$IN_GAME")
-
-      printf "#!/usr/bin/bash\nGAME=\"$IN_GAME\" $PORTDIR/GemRB.sh\n" | $ESUDO tee "$PORTDIR/$IN_GAME_NAME.sh"
-
-      dialog \
-        --backtitle "Gem RB" \
-        --title "[ Success ]" \
-        --clear \
-        --msgbox "Installed shortcut for $IN_GAME_NAME\n\nRestart Emulation Station to find the game under ports." $height $width > $CUR_TTY
-
-      $ESUDO kill -9 $(pidof gptokeyb)
-      $ESUDO systemctl restart oga_events &
-      printf "\033c" > $CUR_TTY
-      exit 0;
-    fi
-
-    echo "C ${VN_CHOICE} -> ${VN_DIRS[$VN_CHOICE]}" 2>&1 | tee -a ./log.txt
-
-    $ESUDO kill -9 $(pidof gptokeyb)
-
-    GAME="${VN_DIRS[$VN_CHOICE]}"
-  fi
-
-  if [ ! -d "${GAMEDIR}/save" ]; then
-    $ESUDO mkdir "${GAMEDIR}/save"
-  fi
-  # Save the selected game as the last game
-  printf "$GAME" | $ESUDO tee "${GAMEDIR}/save/last_game"
-fi
-
-printf "\033c" > $CUR_TTY
-## RUN SCRIPT HERE
+## TODO: add a new game selector, lmao.
+## CHANGE THIS TO WHATEVER GAME YOU WANT
+GAME="demo"
 
 # Install appropriate GemRB.cfg
 GAMEID=$(PROPER_GAME_ID "$GAME")
@@ -284,15 +142,10 @@ export TEXTINPUTNOAUTOCAPITALS="Y"
 export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
 
 export PYTHONHOME="$GAMEDIR"
-export LD_LIBRARY_PATH="$GAMEDIR/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$GAMEDIR/lib:$GAMEDIR/engine:$LD_LIBRARY_PATH"
 
 $GPTOKEYB "gemrb" -c "${GPTOKEYB_CFG}" textinput &
-$TASKSET ./gemrb -c "${GAMEDIR}/games/${GAME}/GemRB.cfg" "${GAMEDIR}/games/${GAME}/" 2>&1 | $ESUDO tee -a ./log.txt
+pm_platform_helper "$GAMEDIR/gemrb"
+$ESUDO $GAMEDIR/gemrb -c "${GAMEDIR}/games/${GAME}/GemRB.cfg" "${GAMEDIR}/games/${GAME}/"
 
-$ESUDO kill -9 $(pidof gptokeyb)
-unset LD_LIBRARY_PATH
-unset SDL_GAMECONTROLLERCONFIG
-$ESUDO systemctl restart oga_events &
-
-# Disable console
-printf "\033c" > $CUR_TTY
+pm_finish
